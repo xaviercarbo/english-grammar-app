@@ -377,135 +377,155 @@ const dadesTeoria = [
   },
   {
     id: 11,
-    titol: "Present Perfect Continuous (I have been doing)",
+    titol: "How long have you (been)...?",
     explicacio:
-      "L'utilitzem per a activitats que han començat en el passat i acaben de parar o encara continuen.",
+      "Fem servir el Present Perfect per preguntar sobre la durada d'una acció que va començar en el passat i continua ara.",
     regles: [
       {
-        regla: "Formació",
-        detall: "have/has + been + verb-ing (I've been waiting for an hour).",
+        regla: "Pregunta",
+        detall: "Usem 'How long...?' (How long have you been waiting?).",
       },
       {
-        regla: "Focus",
+        regla: "Continuous",
         detall:
-          "Ens interessa l'activitat en sí, no si s'ha acabat (Ex: M'he estat banyant = Estic moll).",
+          "Per accions que es repeteixen o duren (How long have you been learning English?).",
       },
       {
-        regla: "Pregunta típica",
+        regla: "Simple",
         detall:
-          "Sempre el fem servir amb 'How long...?' (How long has it been raining?).",
+          "Amb verbs d'estat (know, have, believe): How long have you known him?",
       },
     ],
     exemples: [
       {
-        eng: "Your hands are very dirty. What have you been doing?",
-        cat: "Tens les mans molt brutes. Què has estat fent?",
+        eng: "How long have you been living in London?",
+        cat: "Quant de temps fa que vius a Londres?",
       },
       {
-        eng: "It has been raining for two hours.",
-        cat: "Ha estat plovent durant dues hores (i encara plou).",
+        eng: "I've been waiting for you since 8:00.",
+        cat: "T'estic esperant des de les 8:00.",
       },
       {
-        eng: "I've been playing tennis since 2 o'clock.",
-        cat: "He estat jugant a tenis des de les 2.",
+        eng: "How long have they been married?",
+        cat: "Quant de temps fa que estan casats?",
       },
     ],
     consell_habit:
-      "Quan et sentis cansat/da, pensa en el motiu usant aquest temps: 'I'm tired because I've been working hard'.",
+      "Cada vegada que comencis una activitat (com llegir o estudiar), fixa't en l'hora i intenta dir al cap d'una estona: 'I have been doing this for... minutes'.",
   },
   {
     id: 12,
-    titol: "Have and Have got",
+    titol: "For and Since / When and How long",
     explicacio:
-      "En anglès britànic, sovint usem 'have got' en lloc de 'have' per parlar de possessions, malalties o relacions.",
+      "Diferenciem clarament com parlem del temps segons si usem el Past Simple o el Present Perfect.",
     regles: [
       {
-        regla: "Significat",
+        regla: "For vs Since",
         detall:
-          "I have = I have got (Tinc). No hi ha diferència de significat.",
+          "For + període (for 2 hours). Since + moment concret (since Monday).",
       },
       {
-        regla: "Negativa",
-        detall: "I haven't got / I don't have. (No es diu 'I haven't' sol).",
+        regla: "When vs How long",
+        detall:
+          "When...? + Past Simple (When did it start?). How long...? + Present Perfect (How long has it been?).",
       },
       {
-        regla: "Pregunta",
-        detall:
-          "Have you got...? / Do you have...? (No es diu 'Have you...?' sol).",
+        regla: "Ago",
+        detall: "Només amb Past Simple: It started two hours ago.",
       },
     ],
     exemples: [
-      { eng: "I've got a headache.", cat: "Tinc mal de cap." },
-      { eng: "Have you got a car? No, I haven't.", cat: "Tens cotxe? No." },
-      { eng: "They haven't got any children.", cat: "No tenen fills." },
+      {
+        eng: "It's been raining for three days.",
+        cat: "Fa tres dies que plou.",
+      },
+      {
+        eng: "When did it start raining? It started at 1 o'clock.",
+        cat: "Quan va començar a ploure? Va començar a la 1:00.",
+      },
+      {
+        eng: "How long have you known her? Since we were at school.",
+        cat: "Quant de temps fa que la coneixes? Des que anàvem a l'escola.",
+      },
     ],
     consell_habit:
-      "Mira al teu voltant i llista 3 coses que tinguis a prop usant 'I've got...'. Ex: 'I've got a blue pen'.",
+      "Practica la parella 'Ago/For'. Ahir vas fer alguna cosa 'X hours ago'. Avui portes fent-la 'For X hours'.",
   },
   {
     id: 13,
-    titol: "Was / Were (Past Simple of 'to be')",
+    titol: "Present Perfect and Past 1 (I have done / I did)",
     explicacio:
-      "El verb 'to be' en passat no utilitza 'did'. Té les seves pròpies formes: was i were.",
+      "Comparam el Present Perfect (connexió amb l'ara) amb el Past Simple (passat acabat).",
     regles: [
-      { regla: "Afirmativa", detall: "I/He/She/It was. You/We/They were." },
-      { regla: "Negativa", detall: "I wasn't. You weren't." },
       {
-        regla: "Pregunta",
-        detall: "Was he...? Were they...? (No usem 'did').",
+        regla: "Connexió",
+        detall:
+          "Usem Present Perfect per notícies recents o accions amb resultat ara.",
+      },
+      {
+        regla: "Sense connexió",
+        detall:
+          "Usem Past Simple per accions en un temps passat ja finalitzat.",
+      },
+      {
+        regla: "Gatire vs Ja",
+        detall: "Sovint usem 'just', 'already' i 'yet' amb el Present Perfect.",
       },
     ],
     exemples: [
-      { eng: "I was at home last night.", cat: "Ahir a la nit era a casa." },
       {
-        eng: "Were they expensive? No, they weren't.",
-        cat: "Eren cars? No, no ho eren.",
+        eng: "I've lost my key. I can't find it now.",
+        cat: "He perdut la clau. No la trobo ara.",
       },
       {
-        eng: "The weather was good last week.",
-        cat: "Va fer bon temps la setmana passada.",
+        eng: "I lost my key yesterday.",
+        cat: "Vaig perdre la clau ahir. (Temps acabat)",
+      },
+      {
+        eng: "Ow! I've burnt my finger.",
+        cat: "Ai! M'he cremat el dit. (Em fa mal ara)",
       },
     ],
     consell_habit:
-      "Cada matí, pensa on erets ahir a la mateixa hora: 'Yesterday at 9:00 I was at work'.",
+      "Mira les notícies: els titulars solen estar en Present Perfect (fet recent), però el cos de la notícia passa al Past Simple (detalls).",
   },
   {
     id: 14,
-    titol: "Used to (I used to do)",
+    titol: "Present Perfect and Past 2 (I have done / I did)",
     explicacio:
-      "L'utilitzem per a coses que passaven sovint en el passat però que ja no passen ara.",
+      "No fem servir el Present Perfect si el temps està acabat (ahir, la setmana passada, el 2010).",
     regles: [
       {
-        regla: "Ús",
+        regla: "Temps acabat",
         detall:
-          "Hàbits del passat o estats que han canviat (I used to smoke = Ja no fumo).",
+          "Yesterday, last week, in 1995, six months ago -> SEMPRE Past Simple.",
       },
       {
-        regla: "Forma",
-        detall:
-          "Used to + infinitiu. En negativa: didn't use to (sense la -d).",
+        regla: "Temps no acabat",
+        detall: "Today, this week, recently -> Podem usar Present Perfect.",
       },
       {
-        regla: "Diferència",
-        detall: "No es pot usar per a coses que només van passar una vegada.",
+        regla: "Ever/Never",
+        detall:
+          "Si preguntem sobre 'tota la vida fins ara', usem Present Perfect.",
       },
     ],
     exemples: [
       {
-        eng: "I used to play tennis a lot, but I don't play much now.",
-        cat: "Abans jugava molt a tenis, però ara no hi jugo gaire.",
+        eng: "Did you see the film on TV last night?",
+        cat: "Vas veure la pel·lícula a la TV ahir a la nit?",
       },
       {
-        eng: "Did you use to eat a lot of sweets when you were a child?",
-        cat: "Solies menjar molts dolços quan eres petit?",
+        eng: "I've seen that film three times.",
+        cat: "He vist aquesta pel·lícula tres vegades. (En la meva vida)",
       },
       {
-        eng: "This building used to be a cinema.",
-        cat: "Aquest edifici era un cinema (abans).",
+        eng: "It didn't rain last week.",
+        cat: "No va ploure la setmana passada.",
       },
     ],
     consell_habit:
-      "Pensa en una cosa que t'agradava molt de petit i que ara no fas: 'I used to love... but now I prefer...'.",
+      "Al final del dia, fes balanç: 'Today I have done...' (Present Perfect) i després 'At 5 o'clock I did...' (Past Simple).",
   },
   {
     id: 15,
