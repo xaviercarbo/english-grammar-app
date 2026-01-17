@@ -771,3 +771,19 @@ body {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 10px;
 }
+
+.text-muted {
+  color: #95a5a6; /* Un gris suau */
+  font-style: italic;
+}
+
+.text-danger {
+  color: #e74c3c; /* El vermell que ja tens per a errors */
+  font-weight: bold;
+}
+
+.pending-text {
+  color: #95a5a6;
+  font-style: italic;
+  font-size: 0.85em;
+}

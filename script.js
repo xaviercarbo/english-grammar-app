@@ -256,7 +256,7 @@ function renderitzarPreguntesModeRepas(ex, target) {
   target.innerHTML = h;
 }
 function mostrarResumResultats() {
-  actualitzarTeoria(null); // Això l'amagarà automàticament
+  actualitzarTeoria(null); // Amaguem la teoria
 
   document.getElementById("unit-title").innerText = "Resum Detallat de Progrés";
   const container = document.getElementById("exercicis-container");
@@ -270,7 +270,7 @@ function mostrarResumResultats() {
   let totalCorrectes = 0;
   let totalAMillorar = 0;
 
-  // Recorrem totes les unitats per calcular els totals reals
+  // 1. Càlcul de totals globals
   dadesApp.issues.forEach((issue) => {
     issue.unitats.forEach((u) => {
       u.exercicis.forEach((ex) => {
@@ -281,9 +281,9 @@ function mostrarResumResultats() {
               ? ex.esquerra.length
               : 0;
         totalARealitzar += numPreguntes;
-
         if (historic[ex.id]) {
           totalCorrectes += historic[ex.id].punts;
+          // Només comptem com "a millorar" si l'exercici s'ha fet
           totalAMillorar += numPreguntes - historic[ex.id].punts;
         }
       });
@@ -292,33 +292,19 @@ function mostrarResumResultats() {
 
   const totalPendents = totalARealitzar - (totalCorrectes + totalAMillorar);
 
-  // Pintem les targetes amb el nou ordre i categories
   statsHeader.innerHTML = `
         <div class="resum-top-cards">
-            <div class="top-card">
-                <h3>${totalARealitzar}</h3>
-                <p>Total a realitzar</p>
-            </div>
-            <div class="top-card card-pendent">
-                <h3>${totalPendents}</h3>
-                <p>Pendents</p>
-            </div>
-            <div class="top-card card-correcte">
-                <h3>${totalCorrectes}</h3>
-                <p>Correctes</p>
-            </div>
-            <div class="top-card card-millorar">
-                <h3>${totalAMillorar}</h3>
-                <p>A millorar</p>
-            </div>
-        </div>
-    `;
+            <div class="top-card"><h3>${totalARealitzar}</h3><p>Total a realitzar</p></div>
+            <div class="top-card card-pendent"><h3>${totalPendents}</h3><p>Pendents</p></div>
+            <div class="top-card card-correcte"><h3>${totalCorrectes}</h3><p>Correctes</p></div>
+            <div class="top-card card-millorar"><h3>${totalAMillorar}</h3><p>A millorar</p></div>
+        </div>`;
 
-  // Generem els blocs de temes desplegables
+  // 2. Generació de blocs per tema (Issue)
   dadesApp.issues.forEach((issue) => {
     let totalSolsGrup = 0;
     let totalOKGrup = 0;
-    let unitsHtml = "";
+    let unitsHtml = ""; // Reiniciem per a cada grup d'unitats
 
     issue.unitats.forEach((u) => {
       let uSols = 0;
@@ -335,7 +321,6 @@ function mostrarResumResultats() {
         uSols += n;
         if (historic[ex.id]) {
           uOK += historic[ex.id].punts;
-          // Guardem la data més recent per calcular el desbloqueig de la unitat
           if (historic[ex.id].data > darreraData)
             darreraData = historic[ex.id].data;
         }
@@ -347,37 +332,39 @@ function mostrarResumResultats() {
       const uAMillorar = uSols - uOK;
       const uPerc = uSols > 0 ? Math.round((uOK / uSols) * 100) : 0;
 
-      // --- LÒGICA DE LA DATA ---
+      // Lògica de missatges (Pendent vs A Millorar)
+      let alertHtml = "";
       let statusDataHtml = "";
+
       if (darreraData > 0) {
+        // UNITAT COMENÇADA
+        if (uAMillorar > 0) {
+          alertHtml = `<br><small class="improve-text">⚠️ ${uAMillorar} a millorar</small>`;
+        }
+
         const diesRepas = uOK < uSols ? 7 : 20;
         const dataDesbloqueig = darreraData + diesRepas * 86400000;
-        const ara = Date.now();
-
-        if (ara >= dataDesbloqueig) {
+        if (Date.now() >= dataDesbloqueig) {
           statusDataHtml = `<br><small class="date-text ready">🔔 Llest per repassar!</small>`;
         } else {
-          const dataObj = new Date(dataDesbloqueig);
-          const dataFormatada = dataObj.toLocaleDateString("ca-ES", {
-            day: "numeric",
-            month: "short",
-          });
+          const dataFormatada = new Date(dataDesbloqueig).toLocaleDateString(
+            "ca-ES",
+            { day: "numeric", month: "short" },
+          );
           statusDataHtml = `<br><small class="date-text">📅 Disponible: ${dataFormatada}</small>`;
         }
+      } else {
+        // UNITAT NO COMENÇADA
+        alertHtml = `<br><small style="color: #95a5a6; font-style: italic;">⚪ Pendent d'iniciar</small>`;
       }
 
+      // Concatenem la targeta una sola vegada
       unitsHtml += `
-        <div class="unit-stat-card clickable" onclick="irAUnitat('${
-          issue.id
-        }', '${u.id}')" style="cursor:pointer;">
+        <div class="unit-stat-card clickable" onclick="irAUnitat('${issue.id}', '${u.id}')">
             <div class="unit-info">
                 <h4>Unitat ${u.id}</h4>
                 <small><strong>${uOK} / ${uSols}</strong> Correctes</small>
-                ${
-                  uAMillorar > 0
-                    ? `<br><small class="improve-text">⚠️ ${uAMillorar} a millorar</small>`
-                    : ""
-                }
+                ${alertHtml}
                 ${statusDataHtml}
             </div>
             <div class="unit-chart">${generarSVG(uPerc, 45)}</div>
@@ -387,24 +374,17 @@ function mostrarResumResultats() {
     const issuePerc =
       totalSolsGrup > 0 ? Math.round((totalOKGrup / totalSolsGrup) * 100) : 0;
 
-    // Creem el bloc desplegable
     const issueBlock = document.createElement("div");
     issueBlock.className = "issue-block-collapsible";
     issueBlock.innerHTML = `
             <div class="issue-header-clickable" onclick="this.parentElement.classList.toggle('is-open')">
-                <div class="header-left">
-                    <span class="arrow">▶</span>
-                    <h2>${issue.titol}</h2>
-                </div>
+                <div class="header-left"><span class="arrow">▶</span><h2>${issue.titol}</h2></div>
                 <div class="header-right">
                     <span class="total-text">${totalOKGrup}/${totalSolsGrup} (${issuePerc}%)</span>
                     ${generarSVG(issuePerc, 50)}
                 </div>
             </div>
-            <div class="units-grid-container">
-                <div class="units-grid">${unitsHtml}</div>
-            </div>
-        `;
+            <div class="units-grid-container"><div class="units-grid">${unitsHtml}</div></div>`;
     dashboard.appendChild(issueBlock);
   });
 }

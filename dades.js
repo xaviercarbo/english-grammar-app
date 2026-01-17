@@ -19,8 +19,8 @@ const dadesApp = {
               preguntes: [
                 {
                   id: 1,
-                  text: "She's _____ a picture.",
-                  solucions: ["taking"],
+                  text: "She _____ a picture.",
+                  solucions: ["is taking", "'s taking"],
                 },
                 {
                   id: 2,
