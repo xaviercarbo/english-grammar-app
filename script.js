@@ -181,12 +181,17 @@ function validar(exId) {
     data: Date.now(),
     respostes,
   };
+
+  // Guardem (usa el nom de la teva clau de localStorage)
   localStorage.setItem("cambridge_v3", JSON.stringify(historic));
 
+  // Actualitzem components globals sense refrescar la vista principal
   actualitzarProgresGlobal();
   carregarMenu();
   comprovarRepasDiari();
-  carregarUnitat(trobarUnitatDeExercici(exId));
+
+  // NOVA LÒGICA: Només refresquem la targeta actual
+  actualitzarTargetaDespresDeValidar(exId, ex);
 }
 
 function comprovarRepasDiari() {
@@ -609,4 +614,118 @@ function actualitzarTeoria(unitatId) {
 function toggleTeoria() {
   const card = document.getElementById("teoria-container");
   card.classList.toggle("collapsed");
+}
+
+function actualitzarTargetaExercici(exId) {
+  // Trobem la unitat actual (la tenim al localStorage o en una variable global)
+  const unit = JSON.parse(localStorage.getItem("ultimaUnitat"));
+  const ex = unit.exercicis.find((e) => e.id === exId);
+  const exData = historic[exId];
+
+  // Busquem el contenidor de la targeta (podem posar un ID a cada targeta quan les creem)
+  // O més fàcil: busquem l'input i pugem fins al div "exercici-card"
+  const primerInput = document.querySelector(`input[data-ex="${exId}"]`);
+  const card = primerInput.closest(".exercici-card");
+
+  // Actualitzem la barra de progrés de la targeta
+  const perc = Math.round((exData.punts / exData.total) * 100);
+  const bar = card.querySelector(`#bar-${exId}`);
+  if (bar) {
+    bar.style.width = `${perc}%`;
+    bar.innerText = `${perc}%`;
+  }
+
+  // Bloquegem els inputs i afegim el feedback visual
+  const inputs = card.querySelectorAll("input");
+  inputs.forEach((input) => {
+    const pId = input.getAttribute("data-p-id");
+    const resp = exData.respostes[pId] || "";
+
+    input.readOnly = true;
+    if (esCorrecta(ex, pId, resp)) {
+      input.classList.add("correct");
+    } else {
+      input.classList.add("incorrect");
+      // Afegim la solució al costat si no hi era
+      if (
+        !input.nextElementSibling ||
+        !input.nextElementSibling.classList.contains("feedback-text")
+      ) {
+        const solucio =
+          ex.tipus === "fill-in"
+            ? ex.preguntes.find((p) => p.id === pId).solucions[0]
+            : ex.solucions[pId];
+        input.insertAdjacentHTML(
+          "afterend",
+          `<span class="feedback-text"><small class="sol-hint">(Sol: ${solucio})</small></span>`,
+        );
+      }
+    }
+  });
+
+  // Substituïm el botó per la info de bloqueig
+  const boto = card.querySelector(".btn-check");
+  if (boto) {
+    const dRepas = new Date(
+      exData.data + (exData.punts < exData.total ? 7 : 20) * 86400000,
+    );
+    const infoBloqueig = `<div class="info-bloqueig"><p>🔒 Bloquejada fins al: <strong>${dRepas.toLocaleDateString()}</strong></p></div>`;
+    boto.outerHTML = infoBloqueig;
+  }
+}
+
+function actualitzarTargetaDespresDeValidar(exId, ex) {
+  const card = document
+    .querySelector(`input[data-ex="${exId}"]`)
+    .closest(".exercici-card");
+  const exData = historic[exId];
+
+  // 1. Actualitzar la barra de progrés de la targeta
+  const perc = Math.round((exData.punts / exData.total) * 100);
+  const bar = card.querySelector(`#bar-${exId}`);
+  if (bar) {
+    bar.style.width = `${perc}%`;
+    bar.innerText = `${perc}%`;
+  }
+
+  // 2. Marcar inputs com a llegits i mostrar feedback
+  const inputs = card.querySelectorAll(`input[data-ex="${exId}"]`);
+  inputs.forEach((input) => {
+    const pId = input.getAttribute("data-p-id");
+    const val = exData.respostes[pId];
+
+    input.readOnly = true;
+
+    if (esCorrecta(ex, pId, val)) {
+      input.classList.add("correct");
+    } else {
+      input.classList.add("incorrect");
+      // Afegim la solució si no existeix ja el text de feedback
+      if (
+        !input.nextElementSibling ||
+        !input.nextElementSibling.classList.contains("feedback-text")
+      ) {
+        const solucio =
+          ex.tipus === "fill-in"
+            ? ex.preguntes.find((p) => p.id === pId).solucions[0]
+            : ex.solucions[pId];
+        input.insertAdjacentHTML(
+          "afterend",
+          `<span class="feedback-text"><small class="sol-hint">(Sol: ${solucio})</small></span>`,
+        );
+      }
+    }
+  });
+
+  // 3. Substituir el botó per la informació de bloqueig
+  const btn = card.querySelector(".btn-check");
+  if (btn) {
+    const dRepas = new Date(
+      exData.data + (exData.punts < exData.total ? 7 : 20) * 86400000,
+    );
+    const infoHtml = `<div class="info-bloqueig">
+                        <p>🔒 Bloquejada fins al: <strong>${dRepas.toLocaleDateString()}</strong></p>
+                      </div>`;
+    btn.outerHTML = infoHtml;
+  }
 }
