@@ -163,6 +163,8 @@ function carregarUnitat(unit) {
 
 function validar(exId) {
   let ex = trobarExercici(exId);
+  if (!ex) return; // Seguretat per si no troba l'exercici
+
   const inputs = document.querySelectorAll(`input[data-ex="${exId}"]`);
   let punts = 0;
   let respostes = {};
@@ -182,15 +184,13 @@ function validar(exId) {
     respostes,
   };
 
-  // Guardem (usa el nom de la teva clau de localStorage)
   localStorage.setItem("cambridge_v3", JSON.stringify(historic));
 
-  // Actualitzem components globals sense refrescar la vista principal
   actualitzarProgresGlobal();
   carregarMenu();
   comprovarRepasDiari();
 
-  // NOVA LÒGICA: Només refresquem la targeta actual
+  // Cridem a la funció que actualitza la interfície parcialment
   actualitzarTargetaDespresDeValidar(exId, ex);
 }
 
@@ -675,56 +675,57 @@ function actualitzarTargetaExercici(exId) {
 }
 
 function actualitzarTargetaDespresDeValidar(exId, ex) {
-  const card = document
-    .querySelector(`input[data-ex="${exId}"]`)
-    .closest(".exercici-card");
+  const primerInput = document.querySelector(`input[data-ex="${exId}"]`);
+  if (!primerInput) return;
+
+  const card = primerInput.closest(".exercici-card");
   const exData = historic[exId];
 
   // 1. Actualitzar la barra de progrés de la targeta
   const perc = Math.round((exData.punts / exData.total) * 100);
-  const bar = card.querySelector(`#bar-${exId}`);
+  const bar = card.querySelector(`#bar-${exId.replace(".", "\\.")}`); // Escapem el punt si l'ID en té
   if (bar) {
     bar.style.width = `${perc}%`;
     bar.innerText = `${perc}%`;
   }
 
-  // 2. Marcar inputs com a llegits i mostrar feedback
+  // 2. Feedback visual als inputs
   const inputs = card.querySelectorAll(`input[data-ex="${exId}"]`);
   inputs.forEach((input) => {
     const pId = input.getAttribute("data-p-id");
     const val = exData.respostes[pId];
 
-    input.readOnly = true;
+    input.readOnly = true; // Bloquegem l'escriptura
 
     if (esCorrecta(ex, pId, val)) {
       input.classList.add("correct");
     } else {
       input.classList.add("incorrect");
-      // Afegim la solució si no existeix ja el text de feedback
+      // Afegim la solució correcte al costat
       if (
         !input.nextElementSibling ||
         !input.nextElementSibling.classList.contains("feedback-text")
       ) {
         const solucio =
           ex.tipus === "fill-in"
-            ? ex.preguntes.find((p) => p.id === pId).solucions[0]
+            ? ex.preguntes.find((p) => p.id.toString() === pId.toString())
+                .solucions[0]
             : ex.solucions[pId];
         input.insertAdjacentHTML(
           "afterend",
-          `<span class="feedback-text"><small class="sol-hint">(Sol: ${solucio})</small></span>`,
+          `<span class="feedback-text" style="color: #e74c3c; margin-left: 10px;"><small>(Sol: ${solucio})</small></span>`,
         );
       }
     }
   });
 
-  // 3. Substituir el botó per la informació de bloqueig
+  // 3. Substituir el botó per la info de bloqueig (Repetició espaiada)
   const btn = card.querySelector(".btn-check");
   if (btn) {
-    const dRepas = new Date(
-      exData.data + (exData.punts < exData.total ? 7 : 20) * 86400000,
-    );
-    const infoHtml = `<div class="info-bloqueig">
-                        <p>🔒 Bloquejada fins al: <strong>${dRepas.toLocaleDateString()}</strong></p>
+    const dies = exData.punts < exData.total ? 7 : 20;
+    const dRepas = new Date(exData.data + dies * 86400000);
+    const infoHtml = `<div class="info-bloqueig" style="background: #f8f9fa; padding: 10px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #3498db;">
+                        <p style="margin:0; font-size: 0.9em;">🔒 Exercici completat. Pròxim repàs: <strong>${dRepas.toLocaleDateString()}</strong></p>
                       </div>`;
     btn.outerHTML = infoHtml;
   }
