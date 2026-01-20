@@ -570,20 +570,24 @@ function irAUnitat(issueId, unitId) {
 // Modifica la teva funció actual perquè SEMPRE carregui tancada
 function actualitzarTeoria(unitatId) {
   const container = document.getElementById("teoria-container");
+  if (!container) return;
 
-  // Forcem que estigui TANCADA (collapsed) cada vegada que canviem d'unitat
+  // 1. SEMPRE la posem tancada per defecte en canviar d'unitat
   container.classList.add("collapsed");
-  document.getElementById("teoria-arrow").innerText = "▼";
+  const arrow = document.getElementById("teoria-arrow");
+  if (arrow) arrow.innerText = "▼";
 
-  if (typeof teoriaDades === "undefined" || !unitatId) {
+  // 2. Comprovem si tenim ID i si les dades existeixen (mira el nom de la variable!)
+  if (!unitatId || typeof dadesTeoria === "undefined") {
     container.classList.add("hidden");
     return;
   }
 
   const idBuscat = parseInt(unitatId);
-  const info = teoriaDades.find((u) => parseInt(u.id) === idBuscat);
+  const info = dadesTeoria.find((u) => parseInt(u.id) === idBuscat);
 
   if (info) {
+    // Omplim les dades
     document.getElementById("teoria-titol").innerText = info.titol;
     document.getElementById("teoria-explicacio").innerText = info.explicacio;
 
@@ -601,23 +605,22 @@ function actualitzarTeoria(unitatId) {
       .join("");
 
     document.getElementById("teoria-habit-text").innerText = info.consell_habit;
+
+    // 3. LA CLAU: Treiem 'hidden' perquè es vegi la barra,
+    // però mantenim 'collapsed' perquè estigui tancada.
     container.classList.remove("hidden");
   } else {
     container.classList.add("hidden");
   }
 }
 
-// Aquesta funció serveix per obrir/tancar quan l'usuari clica
+// Afegeix també aquesta funció si no la tens exacta
 function toggleTeoria() {
   const container = document.getElementById("teoria-container");
   container.classList.toggle("collapsed");
-
-  // Opcional: Canviar la icona de la fletxa
   const arrow = document.getElementById("teoria-arrow");
-  if (container.classList.contains("collapsed")) {
-    arrow.innerText = "▼";
-  } else {
-    arrow.innerText = "▲";
+  if (arrow) {
+    arrow.innerText = container.classList.contains("collapsed") ? "▼" : "▲";
   }
 }
 
