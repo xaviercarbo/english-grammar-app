@@ -809,3 +809,46 @@ body {
   background-color: #f8d7da !important;
   border-color: #f5c6cb !important;
 }
+
+.teoria-header {
+  cursor: pointer;
+  background: var(--accent); /* Blau */
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Quan està tancada, podem posar un missatge o icona de "Mostra Teoria" */
+.teoria-section.is-closed .teoria-body {
+  display: none;
+}
+
+/* Quan el container té la classe 'collapsed', amaguem el cos */
+#teoria-container.collapsed .teoria-body {
+  display: none;
+}
+
+/* Estil per a la capçalera perquè sembli un botó */
+.teoria-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: #fcfcfc;
+  border-bottom: 1px solid #eee;
+  transition: background 0.3s;
+}
+
+.teoria-header:hover {
+  background-color: #f1f1f1;
+}
+
+/* Si vols que la fletxa giri o canviï */
+.arrow-icon {
+  font-size: 0.8em;
+  color: #3498db;
+  transition: transform 0.3s;
+}

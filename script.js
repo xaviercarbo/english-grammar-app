@@ -163,8 +163,6 @@ function carregarUnitat(unit) {
 
 function validar(exId) {
   let ex = trobarExercici(exId);
-  if (!ex) return; // Seguretat per si no troba l'exercici
-
   const inputs = document.querySelectorAll(`input[data-ex="${exId}"]`);
   let punts = 0;
   let respostes = {};
@@ -190,8 +188,8 @@ function validar(exId) {
   carregarMenu();
   comprovarRepasDiari();
 
-  // Cridem a la funció que actualitza la interfície parcialment
-  actualitzarTargetaDespresDeValidar(exId, ex);
+  // Ara carregarUnitat ja no "molesta" perquè la teoria estarà tancada
+  carregarUnitat(trobarUnitatDeExercici(exId));
 }
 
 function comprovarRepasDiari() {
@@ -569,22 +567,21 @@ function irAUnitat(issueId, unitId) {
   }
 }
 
+// Modifica la teva funció actual perquè SEMPRE carregui tancada
 function actualitzarTeoria(unitatId) {
   const container = document.getElementById("teoria-container");
-  // Forçar que s'obri en carregar una nova unitat
-  container.classList.remove("collapsed");
 
-  // Si no hi ha dades o ID, amaguem
-  if (typeof dadesTeoria === "undefined" || !unitatId) {
+  // Forcem que estigui TANCADA (collapsed) cada vegada que canviem d'unitat
+  container.classList.add("collapsed");
+  document.getElementById("teoria-arrow").innerText = "▼";
+
+  if (typeof teoriaDades === "undefined" || !unitatId) {
     container.classList.add("hidden");
     return;
   }
 
-  // Forcem que unitatId sigui un número per comparar correctament
   const idBuscat = parseInt(unitatId);
-  const info = dadesTeoria.find((u) => parseInt(u.id) === idBuscat);
-
-  console.log("Buscant teoria per ID:", idBuscat, "Trobat:", info); // Mira això a la consola (F12)
+  const info = teoriaDades.find((u) => parseInt(u.id) === idBuscat);
 
   if (info) {
     document.getElementById("teoria-titol").innerText = info.titol;
@@ -604,16 +601,24 @@ function actualitzarTeoria(unitatId) {
       .join("");
 
     document.getElementById("teoria-habit-text").innerText = info.consell_habit;
-
     container.classList.remove("hidden");
   } else {
     container.classList.add("hidden");
   }
 }
 
+// Aquesta funció serveix per obrir/tancar quan l'usuari clica
 function toggleTeoria() {
-  const card = document.getElementById("teoria-container");
-  card.classList.toggle("collapsed");
+  const container = document.getElementById("teoria-container");
+  container.classList.toggle("collapsed");
+
+  // Opcional: Canviar la icona de la fletxa
+  const arrow = document.getElementById("teoria-arrow");
+  if (container.classList.contains("collapsed")) {
+    arrow.innerText = "▼";
+  } else {
+    arrow.innerText = "▲";
+  }
 }
 
 function actualitzarTargetaExercici(exId) {
