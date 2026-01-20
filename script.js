@@ -363,15 +363,19 @@ function mostrarResumResultats() {
 
       // Concatenem la targeta una sola vegada
       unitsHtml += `
-        <div class="unit-stat-card clickable" onclick="irAUnitat('${issue.id}', '${u.id}')">
-            <div class="unit-info">
-                <h4>Unitat ${u.id}</h4>
-                <small><strong>${uOK} / ${uSols}</strong> Correctes</small>
-                ${alertHtml}
-                ${statusDataHtml}
-            </div>
-            <div class="unit-chart">${generarSVG(uPerc, 45)}</div>
-        </div>`;
+  <div class="unit-stat-card clickable" onclick="irAUnitat('${issue.id}', '${u.id}')">
+      <div class="unit-info">
+          <div class="unit-header-main">
+              <h4>Unitat ${u.id}</h4>
+              <span class="unit-name-sub">${u.nom}</span> 
+          </div>
+          <div class="unit-stats-detail">
+              <small><strong>${uOK}/${uSols}</strong> OK</small>
+              ${alertHtml}
+          </div>
+      </div>
+      <div class="unit-chart">${generarSVG(uPerc, 35)}</div>
+  </div>`;
     });
 
     const issuePerc =

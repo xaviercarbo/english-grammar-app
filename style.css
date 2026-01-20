@@ -263,8 +263,12 @@ body {
 
 .units-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(220px, 1fr)
+  ); /* Mínim 220px d'ample */
+  gap: 12px; /* Reduïm l'espai entre targetes */
+  padding: 10px;
 }
 
 .unit-stat-card {
@@ -852,4 +856,30 @@ body {
   color: #2c3e50;
   font-size: 1.2em;
   font-weight: 600;
+}
+
+/* Reduïm la mida del text per estalviar espai */
+.unit-header-main h4 {
+  font-size: 0.95em;
+  margin: 0;
+}
+
+.unit-name-sub {
+  font-size: 0.75em !important;
+  line-height: 1.1;
+  margin-bottom: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Màxim 2 línies de títol */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.unit-stats-detail small {
+  font-size: 0.75em;
+}
+
+/* Fem el gràfic circular una mica més petit */
+.unit-chart svg {
+  width: 35px !important;
+  height: 35px !important;
 }
