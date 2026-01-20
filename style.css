@@ -883,3 +883,108 @@ body {
   width: 35px !important;
   height: 35px !important;
 }
+
+/* Estil per a l'input que serveix de pista/exemple */
+.input-grammar.pista-exemple {
+  background-color: #f1f1f1 !important; /* Gris clar */
+  color: #7f8c8d !important; /* Text gris */
+  font-style: italic; /* Cursiva per diferenciar */
+  border: 1px dashed #bdc3c7 !important; /* Vora discontínua */
+  cursor: default;
+}
+
+/* Assegurem que la taula ocupi tot l'ample de la targeta d'exercici */
+.matching-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px; /* Dona aire entre files */
+  margin-top: 15px;
+}
+
+/* Columna de l'esquerra (Pregunta) */
+.matching-table td:nth-child(1) {
+  width: 40%;
+  text-align: left;
+  padding-right: 15px;
+  font-weight: 500;
+}
+
+/* Columna del mig (Input) */
+.matching-table td:nth-child(2) {
+  width: 60px;
+  text-align: center;
+}
+
+/* Columna de la dreta (Opcions) */
+.matching-table td:nth-child(3) {
+  width: 50%;
+  text-align: left;
+  padding-left: 15px;
+  color: #2c3e50;
+  border-left: 1px solid #eee; /* Una línia fina per separar */
+}
+
+/* L'input de matching ha de ser clar i visible */
+.input-match {
+  width: 42px !important;
+  height: 32px;
+  text-align: center;
+  border: 2px solid #dcdde1;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.exercici-card {
+  display: block; /* Forcem que el contingut flueixi de dalt a baix */
+  width: 100%;
+  background: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Assegura que el matching no es col·lapsi */
+.matching-table {
+  width: 100%;
+  max-width: 900px; /* Una mica més ample per frases llargues */
+  margin: 15px 0;
+  border-collapse: collapse;
+  table-layout: fixed; /* Força a respectar les amplades que donem */
+}
+
+.matching-table td {
+  padding: 10px 5px;
+  vertical-align: middle;
+  border-bottom: 1px solid #f0f0f0;
+  /* Alineació general a l'esquerra */
+  text-align: left;
+}
+
+/* Columna 1: El text de l'esquerra (Pregunta) */
+.matching-table td:nth-child(1) {
+  width: 45%;
+  padding-left: 0;
+  color: #2c3e50;
+}
+
+/* Columna 2: L'espai per a l'input (Fix i centrat) */
+.matching-table td:nth-child(2) {
+  width: 65px;
+  text-align: center;
+}
+
+/* Columna 3: El text de la dreta (Opcions) */
+.matching-table td:nth-child(3) {
+  width: 45%;
+  padding-left: 15px;
+  color: #5d6d7e;
+}
+
+/* Estil per a la pista */
+.pista-exemple {
+  background-color: #f0f0f0 !important;
+  color: #888 !important;
+  font-style: italic;
+  border: 1px dashed #ccc !important;
+}

@@ -481,12 +481,12 @@ const dadesApp = {
               preguntes: [
                 {
                   id: 1,
-                  text: "Water boils at 100 degrees Celsius. _____",
+                  text: "Water <u>boils</u> at 100 degrees Celsius. _____",
                   solucions: ["OK"],
                 },
                 {
                   id: 2,
-                  text: "How often are you going to the cinema? _____",
+                  text: "How often <u>are you going</u> to the cinema? _____",
                   solucions: ["do you go"],
                 },
                 {

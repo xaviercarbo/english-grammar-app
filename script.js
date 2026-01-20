@@ -59,24 +59,19 @@ function calcularEstatTema(unitats) {
 }
 
 function carregarUnitat(unit) {
-  // 1. Guardem l'objecte de la unitat per saber on érem en tornar a entrar
   localStorage.setItem("ultimaUnitat", JSON.stringify(unit));
 
-  // 2. Carreguem les dades de teoria i ens assegurem que el panell s'obri (remove collapsed)
   const teoriaContainer = document.getElementById("teoria-container");
-  if (teoriaContainer) teoriaContainer.classList.remove("collapsed");
+  if (teoriaContainer) teoriaContainer.classList.add("collapsed");
   actualitzarTeoria(unit.id);
 
-  // 3. Actualitzem la capçalera de la pàgina
   document.getElementById("unit-title").innerText = `${unit.id}. ${unit.nom}`;
   document.getElementById("unit-subtitle").innerText =
     "Un cop validada, l'activitat es bloqueja fins al proper repàs.";
 
-  // 4. Netegem el contenidor d'exercicis
   const container = document.getElementById("exercicis-container");
   container.innerHTML = "";
 
-  // 5. Generem les targetes d'exercicis
   unit.exercicis.forEach((ex) => {
     const card = document.createElement("div");
     card.className = "exercici-card";
@@ -109,8 +104,19 @@ function carregarUnitat(unit) {
     }
 
     if (ex.tipus === "fill-in") {
-      ex.preguntes.forEach((p) => {
-        const resp = exData.respostes[p.id] || "";
+      ex.preguntes.forEach((p, i) => {
+        let resp = exData.respostes[p.id] || "";
+        let inputClass = "input-grammar";
+        let inputReadOnly = isLocked ? "readonly" : "";
+
+        if (i === 0 && !isLocked) {
+          resp = p.solucions[0];
+          inputClass += " pista-exemple";
+          inputReadOnly = "readonly";
+        } else if (isLocked) {
+          inputClass += esCorrecta(ex, p.id, resp) ? " correct" : " incorrect";
+        }
+
         const initialSize = resp.length > 15 ? resp.length : 15;
 
         html += `<div class="pregunta-row">
@@ -120,8 +126,9 @@ function carregarUnitat(unit) {
                     size="${initialSize}" 
                     oninput="this.size = Math.max(15, this.value.length + 1)" 
                     data-ex="${ex.id}" 
-                    data-p-id="${p.id}" ${isLocked ? "readonly" : ""} 
-                    class="input-grammar ${isLocked ? (esCorrecta(ex, p.id, resp) ? "correct" : "incorrect") : ""}" 
+                    data-p-id="${p.id}" 
+                    ${inputReadOnly} 
+                    class="${inputClass}" 
                     value="${resp}">`,
                 )}
                 ${isLocked ? `<span class="feedback-text"><small class="sol-hint">(Sol: ${p.solucions[0]})</small></span>` : ""}
@@ -130,13 +137,30 @@ function carregarUnitat(unit) {
     } else if (ex.tipus === "matching") {
       html += `<table class="matching-table">`;
       ex.esquerra.forEach((item, i) => {
-        const resp = exData.respostes[item.n] || "";
+        let resp = exData.respostes[item.n] || "";
+        let inputClass = "input-match";
+        let inputReadOnly = isLocked ? "readonly" : "";
+
+        // PISTA: Primera fila resolta automàticament
+        if (i === 0 && !isLocked) {
+          resp = ex.solucions[item.n];
+          inputClass += " pista-exemple";
+          inputReadOnly = "readonly";
+        } else if (isLocked) {
+          inputClass += esCorrecta(ex, item.n, resp)
+            ? " correct"
+            : " incorrect";
+        }
+
         html += `<tr>
                     <td>${item.n}. ${item.t}</td>
-                    <td><input type="text" data-ex="${ex.id}" data-p-id="${item.n}" ${isLocked ? "readonly" : ""} 
-                        class="input-match ${isLocked ? (esCorrecta(ex, item.n, resp) ? "correct" : "incorrect") : ""}" 
-                        value="${resp}" style="width:50px; text-align:center;"></td>
-                    <td>${ex.dreta[i].l}. ${ex.dreta[i].t} ${isLocked ? `<br><small class="sol-hint">(${ex.solucions[item.n]})</small>` : ""}</td>
+                    <td><input type="text" 
+                        data-ex="${ex.id}" 
+                        data-p-id="${item.n}" 
+                        ${inputReadOnly} 
+                        class="${inputClass}" 
+                        value="${resp}"></td>
+                    <td>${ex.dreta[i].l}. ${ex.dreta[i].t} ${isLocked ? `<br><small class="sol-hint">(Correct: ${ex.solucions[item.n]})</small>` : ""}</td>
                 </tr>`;
       });
       html += `</table>`;
@@ -155,7 +179,6 @@ function carregarUnitat(unit) {
     container.appendChild(card);
   });
 
-  // 6. Scroll suau cap amunt amb un petit retard per assegurar que el contingut ja existeix
   setTimeout(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, 100);
