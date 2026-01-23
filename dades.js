@@ -5417,5 +5417,222 @@ const dadesApp = {
         },
       ],
     },
+    {
+      id: "Modals",
+      titol: "Modals",
+      unitats: [
+        {
+          id: 26,
+          nom: "Can, Could and (be) able to",
+          exercicis: [
+            {
+              id: "26.1",
+              titol:
+                "26.1 Complete the sentences using can or (be) able to. If can is not possible, use (be) able to.",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "Gary has travelled a lot. He ____ speak five languages.",
+                  solucions: ["can"],
+                },
+                {
+                  id: 2,
+                  text: "I haven't ____ sleep very well recently.",
+                  solucions: ["been able to"],
+                },
+                {
+                  id: 3,
+                  text: "Nicole ____ drive, but she doesn't have a car.",
+                  solucions: ["can"],
+                },
+                {
+                  id: 4,
+                  text: "I used to ____ stand on my head, but I can't do it any more.",
+                  solucions: ["be able to"],
+                },
+                {
+                  id: 5,
+                  text: "I can't understand Mark. I've never ____ understand him.",
+                  solucions: ["been able to"],
+                },
+                {
+                  id: 6,
+                  text: "I can't see you on Friday, but I ____ meet you on Saturday morning.",
+                  solucions: ["can", "will be able to"],
+                },
+                {
+                  id: 7,
+                  text: "Ask Katherine about your problem. She might ____ help you.",
+                  solucions: ["be able to"],
+                },
+                {
+                  id: 8,
+                  text: "You have to be careful in this part of the city. It ____ be dangerous.",
+                  solucions: ["can"],
+                },
+                {
+                  id: 9,
+                  text: "Michael has lived in Italy a long time, so he should ____ speak Italian.",
+                  solucions: ["be able to"],
+                },
+              ],
+            },
+            {
+              id: "26.2",
+              titol:
+                "26.2 Write sentences about yourself using the ideas in brackets.",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "(something you used to be able to do) I used to ____.",
+                  solucions: ["be able to sing well"],
+                },
+                {
+                  id: 2,
+                  text: "(something you used to be able to do) I used ____.",
+                  solucions: ["to be able to run fast"],
+                },
+                {
+                  id: 3,
+                  text: "(something you would like to be able to do) I'd ____.",
+                  solucions: ["like to be able to play the piano"],
+                },
+                {
+                  id: 4,
+                  text: "(something you have never been able to do) I've ____.",
+                  solucions: ["never been able to get up early"],
+                },
+              ],
+            },
+            {
+              id: "26.3",
+              titol:
+                "26.3 Complete the sentences with can/can't/could/couldn't + the following: believe, come, hear, run, sleep, wait",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "I'm afraid I ____ to your party next week.",
+                  solucions: ["can't come"],
+                },
+                {
+                  id: 2,
+                  text: "When Dan was 16, he ____ 100 metres in 11 seconds.",
+                  solucions: ["could run"],
+                },
+                {
+                  id: 3,
+                  text: "Are you in a hurry? No, I've got plenty of time. I ____.",
+                  solucions: ["can wait"],
+                },
+                {
+                  id: 4,
+                  text: "I don't feel good this morning. I ____ last night.",
+                  solucions: ["couldn't sleep"],
+                },
+                {
+                  id: 5,
+                  text: "Can you speak a little louder? I ____ you very well.",
+                  solucions: ["can't hear"],
+                },
+                {
+                  id: 6,
+                  text: "I was amazed when I heard the news. I ____ it.",
+                  solucions: ["couldn't believe"],
+                },
+              ],
+            },
+            {
+              id: "26.4",
+              titol:
+                "26.4 Complete the answers to the questions with was/were able to ...",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "A: Did everybody escape from the fire? B: Yes. The fire spread quickly, but everybody ____.",
+                  solucions: ["was able to escape"],
+                },
+                {
+                  id: 2,
+                  text: "A: Did you finish your work this afternoon? B: Yes, there was nobody to disturb me, so I ____.",
+                  solucions: ["was able to finish it"],
+                },
+                {
+                  id: 3,
+                  text: "A: Did you solve the problem? B: Yes, we did. It wasn't easy, but we ____.",
+                  solucions: ["were able to solve it"],
+                },
+                {
+                  id: 4,
+                  text: "A: Did the thief get away? B: Yes. No-one realised what was happening and the thief ____.",
+                  solucions: ["was able to get away"],
+                },
+              ],
+            },
+            {
+              id: "26.5",
+              titol:
+                "26.5 Complete the sentences using could, couldn't or managed to.",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "My grandfather travelled a lot. He ____ speak five languages.",
+                  solucions: ["could"],
+                },
+                {
+                  id: 2,
+                  text: "I looked everywhere for the book, but I ____ find it.",
+                  solucions: ["couldn't"],
+                },
+                {
+                  id: 3,
+                  text: "They didn't want to come with us at first, but we ____ persuade them.",
+                  solucions: ["managed to"],
+                },
+                {
+                  id: 4,
+                  text: "Jessica had hurt her foot and ____ walk very well.",
+                  solucions: ["couldn't"],
+                },
+                {
+                  id: 5,
+                  text: "There was a small fire in the kitchen, but fortunately I ____ put it out.",
+                  solucions: ["managed to"],
+                },
+                {
+                  id: 6,
+                  text: "The walls were thin and I ____ hear people talking in the next room.",
+                  solucions: ["could"],
+                },
+                {
+                  id: 7,
+                  text: "I ran my first marathon recently. It was very hard, but I ____ finish.",
+                  solucions: ["managed to"],
+                },
+                {
+                  id: 8,
+                  text: "My grandmother loved music. She ____ play the piano very well.",
+                  solucions: ["could"],
+                },
+                {
+                  id: 9,
+                  text: "We wanted to go to the concert, but we ____ get tickets.",
+                  solucions: ["couldn't"],
+                },
+                {
+                  id: 10,
+                  text: "A girl fell into the river, but some people ____ pull her out. She's all right now.",
+                  solucions: ["managed to"],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
   ],
 };
