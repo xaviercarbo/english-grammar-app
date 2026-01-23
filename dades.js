@@ -5632,6 +5632,734 @@ const dadesApp = {
             },
           ],
         },
+        {
+          id: 27,
+          nom: "Could (do) and Could have (done)",
+          exercicis: [
+            {
+              id: "27.1",
+              titol: "27.1 Which goes with which?",
+              tipus: "matching",
+              esquerra: [
+                { n: 1, t: "What shall we eat tonight?" },
+                { n: 2, t: "I need to phone Vicky sometime." },
+                { n: 3, t: "What shall I get Ann for her birthday?" },
+                { n: 4, t: "Where shall we put this picture?" },
+                { n: 5, t: "What would you like to do at the weekend?" },
+                { n: 6, t: "I don't know what to wear to the wedding." },
+              ],
+              dreta: [
+                { l: "a", t: "We could go away somewhere." },
+                { l: "b", t: "You could give her a book." },
+                { l: "c", t: "We could have fish." },
+                { l: "d", t: "You could wear your brown suit." },
+                { l: "e", t: "You could do it now." },
+                { l: "f", t: "We could hang it in the kitchen." },
+              ],
+              solucions: {
+                1: "c",
+                2: "e",
+                3: "b",
+                4: "f",
+                5: "a",
+                6: "d",
+              },
+            },
+            {
+              id: "27.2", // Recorda posar 27.2 aquí per coherència
+              titol: "27.2 Put in can or could.",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "This is a wonderful place. I ____ stay here forever.",
+                  solucions: ["could"],
+                },
+                {
+                  id: 2,
+                  text: "I'm so angry with him. I ____ kill him!",
+                  solucions: ["could"],
+                },
+                {
+                  id: 3,
+                  text: "I ____ hear a strange noise. What is it?",
+                  solucions: ["can"],
+                },
+                {
+                  id: 4,
+                  text: "It's so nice here. I ____ sit here all day but unfortunately I have to go.",
+                  solucions: ["could"],
+                },
+                {
+                  id: 5,
+                  text: "I ____ understand your point of view, but I don't agree with you.",
+                  solucions: ["can"],
+                },
+                {
+                  id: 6,
+                  text: "Peter is a keen musician. He plays the flute and he ____ also play the piano.",
+                  solucions: ["can"],
+                },
+                {
+                  id: 7,
+                  text: "The company Amy works for isn't doing well. She ____ lose her job.",
+                  solucions: ["could"],
+                },
+                {
+                  id: 8,
+                  text: "Some people are unlucky. Life ____ be very unfair.",
+                  solucions: ["can"],
+                },
+                {
+                  id: 9,
+                  text: "I've been really stupid. I ____ kick myself.",
+                  solucions: ["could"],
+                },
+                {
+                  id: 10,
+                  text: "Be careful climbing that tree. You ____ fall.",
+                  solucions: ["could"],
+                },
+              ],
+            },
+            {
+              id: "27.3",
+              titol:
+                "27.3 Complete the sentences. Choose from the list in the book.",
+              instruccions:
+                "gone, could be, could come, could sleep, have moved, could have, could have come, could have been",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "A: Are you tired? B: Yes, very tired. I feel as if I ____ for a week.",
+                  solucions: ["could sleep"],
+                },
+                {
+                  id: 2,
+                  text: "A: I spent a very boring evening at home yesterday. B: Why did you stay at home? You ____ out with us.",
+                  solucions: ["could have come"],
+                },
+                {
+                  id: 3,
+                  text: "A: Shall I open this letter? B: Yes. It ____ important.",
+                  solucions: ["could be"],
+                },
+                {
+                  id: 4,
+                  text: "A: How was your exam? Was it difficult? B: It wasn't so bad. It ____ worse.",
+                  solucions: ["could have been"],
+                },
+                {
+                  id: 5,
+                  text: "A: I got very wet walking home in the rain. B: Why did you walk? You ____ taken a taxi.",
+                  solucions: ["could have"],
+                },
+                {
+                  id: 6,
+                  text: "A: Where shall we meet tomorrow? B: Well, I ____ to your office if you like.",
+                  solucions: ["could come"],
+                },
+                {
+                  id: 7,
+                  text: "A: Does Tom still live in the same place? B: I'm not sure. He could ____.",
+                  solucions: ["have moved"],
+                },
+                {
+                  id: 8,
+                  text: "A: Did you go to university? B: No. I could have ____, but I didn't want to.",
+                  solucions: ["gone"],
+                },
+              ],
+            },
+            {
+              id: "27.4",
+              titol:
+                "27.4 Complete the sentences. Use couldn't or couldn't have + these verbs (in the correct form): ",
+              instruccions: "afford, be, be, live, manage, stand, study, wear",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "I ____ in a big city. I'd hate it. (live)",
+                  solucions: ["couldn't live"],
+                },
+                {
+                  id: 2,
+                  text: "We had a really good holiday. It ____ better. (be)",
+                  solucions: ["couldn't have been"],
+                },
+                {
+                  id: 3,
+                  text: "I ____ that hat. People would laugh at me. (wear)",
+                  solucions: ["couldn't wear"],
+                },
+                {
+                  id: 4,
+                  text: "You helped me a lot. I ____ without you. (manage)",
+                  solucions: ["couldn't have managed"],
+                },
+                {
+                  id: 5,
+                  text: "The staff at the hotel were really good. They ____ more helpful. (be)",
+                  solucions: ["couldn't have been"],
+                },
+                {
+                  id: 6,
+                  text: "There's no way we could buy a car now. We ____ it. (afford)",
+                  solucions: ["couldn't afford", "couldn't manage"],
+                },
+                {
+                  id: 7,
+                  text: "Jack prepared for the exam as well as he could. He ____ harder. (study)",
+                  solucions: ["couldn't have studied"],
+                },
+                {
+                  id: 8,
+                  text: "I wouldn't like to live near the motorway. I ____ the noise of the traffic. (stand)",
+                  solucions: ["couldn't stand"],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 28,
+          nom: "Must and Can't",
+          exercicis: [
+            {
+              id: "28.1",
+              titol: "28.1 Put in must or can't.",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "You've been travelling all day. You ____ be tired.",
+                  solucions: ["must"],
+                },
+                {
+                  id: 2,
+                  text: "That restaurant ____ be very good. It's always full of people.",
+                  solucions: ["must"],
+                },
+                {
+                  id: 3,
+                  text: "That restaurant ____ be very good. It's always empty.",
+                  solucions: ["can't"],
+                },
+                {
+                  id: 4,
+                  text: "I'm sure Kate gave me her address. I ____ have it somewhere.",
+                  solucions: ["must"],
+                },
+                {
+                  id: 5,
+                  text: "I often see that man in this street. He ____ live near here.",
+                  solucions: ["must"],
+                },
+                {
+                  id: 6,
+                  text: "It rained every day during their holiday. It ____ have been very nice for them.",
+                  solucions: ["can't"],
+                },
+                {
+                  id: 7,
+                  text: "Congratulations on passing your exam. You ____ be very pleased.",
+                  solucions: ["must"],
+                },
+                {
+                  id: 8,
+                  text: "This bill ____ be correct. It's much too high.",
+                  solucions: ["can't"],
+                },
+                {
+                  id: 9,
+                  text: "You got here very quickly. You ____ have driven very fast.",
+                  solucions: ["must"],
+                },
+                {
+                  id: 10,
+                  text: "Bill and Sue always stay at five-star hotels. They ____ be short of money.",
+                  solucions: ["can't"],
+                },
+                {
+                  id: 11,
+                  text: "Karen hasn't left the office yet. She ____ be working late tonight.",
+                  solucions: ["must"],
+                },
+              ],
+            },
+            {
+              id: "28.2",
+              titol:
+                "28.2 Complete each sentence with a verb (one or two words).",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "I've lost one of my gloves. I must ____ it somewhere.",
+                  solucions: ["have dropped"],
+                },
+                {
+                  id: 2,
+                  text: "Their house is very near the motorway. It must ____ very noisy.",
+                  solucions: ["be"],
+                },
+                {
+                  id: 3,
+                  text: "You've lived in this village a long time. You must ____ everybody who lives here.",
+                  solucions: ["know"],
+                },
+                {
+                  id: 4,
+                  text: "I don't seem to have my wallet with me. I must ____ it at home.",
+                  solucions: ["have left"],
+                },
+                {
+                  id: 5,
+                  text: "'How old is Ed?' 'He's older than me. He must ____ at least 40.'",
+                  solucions: ["be"],
+                },
+                {
+                  id: 6,
+                  text: "I didn't hear my phone. I must ____ asleep.",
+                  solucions: ["have been"],
+                },
+                {
+                  id: 7,
+                  text: "You're going on holiday soon. You must ____ forward to it.",
+                  solucions: ["be looking"],
+                },
+                {
+                  id: 8,
+                  text: "I'm sure you know this song. You must ____ it before.",
+                  solucions: ["have heard"],
+                },
+                {
+                  id: 9,
+                  text: "The road is closed, so we have to go another way. There must ____ an accident.",
+                  solucions: ["have been"],
+                },
+                {
+                  id: 10,
+                  text: "'Do you have a car?' 'You must ____! How could I afford to have a car?'",
+                  solucions: ["be joking"],
+                },
+                {
+                  id: 11,
+                  text: "David is the managing director of a large company, so he must ____ quite a high salary.",
+                  solucions: ["get", "be getting", "have"],
+                },
+              ],
+            },
+            {
+              id: "28.3",
+              titol: "28.3 Write sentences with must have and can't have.",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "We went to our friends' house, but nobody answered. (they / go out) -> ____",
+                  solucions: ["They must have gone out"],
+                },
+                {
+                  id: 2,
+                  text: "Sarah hasn't contacted me. (she / get / my message) -> ____",
+                  solucions: ["She can't have got my message"],
+                },
+                {
+                  id: 3,
+                  text: "The jacket you bought is very good quality. (it / be / very expensive) -> ____",
+                  solucions: ["It must have been very expensive"],
+                },
+                {
+                  id: 4,
+                  text: "I haven't seen our neighbours for the last few days. (they / go away) -> ____",
+                  solucions: ["They must have gone away"],
+                },
+                {
+                  id: 5,
+                  text: "I can't find my umbrella. (I / leave / it in the restaurant last night) -> ____",
+                  solucions: [
+                    "I must have left it in the restaurant last night",
+                  ],
+                },
+                {
+                  id: 6,
+                  text: "Amy was in a very difficult situation when she lost her job. (it / be / easy for her) -> ____",
+                  solucions: ["It can't have been easy for her"],
+                },
+                {
+                  id: 7,
+                  text: "There was a man standing outside the cafe. (he / wait / for somebody) -> ____",
+                  solucions: ["He must have been waiting for somebody"],
+                },
+                {
+                  id: 8,
+                  text: "Rachel did the opposite of what I asked her to do. (she / understand / what I said) -> ____",
+                  solucions: [
+                    "She can't have understood what I said",
+                    "She couldn't have understood what I said",
+                  ],
+                },
+                {
+                  id: 9,
+                  text: "When I got back to my car, it was unlocked. (I / forget / to lock it) -> ____",
+                  solucions: ["I must have forgotten to lock it"],
+                },
+                {
+                  id: 10,
+                  text: "My neighbours were making a lot of noise in the night. (they / have / a party) -> ____",
+                  solucions: ["They must have been having a party"],
+                },
+                {
+                  id: 11,
+                  text: "The light was red, but the car didn't stop. (the driver / see / the red light) -> ____",
+                  solucions: [
+                    "The driver can't have seen the red light",
+                    "The driver couldn't have seen the red light",
+                  ],
+                },
+                {
+                  id: 12,
+                  text: "Paul has had these shoes for years, but they still look new. (he / wear / them much) -> ____",
+                  solucions: ["He can't have worn them much"],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 29,
+          nom: "May and Might (1)",
+          exercicis: [
+            {
+              id: "29.1",
+              titol: "29.1 Complete the sentences. Choose from the box.",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "A: Do you know where Helen is? B: I'm not sure. She ____.",
+                  solucions: ["might be in her room"],
+                },
+                {
+                  id: 2,
+                  text: "A: Is there a bookshop near here? B: I'm not sure, but ask Anna. She ____.",
+                  solucions: ["might know"],
+                },
+                {
+                  id: 3,
+                  text: "A: Where are those people from? B: I don't know. They ____.",
+                  solucions: ["might be Brazilian"],
+                },
+                {
+                  id: 4,
+                  text: "A: I hope you can help me. B: I'll try, but it ____.",
+                  solucions: ["may not be possible"],
+                },
+                {
+                  id: 5,
+                  text: "A: Whose phone is this? B: It's not mine. It ____.",
+                  solucions: ["may be Tom's"],
+                },
+                {
+                  id: 6,
+                  text: "A: Why doesn't George answer his phone? B: He ____.",
+                  solucions: ["might be driving"],
+                },
+                {
+                  id: 7,
+                  text: "A: Do you know anyone who has a key to this cupboard? B: Rachel ____, but I'm not sure.",
+                  solucions: ["might have one"],
+                },
+                {
+                  id: 8,
+                  text: "A: Gary is in a strange mood today. B: Yes, he is. He ____.",
+                  solucions: ["may not be feeling well"],
+                },
+              ],
+            },
+            {
+              id: "29.2",
+              titol: "29.2 Complete each sentence using the verb in brackets.",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "A: Where's Ben? B: I'm not sure. He might ____ lunch. (have)",
+                  solucions: ["be having"],
+                },
+                {
+                  id: 2,
+                  text: "A: Who was the guy we saw with Anna yesterday? B: I'm not sure. It may ____ her brother. (be)",
+                  solucions: ["have been"],
+                },
+                {
+                  id: 3,
+                  text: "A: Is Ellie here? B: I can't see her. She may not ____ yet. (arrive)",
+                  solucions: ["have arrived"],
+                },
+                {
+                  id: 4,
+                  text: "A: Gary said he would meet us in the cafe, but he isn't here. B: He might ____ outside. I'll go and look. (wait)",
+                  solucions: ["be waiting"],
+                },
+                {
+                  id: 5,
+                  text: "A: How did John know that I'd lost my job? B: I don't know. I suppose Sam may ____ him. (tell)",
+                  solucions: ["have told"],
+                },
+                {
+                  id: 6,
+                  text: "A: Do you know where Jeff is? Is he still in the office? B: He was here earlier, but he might ____ home. (go)",
+                  solucions: ["have gone"],
+                },
+                {
+                  id: 7,
+                  text: "A: Where's Emma? What's she doing? B: I'm not sure. She might ____ TV. (watch)",
+                  solucions: ["be watching"],
+                },
+                {
+                  id: 8,
+                  text: "A: Does Max have any brothers or sisters? B: I'm not sure. I think he may ____ a younger sister. (have)",
+                  solucions: ["have"],
+                },
+                {
+                  id: 9,
+                  text: "A: I can't find my umbrella. Have you seen it? B: You may ____ it in the restaurant last night. (leave)",
+                  solucions: ["have left"],
+                },
+                {
+                  id: 10,
+                  text: "A: I rang Dan's doorbell, but he didn't answer. I'm sure he was there. B: He might not ____ the doorbell. (hear)",
+                  solucions: ["have heard"],
+                },
+                {
+                  id: 11,
+                  text: "A: Hannah is supposed to meet us here, and she's already 20 minutes late. B: She may ____. She's always forgetting things. (forget)",
+                  solucions: ["have forgotten"],
+                },
+              ],
+            },
+            {
+              id: "29.3",
+              titol:
+                "29.3 Complete the sentences using might not have ... or couldn't have ...",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "A: I was surprised Amy wasn't at the meeting. B: Maybe. She ____ about it. (know)",
+                  solucions: ["might not have known"],
+                },
+                {
+                  id: 2,
+                  text: "A: I wonder why Tom didn't come to the party. B: It's possible. He ____ to come. (want)",
+                  solucions: ["might not have wanted"],
+                },
+                {
+                  id: 3,
+                  text: "A: I wonder how the fire started. Was it an accident? B: No, the police say it ____ an accident. It was deliberate.",
+                  solucions: ["couldn't have been"],
+                },
+                {
+                  id: 4,
+                  text: "A: Mike says he needs to see you. He tried to find you yesterday. B: Well, he ____ very hard. I was in my office all day.",
+                  solucions: ["couldn't have tried"],
+                },
+                {
+                  id: 5,
+                  text: "A: The man you spoke to - are you sure he was American? B: No, I'm not sure. He ____ American.",
+                  solucions: ["might not have been American"],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 30,
+          nom: "May and Might (2)",
+          exercicis: [
+            {
+              id: "30.1",
+              titol: "30.1 Which is correct? Choose the correct form.",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "'Where are you going for your holidays?' 'I'm not sure yet. ____ to Ireland.' (I'm going / I might go)",
+                  solucions: ["I might go"],
+                },
+                {
+                  id: 2,
+                  text: "'Have you decided what to buy Mum for her birthday?' 'Yes, ____ her a handbag.' (I'm going to get / I might get)",
+                  solucions: ["I'm going to get"],
+                },
+                {
+                  id: 3,
+                  text: "'Is Tom coming to see us tomorrow?' 'Perhaps. ____.' (He's coming / He might come)",
+                  solucions: ["He might come"],
+                },
+                {
+                  id: 4,
+                  text: "'Where are you going to hang this picture?' 'I'm not sure. ____ it in the dining room.' (I'll hang / I might hang)",
+                  solucions: ["I might hang"],
+                },
+                {
+                  id: 5,
+                  text: "'What's Julia going to do when she leaves school?' '____ to university.' (She's going / She might go)",
+                  solucions: ["She's going"],
+                },
+                {
+                  id: 6,
+                  text: "'What are you doing at the weekend?' 'I haven't decided yet, but ____.' (I'm going away / I might go away)",
+                  solucions: ["I might go away"],
+                },
+              ],
+            },
+            {
+              id: "30.2",
+              titol:
+                "30.2 Complete the sentences using might + a verb from the box:",
+              instruccions: "hear, need, rain, slip, spill, wake.",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "Take an umbrella with you when you go out. It ____ later.",
+                  solucions: ["might rain"],
+                },
+                {
+                  id: 2,
+                  text: "Don't make too much noise. You ____ the baby.",
+                  solucions: ["might wake"],
+                },
+                {
+                  id: 3,
+                  text: "Be careful with your coffee. You ____ it.",
+                  solucions: ["might spill"],
+                },
+                {
+                  id: 4,
+                  text: "Don't throw those old clothes away. You ____ them one day.",
+                  solucions: ["might need"],
+                },
+                {
+                  id: 5,
+                  text: "Shall I tell you what happened? No, don't. Somebody ____ us.",
+                  solucions: ["might hear"],
+                },
+                {
+                  id: 6,
+                  text: "Be careful. The path is very icy. You ____.",
+                  solucions: ["might slip"],
+                },
+              ],
+            },
+            {
+              id: "30.3",
+              titol:
+                "30.3 Complete the sentences using might be able to or might have to + a verb.",
+              instruccions: "fix, help, leave, meet, pay, wait.",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "I can't help you, but why don't you ask John? He ____ you. (help)",
+                  solucions: ["might be able to help"],
+                },
+                {
+                  id: 2,
+                  text: "I can't meet you this evening. I ____ late at the office. (leave)",
+                  solucions: ["might have to leave"],
+                },
+                {
+                  id: 3,
+                  text: "I'm not sure if I can meet you tomorrow, but I ____ you. (meet)",
+                  solucions: ["might be able to meet"],
+                },
+                {
+                  id: 4,
+                  text: "If you don't pay the bill soon, you ____ a fine. (pay)",
+                  solucions: ["might have to pay"],
+                },
+                {
+                  id: 5,
+                  text: "The restaurant is very busy. We ____ for a table. (wait)",
+                  solucions: ["might have to wait"],
+                },
+                {
+                  id: 6,
+                  text: "I'm not sure if I can fix the computer, but I ____ it. (fix)",
+                  solucions: ["might be able to fix"],
+                },
+              ],
+            },
+            {
+              id: "30.4",
+              titol: "30.4 Write sentences with might not.",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "It's possible that Lisa won't come to the party. -> ____",
+                  solucions: ["Lisa might not come to the party"],
+                },
+                {
+                  id: 2,
+                  text: "It's possible that I won't recognise him. -> ____",
+                  solucions: ["I might not recognise him"],
+                },
+                {
+                  id: 3,
+                  text: "It's possible that we won't be able to get tickets for the game. -> ____",
+                  solucions: [
+                    "We might not be able to get tickets for the game",
+                  ],
+                },
+                {
+                  id: 4,
+                  text: "It's possible that I won't have time to do the shopping. -> ____",
+                  solucions: ["I might not have time to do the shopping"],
+                },
+                {
+                  id: 5,
+                  text: "It's possible that I won't be able to go to the wedding. -> ____",
+                  solucions: ["I might not be able to go to the wedding"],
+                },
+              ],
+            },
+            {
+              id: "30.5",
+              titol:
+                "30.5 Read the situations and make sentences with might as well.",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "You and a friend have just missed the bus. The buses run every hour. You say: It's only 20 minutes to walk. ____.",
+                  solucions: ["We might as well walk"],
+                },
+                {
+                  id: 2,
+                  text: "You have a very old computer. It's slow and it would cost a lot to repair. You say: ____.",
+                  solucions: ["I might as well buy a new one"],
+                },
+                {
+                  id: 3,
+                  text: "You've just painted the kitchen. You still have a lot of paint left. You say: ____.",
+                  solucions: ["I might as well paint the bathroom too"],
+                },
+                {
+                  id: 4,
+                  text: "There's a film on TV. You're not very interested in it, but there's nothing else to do. You say: ____.",
+                  solucions: ["We might as well watch it"],
+                },
+              ],
+            },
+          ],
+        },
       ],
     },
   ],

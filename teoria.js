@@ -960,4 +960,167 @@ const dadesTeoria = [
     consell_habit:
       "Si dubtes en el passat afirmatiu entre 'could' i 'managed to', tria 'managed to' si parles d'un èxit concret en un moment puntual.",
   },
+  {
+    id: 27,
+    titol: "Could (do) and Could have (done)",
+    explicacio:
+      "Utilitzem 'could' per parlar de possibilitats presents o futures, i 'could have done' per parlar de coses que eren possibles en el passat però que no van succeir.",
+    regles: [
+      {
+        regla: "Could per a suggeriments",
+        detall: "Usem 'could' per proposar plans (We could go to the cinema).",
+      },
+      {
+        regla: "Could vs Can",
+        detall:
+          "'Could' és menys segur que 'can'. També s'usa 'could' (no can) per a coses que no són realistes (I'm so tired, I could sleep for a week).",
+      },
+      {
+        regla: "Could have (done)",
+        detall:
+          "S'usa per dir que una cosa era possible però no va passar (You could have stayed with me, but you went to a hotel).",
+      },
+      {
+        regla: "Couldn't have (done)",
+        detall:
+          "Significa que una cosa no hauria estat possible encara que s'hagués intentat (The holiday couldn't have been better).",
+      },
+    ],
+    exemples: [
+      {
+        eng: "The story could be true, but I don't think it is.",
+        cat: "La història podria ser certa, però no ho crec.",
+      },
+      {
+        eng: "I was so lucky. I could have hurt myself when I fell.",
+        cat: "Vaig tenir molta sort. Em podria haver fet mal quan vaig caure (però no me'n vaig fer).",
+      },
+    ],
+    consell_habit:
+      "Recorda: 'could do' és per ara o el futur; 'could have done' és per al passat.",
+  },
+  {
+    id: 28,
+    titol: "Must and Can't",
+    explicacio:
+      "Utilitzem 'must' i 'can't' per expressar deduccions lògiques. 'Must' quan estem segurs que quelcom és cert, i 'can't' quan estem segurs que és impossible.",
+    regles: [
+      {
+        regla: "Deducció en present",
+        detall:
+          "Usem 'must/can't + infinitiu' per a situacions actuals (You've been working all day, you must be tired).",
+      },
+      {
+        regla: "Deducció en passat",
+        detall:
+          "Usem 'must/can't + have + participi' per a deduccions sobre el passat (I lost my glove, I must have dropped it).",
+      },
+      {
+        regla: "Can't vs Couldn't",
+        detall:
+          "En deduccions de passat, 'can't have done' i 'couldn't have done' són sovint intercanviables.",
+      },
+      {
+        regla: "Continuous",
+        detall:
+          "També podem usar la forma contínua si la deducció és sobre una acció en curs (They're not at home, they must be working).",
+      },
+    ],
+    exemples: [
+      {
+        eng: "The phone rang eight times, but she didn't answer. She must have been asleep.",
+        cat: "El telèfon va sonar vuit vegades però no va respondre. Devia estar adormida.",
+      },
+      {
+        eng: "You've just had lunch. You can't be hungry already.",
+        cat: "Acabes de dinar. No és possible que ja tinguis gana.",
+      },
+    ],
+    consell_habit:
+      "Recorda que en català sovint traduïm aquest 'must' de deducció com a 'deure + infinitiu' (Deu estar cansat).",
+  },
+  {
+    id: 29,
+    titol: "May and Might (1)",
+    explicacio:
+      "Utilitzem 'may' o 'might' per dir que quelcom és possible ara o en el futur. Tots dos tenen el mateix significat de 'potser'.",
+    regles: [
+      {
+        regla: "Possibilitat Present/Futur",
+        detall:
+          "Usem 'may/might + infinitiu' (It may be true = Potser és cert). 'Might' és una mica més incert que 'may'.",
+      },
+      {
+        regla: "Forma Negativa",
+        detall:
+          "La negativa és 'may not' o 'might not'. Compte: 'couldn't' (impossible) és diferent a 'might not' (potser no).",
+      },
+      {
+        regla: "Possibilitat en Passat",
+        detall:
+          "Per al passat usem 'may/might + have + participi' (She might have forgotten = Potser s'ha oblidat).",
+      },
+      {
+        regla: "May be vs Maybe",
+        detall:
+          "'May be' són dues paraules (verb), mentre que 'Maybe' és una sola paraula (adverbi) que sol anar al principi.",
+      },
+    ],
+    exemples: [
+      { eng: "It may be true. / It might be true.", cat: "Potser és veritat." },
+      {
+        eng: "She might not have known about the meeting.",
+        cat: "Potser ella no sabia res de la reunió.",
+      },
+      {
+        eng: "I couldn't have left my bag in the shop. (I'm sure I didn't)",
+        cat: "És impossible que hagi deixat la bossa a la botiga.",
+      },
+    ],
+    consell_habit:
+      "Quan vulguis dir 'potser' acompanyat d'una acció, recorda que 'might' és l'opció més segura i comuna en anglès parlat.",
+  },
+  {
+    id: 30,
+    titol: "May and Might (2)",
+    explicacio:
+      "Aprofundiment en l'ús de 'may' i 'might' per a plans futurs i l'expressió 'might as well'.",
+    regles: [
+      {
+        regla: "Might per al futur",
+        detall:
+          "Usem 'may' o 'might' per a accions futures que no són segures (I might go to Ireland = Potser aniré a Irlanda).",
+      },
+      {
+        regla: "Might vs Will",
+        detall: "Comparem: 'I'll go' (segur) vs 'I might go' (possible).",
+      },
+      {
+        regla: "May/Might be able to",
+        detall:
+          "Per parlar de possibilitat d'habilitat futura (I might be able to help you = Potser et podré ajudar).",
+      },
+      {
+        regla: "Might as well",
+        detall:
+          "S'utilitza per dir que hauríem de fer una cosa perquè no hi ha una alternativa millor o no hi ha res a perdre (We might as well walk = Val més que anem caminant/Ja podem anar caminant).",
+      },
+    ],
+    exemples: [
+      {
+        eng: "I might not come to the party.",
+        cat: "Potser no vindré a la festa.",
+      },
+      {
+        eng: "We may have to pay more later.",
+        cat: "Potser haurem de pagar més tard.",
+      },
+      {
+        eng: "The bus is so slow. We might as well walk.",
+        cat: "L'autobús és tan lent. Val més que anem a peu.",
+      },
+    ],
+    consell_habit:
+      "L'expressió 'might as well' és perfecta per a situacions on una opció no és ideal, però és la millor que tenim en aquell moment.",
+  },
 ];

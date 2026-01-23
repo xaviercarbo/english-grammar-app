@@ -80,12 +80,20 @@
             onclick="toggleTeoria()"
             style="cursor: pointer"
           >
-            <div class="teoria-header-info">
+            <div
+              class="teoria-header-info"
+              style="display: flex; align-items: center; width: 100%"
+            >
               <span class="theory-badge">Theory & Habits</span>
+
               <h2
                 id="teoria-titol"
-                style="display: inline-block; margin-left: 10px"
+                style="margin-left: 15px; flex-grow: 1"
               ></h2>
+
+              <span id="daily-counter" class="daily-badge"
+                >🔥 Avui: <strong id="count-val">0</strong></span
+              >
             </div>
             <span id="teoria-arrow" class="arrow-icon">▼</span>
           </div>

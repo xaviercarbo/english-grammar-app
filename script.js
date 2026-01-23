@@ -5,7 +5,24 @@ window.onload = () => {
   carregarMenu();
   actualitzarProgresGlobal();
   comprovarRepasDiari();
+  // Afegim la càrrega del comptador diari
+  mostrarComptadorDiari();
 };
+
+// Funció per mostrar el valor guardat al counter-badge
+function mostrarComptadorDiari() {
+  const avui = new Date().toLocaleDateString();
+  const dades = JSON.parse(localStorage.getItem("userActivity"));
+  const badgeVal = document.getElementById("count-val");
+
+  if (badgeVal) {
+    if (dades && dades.data === avui) {
+      badgeVal.innerText = dades.total;
+    } else {
+      badgeVal.innerText = "0";
+    }
+  }
+}
 
 function carregarMenu() {
   const menu = document.getElementById("menu-unitats");
@@ -218,6 +235,7 @@ function validar(exId) {
 
   // IMPACTE VISUAL: Només actualitzem la targeta específica
   actualitzarTargetaEx(exId, ex);
+  actualitzarComptadorDiari();
 }
 
 function comprovarRepasDiari() {
@@ -767,4 +785,22 @@ function actualitzarTargetaEx(exId, ex) {
     const bloqueigHtml = `<div class="info-bloqueig"><p>🔒 Bloquejada fins al: <strong>${dRepas.toLocaleDateString()}</strong></p></div>`;
     btn.outerHTML = bloqueigHtml;
   }
+}
+
+function actualitzarComptadorDiari() {
+  const avui = new Date().toLocaleDateString();
+  let dadesComptador = JSON.parse(localStorage.getItem("userActivity")) || {
+    data: avui,
+    count: 0,
+  };
+
+  // Si ha canviat de dia, reiniciem
+  if (dadesComptador.data !== avui) {
+    dadesComptador = { data: avui, count: 1 };
+  } else {
+    dadesComptador.count++;
+  }
+
+  localStorage.setItem("userActivity", JSON.stringify(dadesComptador));
+  document.getElementById("count-val").innerText = dadesComptador.count;
 }

@@ -988,3 +988,209 @@ body {
   font-style: italic;
   border: 1px dashed #ccc !important;
 }
+/* Targeta d'exercici modernitzada */
+.card {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 25px;
+  overflow: hidden;
+  background: #fff;
+}
+
+/* Capçalera amb colors segons la numeració */
+.card-header {
+  background: #4a90e2; /* Color per defecte */
+  color: white;
+  font-weight: bold;
+  padding: 15px 20px;
+  border: none;
+  font-size: 1.2rem;
+}
+
+/* Colors dinàmics per unitats (Exemple) */
+.unit-25 .card-header {
+  background: #563d7c;
+} /* Lila */
+.unit-26 .card-header {
+  background: #28a745;
+} /* Verd */
+.unit-27 .card-header {
+  background: #e83e8c;
+} /* Rosa */
+.unit-28 .card-header {
+  background: #fd7e14;
+} /* Taronja */
+
+/* Botó Validar i Guardar modern */
+.btn-validar {
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.btn-validar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(110, 142, 251, 0.4);
+}
+
+/* Barra de Teoria Flotant */
+.teoria-bar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(5px);
+  border-bottom: 2px solid #eee;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.counter-badge {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: #495057;
+}
+
+/* Badge del comptador diari */
+.daily-badge {
+  background: #fff3e0;
+  color: #ef6c00;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-left: 10px;
+  border: 1px solid #ffe0b2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Millora de les targetes d'activitat (look and feel llibre) */
+.fill-in-card,
+.matching-card {
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 8px 24px rgba(149, 157, 165, 0.2);
+  padding: 25px;
+  background: #ffffff;
+  margin-bottom: 30px;
+}
+
+/* Botó Validar i Guardar: Més gran i modern */
+.btn-validar-guardar {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin: 30px auto;
+  padding: 18px 30px;
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+}
+
+.btn-validar-guardar:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+  background: linear-gradient(135deg, #0088ff 0%, #0066cc 100%);
+}
+
+/* Colors dinàmics per Unitat (CSS Variables) */
+.unit-25 .theory-badge {
+  background-color: #563d7c;
+} /* Lila */
+.unit-28 .theory-badge {
+  background-color: #d9534f;
+} /* Vermell */
+.unit-29 .theory-badge {
+  background-color: #5bc0de;
+} /* Blau Cel */
+.unit-30 .theory-badge {
+  background-color: #f0ad4e;
+} /* Taronja */
+
+/* Botó Validar i Guardar modernitzat */
+.btn-validar-guardar {
+  display: block;
+  width: 90%; /* Quasi tota l'amplada de la targeta */
+  max-width: 500px;
+  margin: 25px auto;
+  padding: 20px 40px;
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  color: white;
+  border: none;
+  border-radius: 15px; /* Cantonades més arrodonides */
+  font-size: 1.3rem; /* Més gran */
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-validar-guardar:hover {
+  transform: scale(1.03); /* Creix una mica en passar el ratolí */
+  box-shadow: 0 10px 20px rgba(74, 144, 226, 0.4);
+  background: linear-gradient(135deg, #5da2f3 0%, #4a90e2 100%);
+}
+
+.btn-validar-guardar:active {
+  transform: scale(0.98); /* Efecte de prémer */
+}
+
+/* Contenidor de la capçalera per a que tot s'alineï bé */
+.teoria-header-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Això empeny el comptador a la dreta */
+}
+
+/* Millora del Badge diari a la dreta */
+.daily-badge {
+  background: rgba(255, 255, 255, 0.9); /* Més integrat amb la barra */
+  color: #ef6c00;
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  white-space: nowrap; /* Evita que el text es talli */
+  border: 1px solid rgba(239, 108, 0, 0.2);
+  margin-right: 10px;
+}
+
+/* Colors de les Unitats (Adaptat al blau fosc/lila del llibre) */
+.unit-25 .theory-badge {
+  background-color: #2e3b82;
+} /* Blau fosc Unit 25 */
+.unit-26 .theory-badge {
+  background-color: #2e3b82;
+} /* Unit 26 */
+.unit-27 .theory-badge {
+  background-color: #2e3b82;
+} /* Unit 27 */
+.unit-28 .theory-badge {
+  background-color: #2e3b82;
+} /* Unit 28 */
