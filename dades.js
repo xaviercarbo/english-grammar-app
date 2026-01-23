@@ -4034,5 +4034,1388 @@ const dadesApp = {
         },
       ],
     },
+    // Bloc --- Future ---
+    {
+      id: "Future",
+      titol: "Future",
+      unitats: [
+        {
+          id: 19,
+          nom: "Present tenses (I am doing / I do) for the future",
+          exercicis: [
+            {
+              id: "19.1",
+              titol: "19.1 Ask Anna about her holiday plans",
+              imatge: "img/exercici19.1.jpg",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "(where / go?) _____",
+                  solucions: ["Where are you going?", "Where are you going"],
+                },
+                {
+                  id: 2,
+                  text: "(how long / go for?) _____",
+                  solucions: [
+                    "How long are you going for?",
+                    "How long are you going for",
+                  ],
+                },
+                {
+                  id: 3,
+                  text: "(when / leave?) _____",
+                  solucions: ["When are you leaving?", "When are you leaving"],
+                },
+                {
+                  id: 4,
+                  text: "(go / alone?) _____",
+                  solucions: ["Are you going alone?", "Are you going alone"],
+                },
+                {
+                  id: 5,
+                  text: "(travel / by car?) _____",
+                  solucions: [
+                    "Are you travelling by car?",
+                    "Are you traveling by car?",
+                  ],
+                },
+                {
+                  id: 6,
+                  text: "(where / stay?) _____",
+                  solucions: [
+                    "Where are you staying?",
+                    "Where are you staying",
+                  ],
+                },
+              ],
+            },
+            {
+              id: "19.2",
+              titol: "19.2 Complete the sentences",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "Steve _____ (not / play) football on Saturday.",
+                  solucions: ["isn't playing", "is not playing"],
+                },
+                {
+                  id: 2,
+                  text: "_____ (We / have) a party next week.",
+                  solucions: ["We're having", "We are having"],
+                },
+                {
+                  id: 3,
+                  text: "_____ (I / not / work) tomorrow.",
+                  solucions: ["I'm not working", "I am not working"],
+                },
+                {
+                  id: 4,
+                  text: "_____ (I / leave) now. I’ve come to say goodbye.",
+                  solucions: ["I'm leaving", "I am leaving"],
+                },
+                {
+                  id: 5,
+                  text: "What time _____ (you / go) out this evening?",
+                  solucions: ["are you going"],
+                },
+                {
+                  id: 6,
+                  text: "_____ (Laura / not / come) to the party tomorrow.",
+                  solucions: [
+                    "Laura isn't coming",
+                    "Laura's not coming",
+                    "Laura is not coming",
+                  ],
+                },
+                {
+                  id: 7,
+                  text: "I love New York. _____ (I / go) there soon.",
+                  solucions: ["I'm going", "I am going"],
+                },
+                {
+                  id: 8,
+                  text: "Ben can't meet us on Monday. _____ (He / work) late.",
+                  solucions: ["He's working", "He is working"],
+                },
+              ],
+            },
+            {
+              id: "19.4",
+              titol: "19.4 Present continuous or present simple",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "b: Yes, I’m coming _____ (I / come).",
+                  solucions: ["I'm coming", "I am coming"],
+                },
+                {
+                  id: 2,
+                  text: "a: _____ (you / go) to Sam’s party on Saturday?",
+                  solucions: ["Are you going"],
+                },
+                {
+                  id: 3,
+                  text: "b: Not yet, but _____ (he / move) soon.",
+                  solucions: ["he's moving", "he is moving"],
+                },
+                {
+                  id: 4,
+                  text: "a: _____ (I / go) to a concert tonight.",
+                  solucions: ["I'm going", "I am going"],
+                },
+                {
+                  id: 4.1,
+                  text: "b: That's nice. What time _____ (it / start)?",
+                  solucions: ["does it start"],
+                },
+                {
+                  id: 5,
+                  text: "b: No, but _____ (we / meet) for lunch next week.",
+                  solucions: ["we're meeting", "we are meeting"],
+                },
+                {
+                  id: 6,
+                  text: "a: _____ (you / do) anything tomorrow morning?",
+                  solucions: ["Are you doing"],
+                },
+                {
+                  id: 7,
+                  text: "a: When _____ (this term / end)?",
+                  solucions: ["does this term end"],
+                },
+                {
+                  id: 7.1,
+                  text: "b: Next Friday. And next term _____ (start) four weeks after.",
+                  solucions: ["starts"],
+                },
+                {
+                  id: 8,
+                  text: "a: _____ (We / go) to a wedding at the weekend.",
+                  solucions: ["We're going", "We are going"],
+                },
+                {
+                  id: 8.1,
+                  text: "b: Really? _____ (Who / get) married?",
+                  solucions: ["Who's getting", "Who is getting"],
+                },
+                {
+                  id: 9,
+                  text: "a: Football on TV later. _____ (you / watch) it?",
+                  solucions: ["Are you watching"],
+                },
+                {
+                  id: 10,
+                  text: "b: It _____ (leave) at 9.35...",
+                  solucions: ["leaves"],
+                },
+                {
+                  id: 10.1,
+                  text: "...and _____ (arrive) at 12.47.",
+                  solucions: ["arrives"],
+                },
+                {
+                  id: 11,
+                  text: "b: _____ (It / finish) next week.",
+                  solucions: ["It finishes"],
+                },
+                {
+                  id: 12,
+                  text: "b: No, you can have it. _____ (I / not / use) it.",
+                  solucions: ["I'm not using", "I am not using"],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 20,
+          nom: "I'm going to (do)",
+          exercicis: [
+            {
+              id: "20.1",
+              titol: "20.1 Write questions with going to",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "(what / do?) _____",
+                  solucions: [
+                    "What are you going to do?",
+                    "What are you going to do with it?",
+                  ],
+                },
+                {
+                  id: 2,
+                  text: "(what / wear?) _____",
+                  solucions: ["What are you going to wear?"],
+                },
+                {
+                  id: 3,
+                  text: "(where / put?) _____",
+                  solucions: [
+                    "Where are you going to put it?",
+                    "Where are you going to put?",
+                  ],
+                },
+                {
+                  id: 4,
+                  text: "(who / invite?) _____",
+                  solucions: ["Who are you going to invite?"],
+                },
+                {
+                  id: 5,
+                  text: "(how / cook?) _____",
+                  solucions: [
+                    "How are you going to cook it?",
+                    "How are you going to cook?",
+                  ],
+                },
+              ],
+            },
+            {
+              id: "20.2",
+              titol: "20.2 I'm going to... / I'm not going to...",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "This cheese smells horrible. _____ it.",
+                  solucions: ["I'm not going to eat", "I am not going to eat"],
+                },
+                {
+                  id: 2,
+                  text: "From now on _____ harder.",
+                  solucions: ["I'm going to try", "I am going to try"],
+                },
+                {
+                  id: 3,
+                  text: "I don't know what _____.",
+                  solucions: ["I'm going to say", "I am going to say"],
+                },
+                {
+                  id: 4,
+                  text: "'The car is very dirty.' 'I know. _____ it.'",
+                  solucions: ["I'm going to wash", "I am going to wash"],
+                },
+                {
+                  id: 5,
+                  text: "I've been offered a job, but _____ it.",
+                  solucions: [
+                    "I'm not going to accept",
+                    "I am not going to accept",
+                  ],
+                },
+                {
+                  id: 6,
+                  text: "_____ a language, but I haven't decided yet.",
+                  solucions: ["I'm going to learn", "I am going to learn"],
+                },
+                {
+                  id: 7,
+                  text: "One day _____ in a marathon.",
+                  solucions: ["I'm going to run", "I am going to run"],
+                },
+                {
+                  id: 8,
+                  text: "The food is awful. _____. ",
+                  solucions: [
+                    "I'm going to complain",
+                    "I am going to complain",
+                  ],
+                },
+                {
+                  id: 9,
+                  text: "Ben doesn't need to know, so _____ him.",
+                  solucions: [
+                    "I'm not going to tell",
+                    "I am not going to tell",
+                  ],
+                },
+              ],
+            },
+            {
+              id: "20.3",
+              titol: "20.3 What is going to happen?",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "(rain) _____",
+                  solucions: ["It's going to rain", "It is going to rain"],
+                },
+                {
+                  id: 2,
+                  text: "(late) He _____",
+                  solucions: [
+                    "is going to be late",
+                    "he's going to be late",
+                    "is going to be",
+                  ],
+                },
+                {
+                  id: 3,
+                  text: "(sink) The boat _____",
+                  solucions: ["is going to sink"],
+                },
+                {
+                  id: 4,
+                  text: "(run out) They _____",
+                  solucions: [
+                    "are going to run out of petrol",
+                    "are going to run out",
+                  ],
+                },
+                {
+                  id: 5,
+                  text: "(cost a lot) It _____ to repair the car.",
+                  solucions: [
+                    "is going to cost a lot",
+                    "is going to cost a lot of money",
+                  ],
+                },
+              ],
+            },
+            {
+              id: "20.4",
+              titol: "20.4 Was/Were going to",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "We_____ by train, but we went by car.",
+                  solucions: ["were going to travel"],
+                },
+                {
+                  id: 2,
+                  text: "I _____ some new clothes, but I didn't have time.",
+                  solucions: ["was going to buy"],
+                },
+                {
+                  id: 3,
+                  text: "Tom and I _____ tennis, but he hurt his knee.",
+                  solucions: ["were going to play"],
+                },
+                {
+                  id: 4,
+                  text: "I _____ Jane, but I sent an email.",
+                  solucions: ["was going to phone"],
+                },
+                {
+                  id: 5,
+                  text: "I thought the exam _____ hard.",
+                  solucions: ["was going to be"],
+                },
+                {
+                  id: 6,
+                  text: "Peter _____ his job, but he decided to stay.",
+                  solucions: ["was going to give up"],
+                },
+                { id: 7, text: "What _____", solucions: ["were"] },
+                {
+                  id: 7.1,
+                  text: "you _____? (say)",
+                  solucions: ["going to say"],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 21,
+          nom: "Will/Shall 1",
+          exercicis: [
+            {
+              id: "21.1",
+              titol: "21.1 Complete the sentences with I'll + a suitable verb",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "'How are you going to get home?' 'I think _____ a taxi.'",
+                  solucions: ["I'll take", "I will take"],
+                },
+                {
+                  id: 2,
+                  text: "'It's cold in this room.' 'Is it? _____ on the heating then.'",
+                  solucions: [
+                    "I'll turn",
+                    "I'll switch",
+                    "I'll put",
+                    "I will turn",
+                  ],
+                },
+                {
+                  id: 3,
+                  text: "'Are you free next Friday?' 'Let me see. _____ my diary.'",
+                  solucions: ["I'll check", "I will check"],
+                },
+                {
+                  id: 4,
+                  text: "'Shall I do the washing-up?' 'No, it's all right. _____ it later.'",
+                  solucions: ["I'll do", "I will do"],
+                },
+                {
+                  id: 5,
+                  text: "'I don't know how to use this phone.' 'OK, _____ you.'",
+                  solucions: ["I'll show", "I will show"],
+                },
+                {
+                  id: 6,
+                  text: "'Would you like tea or coffee?' '_____ coffee, please.'",
+                  solucions: ["I'll have", "I will have"],
+                },
+                {
+                  id: 7,
+                  text: "'Are you coming with us?' 'No, I think _____ here.'",
+                  solucions: ["I'll stay", "I'll wait", "I will stay"],
+                },
+                {
+                  id: 8,
+                  text: "'Can you finish this report today?' 'Well, _____ , but I can't promise.'",
+                  solucions: ["I'll try", "I will try"],
+                },
+              ],
+            },
+            {
+              id: "21.2",
+              titol:
+                "21.2 Write sentences with I think I'll... or I don't think I'll...",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "It's cold with the window open. _____ it.",
+                  solucions: ["I think I'll close", "I think I will close"],
+                },
+                {
+                  id: 2,
+                  text: "I'm tired, so _____ . Goodnight!",
+                  solucions: [
+                    "I think I'll go to bed",
+                    "I think I will go to bed",
+                  ],
+                },
+                {
+                  id: 3,
+                  text: "It's a lovely morning. _____ for a walk.",
+                  solucions: ["I think I'll go", "I think I will go"],
+                },
+                {
+                  id: 4,
+                  text: "I don't feel hungry any more. _____ lunch.",
+                  solucions: [
+                    "I don't think I'll have",
+                    "I do not think I will have",
+                    "I don't think I'll have any",
+                  ],
+                },
+                {
+                  id: 5,
+                  text: "I've got a lot to do, so _____ swimming today.",
+                  solucions: [
+                    "I don't think I'll go",
+                    "I do not think I will go",
+                  ],
+                },
+              ],
+            },
+            {
+              id: "21.3",
+              titol: "21.3 Which is correct? (Write the correct option)",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "'Did you call Max?' 'Oh no, I forgot. _____ him now.' (I'll call / I call)",
+                  solucions: ["I'll call"],
+                },
+                {
+                  id: 2,
+                  text: "I can't meet you tomorrow. _____ tennis. (I'm playing / I'll play)",
+                  solucions: ["I'm playing"],
+                },
+                {
+                  id: 3,
+                  text: "'_____ you outside the hotel at 10.30, OK?' (I meet / I'll meet)",
+                  solucions: ["I'll meet"],
+                },
+                {
+                  id: 4,
+                  text: "'Please don't go yet.' 'OK, _____ a little longer.' (I'm staying / I'll stay)",
+                  solucions: ["I'll stay"],
+                },
+                {
+                  id: 5,
+                  text: "_____ a party next Saturday. I hope you can come. (I'm having / I'll have)",
+                  solucions: ["I'm having"],
+                },
+                {
+                  id: 6,
+                  text: "'Remember to lock the door.' 'OK, _____ .' (I don't forget / I won't forget)",
+                  solucions: ["I won't forget"],
+                },
+                {
+                  id: 7,
+                  text: "'Do you have plans for the weekend?' 'Yes, _____ to a wedding.' (we're going / we'll go)",
+                  solucions: ["we're going"],
+                },
+                {
+                  id: 8,
+                  text: "_____ anything tomorrow evening? (Are you doing / Will you do)",
+                  solucions: ["Are you doing"],
+                },
+                {
+                  id: 11,
+                  text: "I asked Sue what happened, but she _____ me. (doesn't tell / won't tell)",
+                  solucions: ["won't tell"],
+                },
+                {
+                  id: 12,
+                  text: "I don't know if I can win, but _____ my best. (I'm doing / I'll do)",
+                  solucions: ["I'll do"],
+                },
+              ],
+            },
+            {
+              id: "21.4",
+              titol: "21.4 Write sentences with Shall I...? or Shall we...?",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "You say: What _____ ?",
+                  solucions: [
+                    "shall we do this evening?",
+                    "shall we do this evening",
+                  ],
+                },
+                {
+                  id: 2,
+                  text: "You ask your friend: Where _____ ?",
+                  solucions: ["shall we go on holiday?", "shall we go?"],
+                },
+                {
+                  id: 3,
+                  text: "You ask a friend for advice: _____ ?",
+                  solucions: ["Shall I buy it?"],
+                },
+                {
+                  id: 4,
+                  text: "You ask your friend: _____ or _____ ?",
+                  solucions: ["Shall we get a taxi", "shall we walk?"],
+                },
+                {
+                  id: 5,
+                  text: "You ask a friend: What _____ Helen?",
+                  solucions: ["shall I give", "shall I buy", "shall I get"],
+                },
+                {
+                  id: 6,
+                  text: "You say: What time _____ ?",
+                  solucions: ["shall we meet?"],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 22,
+          nom: "Will/Shall 2",
+          exercicis: [
+            {
+              id: "22.1",
+              titol: "22.1 Put in will ('ll) or won't",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "Can you wait for me? I _____ be long.",
+                  solucions: ["won't"],
+                },
+                {
+                  id: 2,
+                  text: "There's no point in asking Amanda for advice. She _____ know what to do.",
+                  solucions: ["won't"],
+                },
+                {
+                  id: 3,
+                  text: "I'm glad I'm meeting Emma tomorrow. It _____ be good to see her again.",
+                  solucions: ["'ll", "will"],
+                },
+                {
+                  id: 4,
+                  text: "I'm sorry about what happened yesterday. It _____ happen again.",
+                  solucions: ["won't"],
+                },
+                {
+                  id: 5,
+                  text: "You don't need to take an umbrella with you. I don't think it _____ rain.",
+                  solucions: ["'ll", "will"],
+                },
+                {
+                  id: 6,
+                  text: "I've got some incredible news! You _____ believe it.",
+                  solucions: ["won't"],
+                },
+              ],
+            },
+            {
+              id: "22.2",
+              titol: "22.2 Complete the sentences using will ('ll).",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "Don't worry about your exam. I'm sure _____ .",
+                  solucions: ["you'll pass", "you will pass"],
+                },
+                {
+                  id: 2,
+                  text: "Why don't you try on this jacket? _____ nice on you.",
+                  solucions: ["It will look", "It'll look"],
+                },
+                {
+                  id: 3,
+                  text: "You must meet Max sometime. I think _____ him.",
+                  solucions: ["you'll like", "you will like"],
+                },
+                {
+                  id: 4,
+                  text: "It's a very nice hotel. _____ your stay there.",
+                  solucions: ["You'll enjoy", "You will enjoy"],
+                },
+                {
+                  id: 5,
+                  text: "It's raining hard. Don't go out. _____ very wet.",
+                  solucions: ["You'll get", "You will get"],
+                },
+                {
+                  id: 6,
+                  text: "Do you think _____ longer in the future?",
+                  solucions: ["people will live"],
+                },
+                {
+                  id: 7,
+                  text: "Goodbye! I'm sure _____ again before long.",
+                  solucions: ["we'll meet", "we will meet"],
+                },
+                {
+                  id: 8,
+                  text: "I've invited Anna to the party, but I don't think _____ .",
+                  solucions: ["she'll come", "she will come"],
+                },
+                {
+                  id: 9,
+                  text: "You can borrow Amy's umbrella. I don't think _____ .",
+                  solucions: ["she'll mind", "she will mind"],
+                },
+                {
+                  id: 10,
+                  text: "It takes me an hour to get to work. When the new road is finished, _____ much quicker.",
+                  solucions: ["it will be", "it'll be"],
+                },
+              ],
+            },
+            {
+              id: "22.3",
+              titol: "22.3 Write questions using do you think ... will ... ?",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "I've bought this picture for Karen. _____ ?",
+                  solucions: [
+                    "Do you think she'll like it",
+                    "Do you think she will like it",
+                  ],
+                },
+                {
+                  id: 2,
+                  text: "The weather doesn't look very good. _____ ?",
+                  solucions: ["Do you think it will rain"],
+                },
+                {
+                  id: 3,
+                  text: "The meeting is still going on. When _____ ?",
+                  solucions: ["do you think it will end"],
+                },
+                {
+                  id: 4,
+                  text: "My car needs to be repaired. How much _____ ?",
+                  solucions: ["do you think it will cost"],
+                },
+                {
+                  id: 5,
+                  text: "Sally and David are in love. _____ ?",
+                  solucions: [
+                    "Do you think they'll get married",
+                    "Do you think they will get married",
+                  ],
+                },
+                {
+                  id: 6,
+                  text: "I'm going out now. What time _____ ?",
+                  solucions: [
+                    "do you think you'll be back",
+                    "do you think you will be back",
+                  ],
+                },
+                {
+                  id: 7,
+                  text: "The future situation is uncertain. What _____ ?",
+                  solucions: ["do you think will happen"],
+                },
+              ],
+            },
+            {
+              id: "22.4",
+              titol:
+                "22.4 Write sentences about yourself (I'll be... / I'll probably be...)",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "(next Monday evening at 7.45) _____",
+                  solucions: [
+                    "I'll probably be at home",
+                    "I will probably be at home",
+                  ],
+                },
+                {
+                  id: 2,
+                  text: "(at 3 am tomorrow) _____",
+                  solucions: ["I'll be in bed", "I will be in bed"],
+                },
+                {
+                  id: 3,
+                  text: "(at 10.30 tomorrow morning) _____",
+                  solucions: [
+                    "I'll be at work",
+                    "I'll be at home",
+                    "I'll be at school",
+                  ],
+                },
+                {
+                  id: 4,
+                  text: "(next Friday afternoon at 4.15) _____",
+                  solucions: ["I'll probably be at home", "I'll be working"],
+                },
+                {
+                  id: 5,
+                  text: "(this time next year) _____",
+                  solucions: ["I don't know where I'll be"],
+                },
+              ],
+            },
+            {
+              id: "22.5",
+              titol: "22.5 Which is better?",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "Lisa isn't free on Saturday. _____ (She'll work / She's working)",
+                  solucions: ["She's working"],
+                },
+                {
+                  id: 2,
+                  text: "It was an amazing experience. _____ (I never forget it / I'll never forget it)",
+                  solucions: ["I'll never forget it"],
+                },
+                {
+                  id: 3,
+                  text: "Something very funny happened. _____ when I tell you. (You're laughing / You'll laugh)",
+                  solucions: ["You'll laugh"],
+                },
+                {
+                  id: 4,
+                  text: "_____ to a party tomorrow night. Would you like to come? (I'll go / I'm going)",
+                  solucions: ["I'm going"],
+                },
+                {
+                  id: 5,
+                  text: "Who do you think _____ the game tomorrow? (will win / is winning)",
+                  solucions: ["will win"],
+                },
+                {
+                  id: 6,
+                  text: "I can't meet you this evening. A friend of mine _____ to see me. (will come / is coming)",
+                  solucions: ["is coming"],
+                },
+                {
+                  id: 7,
+                  text: "Don't be afraid of the dog. _____ you. (It won't hurt / It isn't hurting)",
+                  solucions: ["It won't hurt"],
+                },
+                {
+                  id: 8,
+                  text: "What _____ if I press this button? (happens / will happen)",
+                  solucions: ["will happen"],
+                },
+                {
+                  id: 9,
+                  text: "Have you decided where to go for your holidays? Yes, _____ to Italy. (we'll go / we're going)",
+                  solucions: ["we're going"],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 23,
+          nom: "I will and I'm going to",
+          exercicis: [
+            {
+              id: "23.1",
+              titol:
+                "23.1 Complete the sentences using will ('ll) or (be) going to",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "A: Why are you turning on the TV? B: _____ the news. (I / watch)",
+                  solucions: ["I'm going to watch"],
+                },
+                {
+                  id: 2,
+                  text: "A: I forgot my wallet. B: Not to worry. _____ you some. (I / lend)",
+                  solucions: ["I'll lend", "I will lend"],
+                },
+                {
+                  id: 3,
+                  text: "A: Why are you filling that bucket with water? B: _____ the car. (I / wash)",
+                  solucions: ["I'm going to wash"],
+                },
+                {
+                  id: 4,
+                  text: "A: I don't know how to use the washing machine. B: It's easy. _____ you. (I / show)",
+                  solucions: ["I'll show", "I will show"],
+                },
+                {
+                  id: 5,
+                  text: "A: I've decided to paint this room. B: That's nice. What colour _____ it? (you / paint)",
+                  solucions: ["are you going to paint"],
+                },
+                {
+                  id: 6,
+                  text: "A: Where are you going? Are you going shopping? B: Yes, _____ some things for dinner. (I / buy)",
+                  solucions: ["I'm going to buy"],
+                },
+                {
+                  id: 7,
+                  text: "A: What would you like to eat? B: _____ a pizza, please. (I / have)",
+                  solucions: ["I'll have", "I will have"],
+                },
+                {
+                  id: 8,
+                  text: "A: This food doesn't taste very good, does it? B: No, it's horrible. _____ it. (I / not / finish)",
+                  solucions: [
+                    "I'm not going to finish",
+                    "I am not going to finish",
+                  ],
+                },
+                {
+                  id: 9,
+                  text: "A: Tom is starting an evening class next month. B: Is he? What _____? (he / study)",
+                  solucions: ["is he going to study", "he's going to study"],
+                },
+                {
+                  id: 10,
+                  text: "A: Did you call Lisa? B: Oh, no. I completely forgot. _____ her now. (I / call)",
+                  solucions: ["I'll call", "I will call"],
+                },
+                {
+                  id: 11,
+                  text: "A: Has Dan decided what to do when he leaves school? B: Yes. First _____ a holiday for a few weeks. (he / have) Then _____ a management training course. (he / do)",
+                  solucions: [
+                    "he's going to have",
+                    "he's going to do",
+                    "he is going to have",
+                    "he is going to do",
+                  ],
+                },
+              ],
+            },
+            {
+              id: "23.2",
+              titol: "23.2 Read the situations and complete the sentences",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "You want some coffee. You go to the kitchen. You say: _____ some coffee. Would you like some?",
+                  solucions: ["I'm going to make", "I am going to make"],
+                },
+                {
+                  id: 2,
+                  text: "You suggest a time and place to meet. You say: _____ you at 10.30 in the hotel lobby, OK?",
+                  solucions: ["I'll see", "I will see"],
+                },
+                {
+                  id: 3,
+                  text: "You have decided to sell your car. You say: I don't need my car any more. _____ it.",
+                  solucions: ["I'm going to sell", "I am going to sell"],
+                },
+                {
+                  id: 4,
+                  text: "Your friend is worried about a lost licence. You say: Don't worry. I'm sure _____ it.",
+                  solucions: [
+                    "you'll find",
+                    "you will find",
+                    "you're going to find",
+                  ],
+                },
+                {
+                  id: 5,
+                  text: "A: This camera is broken. You say: _____ it away.",
+                  solucions: ["I'm going to throw", "I am going to throw"],
+                },
+                {
+                  id: 5.1,
+                  text: "B: He says: Don't throw it away! _____ it.",
+                  solucions: ["I'll have", "I will have"],
+                },
+                {
+                  id: 6,
+                  text: "A: Amy offers to take Joe to the airport. Amy says: Don't worry about getting to the airport, Joe. _____ you.",
+                  solucions: ["I'll take", "I will take"],
+                },
+                {
+                  id: 6.1,
+                  text: "B: Later, Paul offers to take Joe. Joe says: Thanks, Paul, but _____ me.",
+                  solucions: ["Amy is going to take", "Amy is taking"],
+                },
+              ],
+            },
+            {
+              id: "23.3",
+              titol: "23.3 Which goes with which?",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "Why don't you come to the party with us? (f)",
+                  solucions: ["f", "You'll enjoy it"],
+                },
+                {
+                  id: 2,
+                  text: "That ceiling looks dangerous.",
+                  solucions: ["d", "It looks as if it's going to fall down"],
+                },
+                {
+                  id: 3,
+                  text: "He's looking very tired.",
+                  solucions: ["h", "I think he's going to fall asleep"],
+                },
+                {
+                  id: 4,
+                  text: "This table is too big.",
+                  solucions: ["g", "I don't think it will fit in the room"],
+                },
+                {
+                  id: 5,
+                  text: "The weather forecast is good.",
+                  solucions: ["c", "It's going to be a nice day"],
+                },
+                {
+                  id: 6,
+                  text: "Jack is very determined.",
+                  solucions: ["a", "He'll get what he wants"],
+                },
+                {
+                  id: 7,
+                  text: "They are building a new skyscraper here.",
+                  solucions: ["e", "It's going to be 200 metres high"],
+                },
+                {
+                  id: 8,
+                  text: "I haven't seen Ben for ages.",
+                  solucions: ["b", "He probably won't remember me"],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 24,
+          nom: "Will be doing and Will have done",
+          exercicis: [
+            {
+              id: "24.1",
+              titol: "24.1 Read about Andy. Which sentences are true?",
+              imatge: "img/exercici24.1.jpg",
+              instruccions:
+                "Andy goes to work every day. He leaves home at 8 o’clock and arrives at work at about 8.45. He starts work immediately and continues until 12.30 when he has lunch (which takes about half an hour). He starts work again at 1.15 and goes home at exactly 4.30. Every day he follows the same routine and tomorrow will be no exception.",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "At 7.45: (a) he'll be leaving the house (b) he'll have left the house (c) he'll be at home (d) he'll be having breakfast _____",
+                  solucions: ["c and d are true", "c and d"],
+                },
+                {
+                  id: 2,
+                  text: "At 8.15: (a) he'll be leaving the house (b) he'll have left the house (c) he'll have arrived at work (d) he'll be arriving at work _____",
+                  solucions: ["b is true", "b"],
+                },
+                {
+                  id: 3,
+                  text: "At 9.15: (a) he'll be working (b) he'll start work (c) he'll have started work (d) he'll be arriving at work_____",
+                  solucions: ["a and c are true", "a and c"],
+                },
+                {
+                  id: 4,
+                  text: "At 12.45: (a) he'll have lunch (b) he'll be having lunch (c) he'll have finished his lunch (d) he'll have started his lunch_____",
+                  solucions: ["b and d are true", "b and d"],
+                },
+                {
+                  id: 5,
+                  text: "At 4 o'clock: (a) he'll have finished work (b) he'll finish work (c) he'll be working (d) he won't have finished work_____",
+                  solucions: ["c and d are true", "c and d"],
+                },
+                {
+                  id: 6,
+                  text: "At 4.45: (a) he'll leave work (b) he'll be leaving work (c) he'll have left work (d) he'll have arrived home_____",
+                  solucions: ["c is true", "c"],
+                },
+              ],
+            },
+            {
+              id: "24.2",
+              titol:
+                "24.2 Complete the sentences. Choose from the box (Future Continuous)",
+              instruccions:
+                "be watching, will be landing, won’t be playing, will be starting, will you be voting, won’t be going, be going, will you be doing",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "There's an election next week. Who _____ for?",
+                  solucions: ["will you be voting"],
+                },
+                {
+                  id: 2,
+                  text: "I'll _____ shopping later. Can I get you anything?",
+                  solucions: ["be going"],
+                },
+                {
+                  id: 3,
+                  text: "Emily is not well, so she _____ volleyball tomorrow.",
+                  solucions: ["won't be playing", "will not be playing"],
+                },
+                {
+                  id: 4,
+                  text: "Little Emma _____ school soon. She's growing up fast.",
+                  solucions: ["will be starting"],
+                },
+                {
+                  id: 5,
+                  text: "The match is on TV tonight. Will you _____ it?",
+                  solucions: ["be watching"],
+                },
+                {
+                  id: 6,
+                  text: "What _____ in your new job? The same as before?",
+                  solucions: ["will you be doing"],
+                },
+                {
+                  id: 7,
+                  text: "I _____ to the wedding. I'll be away on holiday.",
+                  solucions: ["won't be going", "will not be going"],
+                },
+                {
+                  id: 8,
+                  text: "Please fasten your seat belts. The plane _____ in ten minutes.",
+                  solucions: ["will be landing"],
+                },
+              ],
+            },
+            {
+              id: "24.3",
+              titol:
+                "24.3 Put the verb into the correct form: will be doing or will have done",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "Don't phone between 7 and 8. _____ then. (we / eat)",
+                  solucions: ["We'll be eating", "We will be eating"],
+                },
+                {
+                  id: 2,
+                  text: "Tomorrow afternoon we're going to play tennis from 3 o'clock until 4.30. So at 4 o'clock, _____ tennis. (we / play)",
+                  solucions: ["we'll be playing", "we will be playing"],
+                },
+                {
+                  id: 3,
+                  text: "Sarah will meet you at the station. _____ for you when you arrive. (she / wait)",
+                  solucions: ["She'll be waiting", "She will be waiting"],
+                },
+                {
+                  id: 4,
+                  text: "The meeting starts at 9.30 and won't last longer than an hour. You can be sure that _____ by 11 o'clock. (it / finish)",
+                  solucions: ["it will have finished", "it will be finished"],
+                },
+                {
+                  id: 5,
+                  text: "Do you think _____ in the same place in ten years' time? (you / still / live)",
+                  solucions: [
+                    "you'll still be living",
+                    "you will still be living",
+                  ],
+                },
+                {
+                  id: 6,
+                  text: "Lisa is travelling in Europe and so far she has travelled about 1,000 miles. By the end of the trip, _____ more than 3,000 miles. (she / travel)",
+                  solucions: [
+                    "she'll have travelled",
+                    "she will have travelled",
+                  ],
+                },
+                {
+                  id: 7,
+                  text: "If you need to contact me, _____ at the Lion Hotel until Friday. (I / stay)",
+                  solucions: ["I'll be staying", "I will be staying"],
+                },
+                {
+                  id: 8,
+                  text: "Ben is on holiday and is spending his money very quickly. If he continues like this, _____ all his money before the end of his holiday. (he / spend)",
+                  solucions: ["he'll have spent", "he will have spent"],
+                },
+                {
+                  id: 9,
+                  text: "I'm fed up with my job. I hope _____ it much longer. (I / not / do)",
+                  solucions: ["I won't be doing", "I will not be doing"],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 25,
+          nom: "When I do / When I've done",
+          exercicis: [
+            {
+              id: "25.1",
+              titol: "25.1 Which is correct?",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "Don't forget to lock the door when ____ . (you go out / you'll go out)",
+                  solucions: ["you go out"],
+                },
+                {
+                  id: 2,
+                  text: "As soon as we get any more information, ____ you know. (we let / we'll let)",
+                  solucions: ["we'll let", "we will let"],
+                },
+                {
+                  id: 3,
+                  text: "I want to get to the cinema before the film ____ . (starts / will start)",
+                  solucions: ["starts"],
+                },
+                {
+                  id: 4,
+                  text: "Don't drive through a red light. Wait until ____ to green. (it changes / it will change)",
+                  solucions: ["it changes"],
+                },
+                {
+                  id: 5,
+                  text: "Sarah will be here soon. ____ some coffee when she comes. (I make / I'll make)",
+                  solucions: ["I'll make", "I will make"],
+                },
+                {
+                  id: 6,
+                  text: "I'm 20 now. I wonder where I'll be when ____ . (I'm 40 / I'll be 40)",
+                  solucions: ["I'm 40", "I am 40"],
+                },
+                {
+                  id: 7,
+                  text: "____ for you until you're ready, but don't be long. (I wait / I'll wait)",
+                  solucions: ["I'll wait", "I will wait"],
+                },
+                {
+                  id: 8,
+                  text: "Oliver is five years old. He wants to be a TV presenter when ____ . (he grows up / he'll grow up)",
+                  solucions: ["he grows up"],
+                },
+                {
+                  id: 9,
+                  text: "We could meet for coffee tomorrow morning if ____ free. (you're / you will be)",
+                  solucions: ["you're", "you are"],
+                },
+                {
+                  id: 10,
+                  text: "If the weather ____ nice tomorrow, we're going to the beach. (is / will be)",
+                  solucions: ["is"],
+                },
+                {
+                  id: 11,
+                  text: "Vicky ____ very disappointed if she doesn't get a place at university. (is / will be)",
+                  solucions: ["will be"],
+                },
+                {
+                  id: 12,
+                  text: "You'll feel better after ____ something to eat. (you've had / you'll have)",
+                  solucions: ["you've had", "you have had"],
+                },
+              ],
+            },
+            {
+              id: "25.2",
+              titol:
+                "25.2 Complete the sentences using will/won't or the present.",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "When ____ here again, you must come and see us. (you / be)",
+                  solucions: ["you are"],
+                },
+                {
+                  id: 2,
+                  text: "I want to see Sophie before ____ away next week. (she / go)",
+                  solucions: ["she goes"],
+                },
+                {
+                  id: 3,
+                  text: "Call me when ____ what time you're going to get here. (you / know)",
+                  solucions: ["you know"],
+                },
+                {
+                  id: 4,
+                  text: "There's no need to hurry. ____ for you until ____ ready. (I / wait | you / be)",
+                  solucions: ["I'll wait", "I will wait", "you're", "you are"],
+                },
+                {
+                  id: 5,
+                  text: "____ here when ____ back? (you / still / be | I / get)",
+                  solucions: ["Will you still be", "I get"],
+                },
+                {
+                  id: 6,
+                  text: "I think everything will be fine, but if ____ any problems, ____ you know. (there / be | I / let)",
+                  solucions: ["there are", "I'll let", "I will let"],
+                },
+                {
+                  id: 7,
+                  text: "Kate looks completely different now. ____ her when ____ her again. (you / not / recognise | you / see)",
+                  solucions: [
+                    "You won't recognise",
+                    "You will not recognise",
+                    "you see",
+                  ],
+                },
+                {
+                  id: 8,
+                  text: "I'm going to be away for a few days. If ____ to contact me while ____ away, you can call me. (you / need | I / be)",
+                  solucions: ["you need", "I'm", "I am"],
+                },
+              ],
+            },
+            {
+              id: "25.3",
+              titol: "Read the situations and complete the sentences",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "It's raining hard. Let's wait until ____.",
+                  solucions: ["it stops raining"],
+                },
+                {
+                  id: 2,
+                  text: "It's going to get dark soon. I'd better go now before ____.",
+                  solucions: ["it gets dark"],
+                },
+                {
+                  id: 3,
+                  text: "Mark is interested in buying your car. Let me know as soon as ____.",
+                  solucions: [
+                    "you decide",
+                    "you've decided",
+                    "you have decided",
+                  ],
+                },
+                {
+                  id: 4,
+                  text: "Your friends are going to Hong Kong. Where are you going to stay when ____?",
+                  solucions: ["you're in Hong Kong", "you go to Hong Kong"],
+                },
+                {
+                  id: 5,
+                  text: "They are going to build a new road. I think things will be better when they ____.",
+                  solucions: [
+                    "build the new road",
+                    "have built the new road",
+                    "ve built the new road",
+                  ],
+                },
+                {
+                  id: 6,
+                  text: "Someone has been rude to you. I won't speak to her until ____.",
+                  solucions: [
+                    "she apologises",
+                    "she's apologised",
+                    "she has apologised",
+                  ],
+                },
+              ],
+            },
+            {
+              id: "25.4",
+              titol: "Put in when or if",
+              tipus: "fill-in",
+              preguntes: [
+                {
+                  id: 1,
+                  text: "Don't worry ____ I'm late tonight.",
+                  solucions: ["if"],
+                },
+                {
+                  id: 2,
+                  text: "Be careful. You'll hurt yourself ____ you fall.",
+                  solucions: ["if"],
+                },
+                {
+                  id: 3,
+                  text: "I'm going shopping. ____ you want anything, I can get it for you.",
+                  solucions: ["If"],
+                },
+                {
+                  id: 4,
+                  text: "I'm going away for a few days. I'll call you ____ I get back.",
+                  solucions: ["when"],
+                },
+                {
+                  id: 5,
+                  text: "____ I don't see you tomorrow, when will I see you again?",
+                  solucions: ["If"],
+                },
+                {
+                  id: 6,
+                  text: "I'm watching a programme now. ____ it finishes, I'm going to bed.",
+                  solucions: ["When"],
+                },
+                {
+                  id: 7,
+                  text: "We can eat at home or, ____ you prefer, we can go to a restaurant.",
+                  solucions: ["if"],
+                },
+                {
+                  id: 8,
+                  text: "I hope Sarah can come to the party. It will be a shame ____ she can't come.",
+                  solucions: ["if"],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
   ],
 };

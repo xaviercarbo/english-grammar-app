@@ -670,4 +670,294 @@ const dadesTeoria = [
     consell_habit:
       "Pensa en el teu 'jo' de fa 10 anys. Digues tres coses que feies llavors i ara no: 'I used to...'",
   },
+  {
+    id: 19,
+    titol: "Present tenses for the future",
+    explicacio:
+      "Utilitzem el Present Continuous per a plans confirmats i el Present Simple per a horaris i calendaris.",
+    regles: [
+      {
+        regla: "Present Continuous",
+        detall:
+          "S'usa per a arranjaments personals ja decidits (I'm meeting a friend tomorrow).",
+      },
+      {
+        regla: "Present Simple",
+        detall:
+          "S'usa per a esdeveniments programats com transports o horaris de classes (The train leaves at 9:30).",
+      },
+      {
+        regla: "Are you doing...?",
+        detall:
+          "Preguntem pels plans de l'altra persona (What are you doing tonight?).",
+      },
+    ],
+    exemples: [
+      {
+        eng: "I'm playing tennis tomorrow.",
+        cat: "Jugaré a tennis demà (ja he reservat la pista).",
+      },
+      {
+        eng: "The film starts at 8.15.",
+        cat: "La pel·lícula comença a les 8.15 (és un horari fix).",
+      },
+    ],
+    consell_habit:
+      "Quan parlis de la teva agenda, usa el 'ing'. Si parles de transports o cinemes, usa el present normal.",
+  },
+  {
+    id: 20,
+    titol: "Future: I'm going to (do)",
+    explicacio:
+      "Utilitzem 'going to' per parlar de decisions ja preses i per fer prediccions basades en el que veiem en el present.",
+    regles: [
+      {
+        regla: "Plans i Intencions",
+        detall:
+          "S'usa quan ja hem decidit fer alguna cosa (I'm going to buy some shoes).",
+      },
+      {
+        regla: "Prediccions",
+        detall:
+          "S'usa quan hi ha evidència clara que alguna cosa passarà (Look at those clouds! It's going to rain).",
+      },
+      {
+        regla: "Was/Were going to",
+        detall:
+          "S'usa per parlar de coses que teníem intenció de fer en el passat però que finalment NO han passat.",
+      },
+    ],
+    exemples: [
+      {
+        eng: "I'm going to watch TV this evening.",
+        cat: "Miraré la tele aquest vespre (ja ho tinc decidit).",
+      },
+      {
+        eng: "I was going to phone her, but I forgot.",
+        cat: "L'anava a trucar, però me'n vaig oblidar.",
+      },
+    ],
+    consell_habit:
+      "Si veus que una cosa és inevitable (com algú caient), usa sempre 'going to', no pas 'will'.",
+  },
+  {
+    id: 21,
+    titol: "Future: Will/Shall 1",
+    explicacio:
+      "Utilitzem 'will' quan decidim fer alguna cosa en el moment de parlar i per parlar del futur en general (opinions o fets).",
+    regles: [
+      {
+        regla: "Decisions instantànies",
+        detall:
+          "Quan t'ofereixes a fer algo o decideixes algo ara mateix (I'll help you with those bags).",
+      },
+      {
+        regla: "Oferiments i Promeses",
+        detall:
+          "Per fer promeses o oferir ajuda (I won't tell anyone, I promise).",
+      },
+      {
+        regla: "Shall I? / Shall we?",
+        detall:
+          "S'usa principalment en preguntes per demanar opinió o fer suggeriments (Shall we go?).",
+      },
+    ],
+    exemples: [
+      {
+        eng: "Oh, I've left the door open. I'll go and shut it.",
+        cat: "Oh, he deixat la porta oberta. Hi aniré i la tancaré (decisió presa ara).",
+      },
+      {
+        eng: "I think Kelly will pass the exam.",
+        cat: "Crec que la Kelly passarà l'examen (opinió sobre el futur).",
+      },
+    ],
+    consell_habit:
+      "No usis 'will' per a plans que ja has organitzat abans. Usa el Present Continuous o 'going to'.",
+  },
+  {
+    id: 22,
+    titol: "Future: Will/Shall 2",
+    explicacio:
+      "Utilitzem 'will' per parlar del que sabem o creiem sobre el futur (prediccions), no per a plans ja decidits.",
+    regles: [
+      {
+        regla: "Prediccions",
+        detall:
+          "Usem 'will/won't' per predir un esdeveniment o situació futura (Joe believes Kate will pass).",
+      },
+      {
+        regla: "Expressions comunes",
+        detall:
+          "Sovint usem 'will' amb: probably, I'm sure, I think, I don't think, I wonder.",
+      },
+      {
+        regla: "I hope",
+        detall:
+          "Després de 'I hope', generalment usem el present (I hope it doesn't rain tomorrow).",
+      },
+      {
+        regla: "Will vs. Now",
+        detall:
+          "A vegades usem 'will' per parlar de situacions actuals que suposem (Don't phone Amy now. She'll be busy).",
+      },
+    ],
+    exemples: [
+      {
+        eng: "That plate is hot. If you touch it, you'll burn yourself.",
+        cat: "Aquell plat crema. Si el toques, et cremaràs.",
+      },
+      {
+        eng: "I shall be late this evening. (or I will be)",
+        cat: "Arribaré tard aquest vespre.",
+      },
+    ],
+    consell_habit:
+      "Recorda: No usem 'will' per a coses que ja hem organitzat o decidit fer (Lisa is working next week, no 'Lisa will work').",
+  },
+  {
+    id: 23,
+    titol: "Future: I will and I'm going to",
+    explicacio:
+      "Comparem l'ús de 'will' per a decisions preses en el moment de parlar i '(be) going to' per a plans ja decidits.",
+    regles: [
+      {
+        regla: "Decisions vs. Plans",
+        detall:
+          "Usem 'will' per anunciar una nova decisió (new idea). Usem 'going to' quan ja hem decidit fer algo (decision made before).",
+      },
+      {
+        regla: "Prediccions de futur",
+        detall:
+          "Per a esdeveniments futurs, podem usar tots dos. Però si la situació actual mostra clarament què passarà ara mateix, usem 'going to' (Look at those clouds!).",
+      },
+      {
+        regla: "Situació vs. Creença",
+        detall:
+          "Usem 'going to' quan veiem que algo està a punt de passar. Usem 'will' per a allò que creiem que passarà en el futur general.",
+      },
+    ],
+    exemples: [
+      {
+        eng: "I've decided to have a party. We're going to invite lots of people.",
+        cat: "He decidit fer una festa. Convidarem a molta gent (pla decidit).",
+      },
+      {
+        eng: "That ceiling looks dangerous. It's going to fall down.",
+        cat: "Aquell sostre sembla perillós. Caurà (ho veig ara mateix).",
+      },
+    ],
+    consell_habit:
+      "Si vols oferir-te a fer algo ara mateix, digues 'I'll...', mai digues 'I'm going to'.",
+  },
+  {
+    id: 24,
+    titol: "Future: Will be doing and Will have done",
+    explicacio:
+      "Introduïm el futur continu per a accions en curs i el futur perfet per a accions que ja hauran acabat en un moment futur.",
+    regles: [
+      {
+        regla: "Will be doing (Continuous)",
+        detall:
+          "S'usa per dir que estarem enmig de fer una acció en un moment concret del futur (This time next week I'll be lying on a beach).",
+      },
+      {
+        regla: "Will have done (Perfect)",
+        detall:
+          "S'usa per dir que una acció ja estarà completada en un moment determinat del futur. Sovint s'usa amb 'by...' (The film will have finished by 9 o'clock).",
+      },
+      {
+        regla: "Will be doing vs Will do",
+        detall:
+          "El continu sovint s'usa per accions completes que ja estan decidides o que formen part d'una rutina.",
+      },
+    ],
+    exemples: [
+      {
+        eng: "Don't phone between 7 and 8. We'll be eating.",
+        cat: "No truchis entre les 7 i les 8. Estarem sopant (acció en curs).",
+      },
+      {
+        eng: "Sally leaves for work at 8.30. She won't be at home at 9 o'clock - she'll have gone to work.",
+        cat: "La Sally surt cap a la feina a les 8.30. A les 9 no serà a casa - haurà marxat a la feina (acció acabada).",
+      },
+    ],
+    consell_habit:
+      "Usa 'by' per al Future Perfect quan vulguis dir 'no més tard de' o 'ja en aquell moment'.",
+  },
+  {
+    id: 25,
+    titol: "When I do / When I've done | If and When",
+    explicacio:
+      "En frases amb 'when', 'before', 'after', 'until' i 'as soon as', usem el present per parlar del futur.",
+    regles: [
+      {
+        regla: "Present simple amb valor de futur",
+        detall:
+          "Després de connectors temporals, no usem 'will'. (I'll call you when I arrive, no 'when I will arrive').",
+      },
+      {
+        regla: "Present perfect",
+        detall:
+          "Usem 'have done' per indicar que una cosa ha d'estar acabada abans de l'altra. (When I've phoned Kate, we can go out).",
+      },
+      {
+        regla: "When vs If",
+        detall:
+          "Usem 'When' per a coses segures que passaran. Usem 'If' per a coses possibles que podrien passar o no.",
+      },
+    ],
+    exemples: [
+      {
+        eng: "I'll be angry if it happens again.",
+        cat: "M'enfadaré si torna a passar (és una possibilitat).",
+      },
+      {
+        eng: "I'm going out later. When I go out, I'll get some bread.",
+        cat: "Sortiré més tard. Quan surti, agafaré pa (és segur).",
+      },
+    ],
+    consell_habit:
+      "Si dubtes entre simple o perfecte (when I do / when I've done), normalment el simple és correcte per a gairebé tot.",
+  },
+  {
+    id: 26,
+    titol: "Can, Could and (be) able to",
+    explicacio:
+      "Usem 'can' per a habilitats o possibilitats en el present, 'could' per al passat, i '(be) able to' quan 'can' no és possible gramaticalment.",
+    regles: [
+      {
+        regla: "Can vs Be able to",
+        detall:
+          "Can només té present i passat. Per a altres temps (futur, present perfect), necessitem 'be able to' (I haven't been able to sleep).",
+      },
+      {
+        regla: "Could (General ability)",
+        detall:
+          "Usem 'could' per a habilitats generals en el passat (My grandfather could speak five languages).",
+      },
+      {
+        regla: "Managed to / Was able to",
+        detall:
+          "Per a una acció específica i difícil en el passat on es va tenir èxit, usem 'managed to' o 'was able to', no 'could' (I managed to find the house).",
+      },
+      {
+        regla: "Couldn't",
+        detall:
+          "La forma negativa 'couldn't' es pot fer servir sempre en el passat, tant per habilitats generals com per situacions específiques.",
+      },
+    ],
+    exemples: [
+      {
+        eng: "I'd like to be able to play the piano.",
+        cat: "M'agradaria ser capaç de tocar el piano (infinitiu).",
+      },
+      {
+        eng: "Even though I was late, I managed to catch the train.",
+        cat: "Encara que anava tard, vaig aconseguir agafar el tren (èxit en situació específica).",
+      },
+    ],
+    consell_habit:
+      "Si dubtes en el passat afirmatiu entre 'could' i 'managed to', tria 'managed to' si parles d'un èxit concret en un moment puntual.",
+  },
 ];

@@ -51,6 +51,7 @@ function carregarMenu() {
 
 // Funció nova per saber l'estat del tema global
 function calcularEstatTema(unitats) {
+  if (!unitats || !Array.isArray(unitats)) return "status-none";
   const estats = unitats.map((u) => calcularEstatUnitat(u));
 
   if (estats.every((e) => e === "status-done")) return "status-done";
@@ -186,6 +187,8 @@ function carregarUnitat(unit) {
 
 function validar(exId) {
   let ex = trobarExercici(exId);
+  if (!ex) return;
+
   const inputs = document.querySelectorAll(`input[data-ex="${exId}"]`);
   let punts = 0;
   let respostes = {};
@@ -197,6 +200,7 @@ function validar(exId) {
     if (esCorrecta(ex, pId, val)) punts++;
   });
 
+  // Guardem a l'històric
   historic[exId] = {
     punts,
     total: inputs.length,
@@ -207,12 +211,13 @@ function validar(exId) {
 
   localStorage.setItem("cambridge_v3", JSON.stringify(historic));
 
+  // Actualitzem dades globals (menú i progrés lateral)
   actualitzarProgresGlobal();
   carregarMenu();
   comprovarRepasDiari();
 
-  // Ara carregarUnitat ja no "molesta" perquè la teoria estarà tancada
-  carregarUnitat(trobarUnitatDeExercici(exId));
+  // IMPACTE VISUAL: Només actualitzem la targeta específica
+  actualitzarTargetaEx(exId, ex);
 }
 
 function comprovarRepasDiari() {
@@ -709,34 +714,34 @@ function actualitzarTargetaExercici(exId) {
   }
 }
 
-function actualitzarTargetaDespresDeValidar(exId, ex) {
+function actualitzarTargetaEx(exId, ex) {
+  // Busquem la card que conté l'exercici
   const primerInput = document.querySelector(`input[data-ex="${exId}"]`);
   if (!primerInput) return;
-
   const card = primerInput.closest(".exercici-card");
   const exData = historic[exId];
 
-  // 1. Actualitzar la barra de progrés de la targeta
+  // 1. Actualitzar la mini-barra de progrés de la targeta
   const perc = Math.round((exData.punts / exData.total) * 100);
-  const bar = card.querySelector(`#bar-${exId.replace(".", "\\.")}`); // Escapem el punt si l'ID en té
+  const bar = card.querySelector(".mini-bar");
   if (bar) {
     bar.style.width = `${perc}%`;
     bar.innerText = `${perc}%`;
   }
 
-  // 2. Feedback visual als inputs
+  // 2. Feedback visual als inputs (Correcte/Incorrecte)
   const inputs = card.querySelectorAll(`input[data-ex="${exId}"]`);
   inputs.forEach((input) => {
     const pId = input.getAttribute("data-p-id");
     const val = exData.respostes[pId];
 
-    input.readOnly = true; // Bloquegem l'escriptura
+    input.readOnly = true; // Bloquegem l'input
 
     if (esCorrecta(ex, pId, val)) {
       input.classList.add("correct");
     } else {
       input.classList.add("incorrect");
-      // Afegim la solució correcte al costat
+      // Afegim la solució al costat si no hi és
       if (
         !input.nextElementSibling ||
         !input.nextElementSibling.classList.contains("feedback-text")
@@ -748,20 +753,18 @@ function actualitzarTargetaDespresDeValidar(exId, ex) {
             : ex.solucions[pId];
         input.insertAdjacentHTML(
           "afterend",
-          `<span class="feedback-text" style="color: #e74c3c; margin-left: 10px;"><small>(Sol: ${solucio})</small></span>`,
+          `<span class="feedback-text"><small class="sol-hint">(Sol: ${solucio})</small></span>`,
         );
       }
     }
   });
 
-  // 3. Substituir el botó per la info de bloqueig (Repetició espaiada)
+  // 3. Substituir el botó "Validar" pel missatge de bloqueig
   const btn = card.querySelector(".btn-check");
   if (btn) {
     const dies = exData.punts < exData.total ? 7 : 20;
     const dRepas = new Date(exData.data + dies * 86400000);
-    const infoHtml = `<div class="info-bloqueig" style="background: #f8f9fa; padding: 10px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #3498db;">
-                        <p style="margin:0; font-size: 0.9em;">🔒 Exercici completat. Pròxim repàs: <strong>${dRepas.toLocaleDateString()}</strong></p>
-                      </div>`;
-    btn.outerHTML = infoHtml;
+    const bloqueigHtml = `<div class="info-bloqueig"><p>🔒 Bloquejada fins al: <strong>${dRepas.toLocaleDateString()}</strong></p></div>`;
+    btn.outerHTML = bloqueigHtml;
   }
 }
