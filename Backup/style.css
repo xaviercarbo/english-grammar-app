@@ -1,0 +1,1196 @@
+/* ==========================================
+   1. VARIABLES I BASE
+   ========================================== */
+:root {
+  --primary: #2c3e50;
+  --accent: #3498db;
+  --success: #27ae60;
+  --error: #e74c3c;
+  --warning: #f1c40f;
+  --bg-light: #f8f9fa;
+  --sidebar-w: 300px;
+}
+
+body {
+  font-family: "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background-color: #f0f2f5;
+  color: #333;
+}
+
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ==========================================
+   2. SIDEBAR (BARRA LATERAL)
+   ========================================== */
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--primary);
+  color: white;
+  padding: 20px;
+  position: fixed;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.sidebar-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* --- Nou Menú Desplegable (Accordion) --- */
+.nav-issue {
+  background: #1a252f;
+  padding: 12px 15px;
+  margin-top: 8px;
+  font-weight: bold;
+  font-size: 0.9em;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+.nav-issue:hover {
+  background: #243442;
+}
+
+/* Icona de fletxa per indicar si està obert/tancat */
+.nav-issue::after {
+  content: "▼";
+  font-size: 0.7em;
+  transition: transform 0.3s;
+  opacity: 0.7;
+}
+
+.nav-issue.active::after {
+  transform: rotate(180deg);
+}
+
+/* Contenidor ocult d'unitats */
+.unit-container {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease-out;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 0 0 6px 6px;
+}
+
+.nav-issue.active + .unit-container {
+  max-height: 10000px; /* Alçada suficient per mostrar les unitats */
+  margin-bottom: 20px;
+}
+
+.nav-issue {
+  background-color: #34495e;
+  color: #ecf0f1;
+  font-weight: bold;
+  padding: 12px 15px;
+  border-bottom: 1px solid #2c3e50;
+  text-transform: uppercase;
+  font-size: 0.85em;
+  letter-spacing: 1px;
+}
+
+.nav-unit {
+  padding: 10px 15px 10px 25px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.85em;
+}
+
+.nav-unit:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.status-done {
+  background: var(--success);
+}
+.status-pending {
+  background: var(--warning);
+}
+.status-none {
+  background: #7f8c8d;
+}
+
+/* Botons de la barra lateral */
+.btn-sidebar {
+  width: 100%;
+  padding: 10px;
+  background: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+.evolution-box {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+/* ==========================================
+   3. CONTINGUT PRINCIPAL I CAPÇALERES
+   ========================================== */
+.main-content {
+  margin-left: var(--sidebar-w);
+  flex-grow: 1;
+  padding: 40px;
+}
+
+/* FIX: Alineació de títols (Aportant aire lateral) */
+#unit-title,
+#unit-subtitle {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+#unit-title {
+  font-size: 2rem;
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: var(--primary);
+}
+
+#unit-subtitle {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.exercici-card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* ==========================================
+   4. INPUTS I CORRECCIÓ
+   ========================================== */
+.input-grammar {
+  border: none;
+  border-bottom: 2px solid #ccc;
+  padding: 5px 10px;
+  font-size: 1rem;
+  outline: none;
+  width: 160px;
+  background: transparent;
+}
+
+/* Estat de les respostes quan l'activitat està bloquejada */
+.input-grammar.incorrect,
+.input-match.incorrect {
+  background-color: #fff5f5; /* Vermell molt suau de fons */
+  border: 2px solid #feb2b2; /* Taronja/vermell per al rivet */
+  color: #c53030; /* Text en vermell fosc */
+  font-weight: bold;
+}
+
+.input-grammar.correct,
+.input-match.correct {
+  background-color: #f0fff4; /* Verd suau de fons */
+  border: 2px solid #9ae6b4; /* Rivet verd */
+  color: #276749; /* Text verd fosc */
+}
+
+/* Millora de la solució que apareix al costat */
+.sol-hint {
+  color: #e53e3e;
+  font-weight: 600;
+  margin-left: 10px;
+  background: #fff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px dashed #feb2b2;
+}
+
+.input-grammar[readonly] {
+  cursor: not-allowed;
+}
+
+.sol-hint {
+  color: #7f8c8d;
+  font-style: italic;
+  margin-left: 10px;
+}
+
+/* ==========================================
+   5. ESTADÍSTIQUES (DASHBOARD)
+   ========================================== */
+.dashboard-v4 {
+  padding: 10px 10px;
+}
+
+.issue-block {
+  background: white;
+  margin-bottom: 35px;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.issue-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #f0f2f5;
+}
+
+.units-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(220px, 1fr)
+  ); /* Mínim 220px d'ample */
+  gap: 12px; /* Reduïm l'espai entre targetes */
+  padding: 10px;
+}
+
+.unit-stat-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.25s ease;
+}
+
+.unit-stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border-color: var(--accent);
+}
+
+/* Progress bar global sidebar */
+.progress-container {
+  background: #444;
+  border-radius: 10px;
+  height: 12px;
+  margin: 10px 0;
+}
+.progress-bar {
+  background: var(--success);
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.5s ease;
+}
+
+.exercici-instruccions {
+  background-color: #f8f9fa;
+  padding: 10px 15px;
+  border-radius: 6px;
+  border-left: 4px solid var(--accent);
+  margin-bottom: 20px;
+  color: #444;
+  font-style: italic;
+}
+
+.activitat-titol {
+  margin-bottom: 10px;
+  color: var(--primary);
+  font-size: 1.3rem;
+}
+
+.activity-progress {
+  margin-bottom: 15px;
+}
+
+.mini-bar-bg {
+  background: #eee;
+  height: 8px;
+  border-radius: 4px;
+}
+
+.mini-bar {
+  background: var(--success);
+  height: 100%;
+  border-radius: 4px;
+  font-size: 0; /* Amaguem el text dins la mini barra */
+}
+/* Targetes de resum superior */
+.resum-top-cards {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+  padding: 0 25px;
+}
+
+.top-card {
+  background: white;
+  flex: 1;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.top-card h3 {
+  margin: 0;
+  font-size: 2rem;
+  color: var(--primary);
+}
+.top-card p {
+  margin: 5px 0 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Estil del bloc desplegable en el resum */
+.issue-block-collapsible {
+  background: white;
+  margin-bottom: 15px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.issue-header-clickable {
+  padding: 20px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.issue-header-clickable:hover {
+  background: #f8f9fa;
+}
+
+.issue-header-clickable .header-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.issue-header-clickable .arrow {
+  transition: transform 0.3s;
+  color: #ccc;
+}
+
+.issue-header-clickable h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.total-text {
+  font-weight: bold;
+  color: #4a5568;
+}
+
+/* Lògica de desplegar */
+.units-grid-container {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-out;
+  background: #fafafa;
+}
+
+.issue-block-collapsible.is-open .units-grid-container {
+  max-height: 2000px; /* Alçada màxima quan està obert */
+  border-top: 1px solid #eee;
+  padding: 20px;
+}
+
+.issue-block-collapsible.is-open .arrow {
+  transform: rotate(90deg);
+}
+
+/* Disseny de la pantalla de benvinguda */
+.welcome-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
+}
+
+.welcome-card {
+  background: white;
+  padding: 35px 25px;
+  border-radius: 15px;
+  text-align: center;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.welcome-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.06);
+  border-color: var(--accent);
+}
+
+.card-icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.welcome-card h3 {
+  margin: 0 0 10px 0;
+  color: var(--primary);
+}
+
+.welcome-card p {
+  font-size: 0.95rem;
+  color: #64748b;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.card-btn {
+  background: #f1f5f9;
+  color: var(--primary);
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 0.85rem;
+  transition: 0.2s;
+}
+
+.welcome-card:hover .card-btn {
+  background: var(--accent);
+  color: white;
+}
+
+.info-extra-welcome {
+  margin-top: 35px;
+  background: #f0f7ff;
+  padding: 20px;
+  border-radius: 12px;
+  border-left: 4px solid var(--accent);
+  text-align: center;
+}
+
+.info-extra-welcome h4 {
+  margin: 0 0 5px 0;
+  color: #0369a1;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.info-extra-welcome p {
+  margin: 0;
+  color: #0c4a6e;
+  font-style: italic;
+}
+
+.resum-top-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columnes per a les 4 targetes */
+  gap: 15px;
+  margin-bottom: 30px;
+  padding: 0 20px;
+}
+
+.top-card h3 {
+  color: #2d3748;
+}
+
+.card-correcte h3 {
+  color: #38a169;
+} /* Verd per als encerts */
+.card-millorar h3 {
+  color: #e53e3e;
+} /* Vermell per als errors a millorar */
+.card-pendent h3 {
+  color: #718096;
+} /* Gris per al que encara no s'ha fet */
+
+@media (max-width: 768px) {
+  .resum-top-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.pregunta-row u {
+  text-decoration: none;
+  border-bottom: 2px solid #cbd5e0; /* Un gris suau per no distreure */
+  padding-bottom: 1px;
+  font-weight: 500;
+}
+
+.stats-text {
+  margin-bottom: 4px;
+  font-size: 0.95rem;
+  color: var(--primary);
+}
+
+.improve-text {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #e53e3e; /* Vermell per indicar que cal repàs */
+  font-weight: 500;
+}
+
+.done-text {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #38a169; /* Verd per quan tot està perfecte */
+  font-weight: 500;
+}
+.improve-text {
+  color: #e53e3e; /* Vermell */
+  font-weight: 600;
+  font-size: 0.8em;
+  display: inline-block;
+  margin-top: 4px;
+}
+.unit-stat-card.clickable {
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.unit-stat-card.clickable:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: var(--accent);
+}
+
+.improve-text {
+  color: #e53e3e;
+  font-weight: 600;
+  font-size: 0.85em;
+  display: inline-block;
+  margin-top: 4px;
+}
+.unit-stat-card.clickable:hover {
+  background-color: #f0f7ff; /* Un blau molt tènue */
+  border-color: var(--accent);
+}
+.date-text {
+  color: #718096; /* Gris tipus 'slate' */
+  font-size: 0.75em;
+  display: inline-block;
+  margin-top: 2px;
+}
+
+/* Opcional: si la data és AVUI o ja ha passat, posar-la en blau per avisar */
+.date-text.ready {
+  color: var(--accent);
+  font-weight: bold;
+}
+
+.input-grammar {
+  /* Evitem que el navegador forci un tamany fix */
+  width: auto;
+  display: inline-block;
+
+  /* Afegim espai intern perquè el text no toqui les vores */
+  padding: 2px 8px;
+
+  /* Una font monoespaiada (opcional) ajuda a que size=15 sigui exacte, 
+       però amb fonts normals el padding és suficient */
+  font-family: inherit;
+  font-size: 1rem;
+
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 0 4px;
+  transition: border-color 0.2s;
+}
+
+/* Quan estigui bloquejat o validat, mantenim el tamany */
+.input-grammar[readonly] {
+  background-color: #f9f9f9;
+  cursor: default;
+}
+
+/* TEORIA CSS */
+
+/* --- Estils per a la Teoria --- */
+/* Fem que el contenidor de teoria es quedi fix a dalt */
+.teoria-card {
+  position: sticky;
+  top: 10px; /* Distància des de dalt de la pantalla */
+  z-index: 100; /* Perquè passi per sobre dels exercicis */
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  border-top: 5px solid #3498db;
+  transition: all 0.3s ease; /* Transició suau per quan es mou */
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.btn-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #999;
+}
+
+.teoria-body {
+  max-height: 2000px; /* Alçada màxima gran per permetre contingut */
+  overflow: hidden;
+  transition:
+    max-height 0.2s ease-out,
+    padding 0.2s ease;
+  padding: 20px;
+}
+
+/* Quan estigui tancat */
+.teoria-card.collapsed .teoria-body {
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.arrow-icon {
+  font-size: 18px;
+  transition: transform 0.3s ease;
+  color: #3498db;
+}
+
+/* Girar la fletxa quan estigui col·lapsat */
+.teoria-card.collapsed .arrow-icon {
+  transform: rotate(-90deg);
+}
+
+.teoria-seccio h3 {
+  color: #2c3e50;
+  margin-top: 15px;
+  font-size: 1.1em;
+}
+.exemples-grid {
+  background: #f0f7fd;
+  padding: 10px;
+  border-radius: 5px;
+}
+.teoria-habit {
+  margin-top: 20px;
+  background: #fff9e6;
+  padding: 15px;
+  border-radius: 5px;
+  border-left: 4px solid #f39c12;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Si vols que quan estigui col·lapsat sigui més discret */
+.teoria-card.collapsed {
+  opacity: 0.95;
+}
+.teoria-card.collapsed:hover {
+  opacity: 1;
+}
+
+.teoria-card {
+  position: sticky;
+  top: 10px; /* Es quedarà fix a 10px de la part superior en fer scroll */
+  z-index: 1000;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Una ombra més forta per quan flota */
+}
+
+/* Evitem que la teoria ocupi tota la pantalla en mòbils si és molt llarga */
+.teoria-body {
+  max-height: 70vh; /* Màxim 70% de l'alçada de la pantalla */
+  overflow-y: auto; /* Permet scroll intern si el text és molt llarg */
+}
+
+.sidebar {
+  position: fixed;
+  width: 280px;
+  height: 100vh;
+  overflow-y: auto; /* Això permet fer scroll només al menú lateral */
+  background: #2c3e50;
+  /* ... la resta del teu codi ... */
+}
+
+/* Opcional: Estilitzar la barra de l'scroll lateral perquè sigui més fina */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background: #34495e;
+  border-radius: 10px;
+}
+
+.unit-container::-webkit-scrollbar {
+  width: 4px;
+}
+.unit-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+.text-muted {
+  color: #95a5a6; /* Un gris suau */
+  font-style: italic;
+}
+
+.text-danger {
+  color: #e74c3c; /* El vermell que ja tens per a errors */
+  font-weight: bold;
+}
+
+.pending-text {
+  color: #95a5a6;
+  font-style: italic;
+  font-size: 0.85em;
+}
+
+.input-grammar.correct {
+  background-color: #d4edda !important;
+  border-color: #c3e6cb !important;
+  color: #155724;
+}
+
+.input-grammar.incorrect {
+  background-color: #f8d7da !important;
+  border-color: #f5c6cb !important;
+  color: #721c24;
+}
+
+.correct {
+  background-color: #d4edda !important;
+  border-color: #c3e6cb !important;
+}
+
+.incorrect {
+  background-color: #f8d7da !important;
+  border-color: #f5c6cb !important;
+}
+
+/* Quan està tancada, podem posar un missatge o icona de "Mostra Teoria" */
+.teoria-section.is-closed .teoria-body {
+  display: none;
+}
+
+/* Quan el container té la classe 'collapsed', amaguem el cos */
+#teoria-container.collapsed .teoria-body {
+  display: none;
+}
+
+/* Si vols que la fletxa giri o canviï */
+.arrow-icon {
+  font-size: 0.8em;
+  color: #3498db;
+  transition: transform 0.3s;
+}
+
+/* El contenidor de la teoria */
+.teoria-card {
+  background: white;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  border: 2px solid #3498db; /* Un marc blau perquè ressalti */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+/* Quan està col·lapsada, amaguem només el cos */
+.teoria-card.collapsed .teoria-body {
+  display: none;
+}
+
+/* La capçalera SEMPRE s'ha de veure */
+.teoria-header {
+  background-color: #ecf0f1; /* Un gris molt suau */
+  padding: 15px 20px;
+  border-bottom: 1px solid #dcdde1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.3s ease;
+}
+
+.teoria-card.hidden {
+  display: none;
+}
+
+/* Color en passar el ratolí per sobre */
+.teoria-header:hover {
+  background-color: #e0e6ed;
+}
+
+/* Color del títol dins de la barra */
+#teoria-titol {
+  color: #2c3e50;
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+/* Reduïm la mida del text per estalviar espai */
+.unit-header-main h4 {
+  font-size: 0.95em;
+  margin: 0;
+}
+
+.unit-name-sub {
+  font-size: 0.75em !important;
+  line-height: 1.1;
+  margin-bottom: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Màxim 2 línies de títol */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.unit-stats-detail small {
+  font-size: 0.75em;
+}
+
+/* Fem el gràfic circular una mica més petit */
+.unit-chart svg {
+  width: 35px !important;
+  height: 35px !important;
+}
+
+/* Estil per a l'input que serveix de pista/exemple */
+.input-grammar.pista-exemple {
+  background-color: #f1f1f1 !important; /* Gris clar */
+  color: #7f8c8d !important; /* Text gris */
+  font-style: italic; /* Cursiva per diferenciar */
+  border: 1px dashed #bdc3c7 !important; /* Vora discontínua */
+  cursor: default;
+}
+
+/* Assegurem que la taula ocupi tot l'ample de la targeta d'exercici */
+.matching-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px; /* Dona aire entre files */
+  margin-top: 15px;
+}
+
+/* Columna de l'esquerra (Pregunta) */
+.matching-table td:nth-child(1) {
+  width: 40%;
+  text-align: left;
+  padding-right: 15px;
+  font-weight: 500;
+}
+
+/* Columna del mig (Input) */
+.matching-table td:nth-child(2) {
+  width: 60px;
+  text-align: center;
+}
+
+/* Columna de la dreta (Opcions) */
+.matching-table td:nth-child(3) {
+  width: 50%;
+  text-align: left;
+  padding-left: 15px;
+  color: #2c3e50;
+  border-left: 1px solid #eee; /* Una línia fina per separar */
+}
+
+/* L'input de matching ha de ser clar i visible */
+.input-match {
+  width: 42px !important;
+  height: 32px;
+  text-align: center;
+  border: 2px solid #dcdde1;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.exercici-card {
+  display: block; /* Forcem que el contingut flueixi de dalt a baix */
+  width: 100%;
+  background: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Assegura que el matching no es col·lapsi */
+.matching-table {
+  width: 100%;
+  max-width: 900px; /* Una mica més ample per frases llargues */
+  margin: 15px 0;
+  border-collapse: collapse;
+  table-layout: fixed; /* Força a respectar les amplades que donem */
+}
+
+.matching-table td {
+  padding: 10px 5px;
+  vertical-align: middle;
+  border-bottom: 1px solid #f0f0f0;
+  /* Alineació general a l'esquerra */
+  text-align: left;
+}
+
+/* Columna 1: El text de l'esquerra (Pregunta) */
+.matching-table td:nth-child(1) {
+  width: 45%;
+  padding-left: 0;
+  color: #2c3e50;
+}
+
+/* Columna 2: L'espai per a l'input (Fix i centrat) */
+.matching-table td:nth-child(2) {
+  width: 65px;
+  text-align: center;
+}
+
+/* Columna 3: El text de la dreta (Opcions) */
+.matching-table td:nth-child(3) {
+  width: 45%;
+  padding-left: 15px;
+  color: #5d6d7e;
+}
+
+/* Estil per a la pista */
+.pista-exemple {
+  background-color: #f0f0f0 !important;
+  color: #888 !important;
+  font-style: italic;
+  border: 1px dashed #ccc !important;
+}
+/* Targeta d'exercici modernitzada */
+.card {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 25px;
+  overflow: hidden;
+  background: #fff;
+}
+
+/* Capçalera amb colors segons la numeració */
+.card-header {
+  background: #4a90e2; /* Color per defecte */
+  color: white;
+  font-weight: bold;
+  padding: 15px 20px;
+  border: none;
+  font-size: 1.2rem;
+}
+
+/* Colors dinàmics per unitats (Exemple) */
+.unit-25 .card-header {
+  background: #563d7c;
+} /* Lila */
+.unit-26 .card-header {
+  background: #28a745;
+} /* Verd */
+.unit-27 .card-header {
+  background: #e83e8c;
+} /* Rosa */
+.unit-28 .card-header {
+  background: #fd7e14;
+} /* Taronja */
+
+/* Botó Validar i Guardar modern */
+.btn-validar {
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 50px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.btn-validar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(110, 142, 251, 0.4);
+}
+
+/* Barra de Teoria Flotant */
+.teoria-bar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(5px);
+  border-bottom: 2px solid #eee;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.counter-badge {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: #495057;
+}
+
+/* Badge del comptador diari */
+.daily-badge {
+  background: #fff3e0;
+  color: #ef6c00;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-left: 10px;
+  border: 1px solid #ffe0b2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Millora de les targetes d'activitat (look and feel llibre) */
+.fill-in-card,
+.matching-card {
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 8px 24px rgba(149, 157, 165, 0.2);
+  padding: 25px;
+  background: #ffffff;
+  margin-bottom: 30px;
+}
+
+/* Botó Validar i Guardar: Més gran i modern */
+.btn-validar-guardar {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin: 30px auto;
+  padding: 18px 30px;
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+}
+
+.btn-validar-guardar:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+  background: linear-gradient(135deg, #0088ff 0%, #0066cc 100%);
+}
+
+/* Colors dinàmics per Unitat (CSS Variables) */
+.unit-25 .theory-badge {
+  background-color: #563d7c;
+} /* Lila */
+.unit-28 .theory-badge {
+  background-color: #d9534f;
+} /* Vermell */
+.unit-29 .theory-badge {
+  background-color: #5bc0de;
+} /* Blau Cel */
+.unit-30 .theory-badge {
+  background-color: #f0ad4e;
+} /* Taronja */
+
+/* Botó Validar i Guardar modernitzat */
+.btn-validar-guardar {
+  display: block;
+  width: 90%; /* Quasi tota l'amplada de la targeta */
+  max-width: 500px;
+  margin: 25px auto;
+  padding: 20px 40px;
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  color: white;
+  border: none;
+  border-radius: 15px; /* Cantonades més arrodonides */
+  font-size: 1.3rem; /* Més gran */
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-validar-guardar:hover {
+  transform: scale(1.03); /* Creix una mica en passar el ratolí */
+  box-shadow: 0 10px 20px rgba(74, 144, 226, 0.4);
+  background: linear-gradient(135deg, #5da2f3 0%, #4a90e2 100%);
+}
+
+.btn-validar-guardar:active {
+  transform: scale(0.98); /* Efecte de prémer */
+}
+
+/* Contenidor de la capçalera per a que tot s'alineï bé */
+.teoria-header-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Això empeny el comptador a la dreta */
+}
+
+/* Millora del Badge diari a la dreta */
+.daily-badge {
+  background: rgba(255, 255, 255, 0.9); /* Més integrat amb la barra */
+  color: #ef6c00;
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  white-space: nowrap; /* Evita que el text es talli */
+  border: 1px solid rgba(239, 108, 0, 0.2);
+  margin-right: 10px;
+}
+
+/* Colors de les Unitats (Adaptat al blau fosc/lila del llibre) */
+.unit-25 .theory-badge {
+  background-color: #2e3b82;
+} /* Blau fosc Unit 25 */
+.unit-26 .theory-badge {
+  background-color: #2e3b82;
+} /* Unit 26 */
+.unit-27 .theory-badge {
+  background-color: #2e3b82;
+} /* Unit 27 */
+.unit-28 .theory-badge {
+  background-color: #2e3b82;
+} /* Unit 28 */
