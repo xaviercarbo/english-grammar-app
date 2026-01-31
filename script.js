@@ -1,806 +1,829 @@
-// Gestió de l'històric i persistència
-let historic = JSON.parse(localStorage.getItem("cambridge_v3")) || {};
+// 1. CONFIGURACIÓ I ESTAT GLOBAL
+const WEB_APP_URL =
+  "https://script.google.com/macros/s/AKfycbyGwXUcYFiRLe2JGlJDrPGelgVLpMT_yCCN8eTsgdLwB2eMirqSzQSlEtBfPtmSE_EERw/exec";
 
-window.onload = () => {
-  carregarMenu();
-  actualitzarProgresGlobal();
-  comprovarRepasDiari();
-  // Afegim la càrrega del comptador diari
-  mostrarComptadorDiari();
+let dadesApp = { issues: [] };
+let historic = JSON.parse(localStorage.getItem("cambridge_v3")) || {};
+let userNotes = JSON.parse(localStorage.getItem("user_notes")) || {};
+
+window.onload = async () => {
+  mostrarPantallaCarrega(true);
+  await carregarDadesDeGoogle();
 };
 
-// Funció per mostrar el valor guardat al counter-badge
-function mostrarComptadorDiari() {
-  const avui = new Date().toLocaleDateString();
-  const dades = JSON.parse(localStorage.getItem("userActivity"));
-  const badgeVal = document.getElementById("count-val");
+// 2. CÀRREGA DE DADES (Google Sheets)
+async function carregarDadesDeGoogle() {
+  try {
+    const response = await fetch(WEB_APP_URL);
+    const dadesTotals = await response.json();
 
-  if (badgeVal) {
-    if (dades && dades.data === avui) {
-      badgeVal.innerText = dades.total;
-    } else {
-      badgeVal.innerText = "0";
-    }
+    const rawExercicis = dadesTotals.exercicis || [];
+    const rawUnitats = dadesTotals.unitats || [];
+
+    let transformat = { issues: [] };
+    let teoriaPerUnitat = {};
+
+    // 1. Teoria (Pestanya Unitats)
+    rawUnitats.slice(1).forEach((fila) => {
+      const uId = String(fila[0]).trim();
+      if (uId) {
+        teoriaPerUnitat[uId] = {
+          explicacio: fila[1] || "",
+          regles: fila[2] || "",
+          exemples: fila[3] || "",
+          habit: fila[4] || "",
+        };
+      }
+    });
+
+    // 2. Exercicis (Pestanya Exercicis)
+    rawExercicis.forEach((ex) => {
+      const uId = String(ex.unitatId).trim();
+      if (!uId) return;
+
+      // Crear Issue/Grup si no existeix (tema)
+      let issue = transformat.issues.find((i) => i.titol === ex.tema);
+      if (!issue) {
+        issue = { titol: ex.tema || "General", unitats: [] };
+        transformat.issues.push(issue);
+      }
+
+      // Crear Unitat si no existeix
+      let unitat = issue.unitats.find((u) => String(u.id) === uId);
+      if (!unitat) {
+        unitat = {
+          id: uId,
+          nom: ex.unitatNom,
+          infoTeoria: teoriaPerUnitat[uId] || {},
+          exercicis: [],
+        };
+        issue.unitats.push(unitat);
+      }
+
+      // Processar solucions (suporta "/" per a múltiples opcions)
+      const solucions = ex.solucionsRaw
+        ? String(ex.solucionsRaw)
+            .split("|")
+            .map((s) => s.split("/").map((o) => o.trim().toLowerCase()))
+        : [];
+
+      // AFEGIR EXERCICI
+      unitat.exercicis.push({
+        id: String(ex.exerciciId || "").trim(), // L'ID DE LA COLUMNA D
+        titol: ex.titol || "Exercise",
+        tipus: String(ex.tipus || "fill-in")
+          .toLowerCase()
+          .trim(),
+        preguntes: ex.preguntesRaw
+          ? String(ex.preguntesRaw)
+              .split("|")
+              .map((p) => p.trim())
+          : [],
+        solucions: solucions,
+        instruccions: ex.instruccions || "",
+        imatge: ex.imatge || "",
+        teoriaEspecifica: ex.teoriaEspecifica || "",
+      });
+    });
+
+    dadesApp = transformat;
+    inicialitzarApp();
+    actualitzarMenuLateral(); // Pintem els puntets grisos inicials
+  } catch (error) {
+    console.error("❌ Error en carregar dades:", error);
+  } finally {
+    mostrarPantallaCarrega(false);
   }
 }
 
-function carregarMenu() {
-  const menu = document.getElementById("menu-unitats");
-  if (!menu) return;
-  menu.innerHTML = "";
+// 3. INTERFÍCIE I NAVEGACIÓ
+function inicialitzarApp() {
+  actualitzarMenuLateral();
 
-  dadesApp.issues.forEach((issue) => {
-    // Calculem l'estat del tema basant-nos en les seves unitats
-    const estatTema = calcularEstatTema(issue.unitats);
+  // Només cridar si la funció existeix realment al script
+  if (typeof actualitzarProgresGlobal === "function") {
+    actualitzarProgresGlobal();
+  }
 
-    const issueDiv = document.createElement("div");
-    issueDiv.className = "nav-issue";
-    issueDiv.innerHTML = `
-            <span>${issue.titol}</span>
-            <span class="status-dot ${estatTema}"></span>
-        `;
+  mostrarBenvinguda();
+}
 
-    // Contenidor per a les unitats d'aquest tema
-    const unitContainer = document.createElement("div");
-    unitContainer.className = "unit-container";
+function mostrarBenvinguda() {
+  const container = document.getElementById("exercicis-container");
+  const tCont = document.getElementById("teoria-container");
+  if (tCont) tCont.classList.add("hidden");
 
-    issue.unitats.forEach((unit) => {
-      const unitDiv = document.createElement("div");
-      unitDiv.className = "nav-unit";
-      const status = calcularEstatUnitat(unit);
-      unitDiv.innerHTML = `
-                <span>${unit.id}. ${unit.nom}</span>
-                <span class="status-dot ${status}"></span>
-            `;
-      unitDiv.onclick = () => carregarUnitat(unit);
-      unitContainer.appendChild(unitDiv);
-    });
+  // 1. Busquem el nom de la última unitat per al "Resume"
+  const ultimaId = localStorage.getItem("ultimaUnitat");
+  let nomUltima = "No sessions yet";
 
-    // Event per obrir/tancar
-    issueDiv.onclick = () => {
-      issueDiv.classList.toggle("active");
-    };
+  if (ultimaId) {
+    // Busquem dins de dadesApp el nom que correspon a aquest ID
+    for (const issue of dadesApp.issues) {
+      const u = issue.unitats.find((un) => String(un.id) === String(ultimaId));
+      if (u) {
+        nomUltima = `Unit ${u.id}: ${u.nom}`;
+        break;
+      }
+    }
+  }
 
-    menu.appendChild(issueDiv);
-    menu.appendChild(unitContainer);
+  container.innerHTML = `
+    <div class="welcome-screen">
+        <h1>Welcome to B2 Grammar</h1>
+        <p>Your personalized spaced repetition platform.</p>
+        
+        <div class="welcome-cards-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px;">
+            <div class="welcome-card-action" onclick="anarUltimaUnitat()" style="cursor:pointer; padding:25px; border-radius:15px; background:white; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); text-align:center;">
+                <div class="icon" style="font-size: 3rem; margin-bottom:10px;">📚</div>
+                <h3 style="margin-bottom:5px;">Resume Session</h3>
+                <p style="color: #6366f1; font-weight: bold; font-size: 1.1rem; margin-bottom:15px;">${nomUltima}</p>
+                <button class="btn-welcome" style="background:#6366f1; color:white; border:none; padding:10px 20px; border-radius:20px; font-weight:bold;">Continue Practice</button>
+            </div>
+
+            <div class="welcome-card-action" onclick="mostrarDashboardProgres()" style="cursor:pointer; padding:25px; border-radius:15px; background:white; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); text-align:center;">
+                <div class="icon" style="font-size: 3rem; margin-bottom:10px;">📈</div>
+                <h3 style="margin-bottom:5px;">Progress & Training</h3>
+                <p style="color: #64748b; font-size: 0.95rem; margin-bottom:20px;">Review expired exercises and check your learning evolution.</p>
+                <button class="btn-welcome" style="background:#0f172a; color:white; border:none; padding:10px 20px; border-radius:20px; font-weight:bold;">View Training Lab</button>
+            </div>
+        </div>
+
+        <div class="student-tip" style="margin-top:40px; padding:15px; background:#f8fafc; border-radius:10px; border-left:4px solid #fbbf24;">
+            <p>💡 <strong>Pro Tip:</strong> Focus on the exercises in the "Training Lab" to improve your long-term memory.</p>
+        </div>
+    </div>`;
+
+  // Actualitzem la barra lateral
+  actualitzarBarraProgresGlobal();
+}
+
+// Funció auxiliar per al botó "Resume"
+function anarUltimaUnitat() {
+  const ultima = localStorage.getItem("ultimaUnitat");
+  if (ultima && ultima !== "None") {
+    carregarUnitat(ultima);
+  } else {
+    alert("Please select a unit from the menu to start your first session.");
+  }
+}
+// CARREGA UNITAT
+function carregarUnitat(id) {
+  let unitat = null;
+  dadesApp.issues.forEach((is) => {
+    const u = is.unitats.find((un) => String(un.id) === String(id));
+    if (u) unitat = u;
   });
-}
 
-// Funció nova per saber l'estat del tema global
-function calcularEstatTema(unitats) {
-  if (!unitats || !Array.isArray(unitats)) return "status-none";
-  const estats = unitats.map((u) => calcularEstatUnitat(u));
+  if (!unitat) return;
 
-  if (estats.every((e) => e === "status-done")) return "status-done";
-  if (estats.every((e) => e === "status-none")) return "status-none";
-  return "status-pending"; // Si hi ha una barreja, està "a mitges"
-}
-
-function carregarUnitat(unit) {
-  localStorage.setItem("ultimaUnitat", JSON.stringify(unit));
-
-  const teoriaContainer = document.getElementById("teoria-container");
-  if (teoriaContainer) teoriaContainer.classList.add("collapsed");
-  actualitzarTeoria(unit.id);
-
-  document.getElementById("unit-title").innerText = `${unit.id}. ${unit.nom}`;
-  document.getElementById("unit-subtitle").innerText =
-    "Un cop validada, l'activitat es bloqueja fins al proper repàs.";
-
+  // 1. NETEJA DE PANTALLA (Elimina la benvinguda)
   const container = document.getElementById("exercicis-container");
   container.innerHTML = "";
 
-  unit.exercicis.forEach((ex) => {
-    const card = document.createElement("div");
-    card.className = "exercici-card";
+  // 2. RENDERITZAR TEORIA AMB SUPORT PER A SALTS DE LÍNIA (Columnes C i D del Sheet)
+  const t = unitat.infoTeoria || {};
+  document.getElementById("teoria-container").classList.remove("hidden");
+  document.getElementById("teoria-titol").innerText = unitat.nom || "";
+  document.getElementById("teoria-explicacio").innerHTML = t.explicacio || "";
 
-    const exData = historic[ex.id] || {
-      punts: 0,
-      total: 1,
-      fet: false,
-      respostes: {},
-      data: null,
-    };
+  // Processar Grammar Rules (Columna C) - Converteix salts de línia en llista
+  const reglesCont = document.getElementById("teoria-regles");
+  if (reglesCont) {
+    const textRegles = String(t.regles || "");
+    // Separem per salts de línia i filtrem línies buides
+    const llistaRegles = textRegles
+      .split(/\r?\n/)
+      .filter((r) => r.trim() !== "");
+    reglesCont.innerHTML = llistaRegles.map((r) => `<li>${r}</li>`).join("");
+  }
 
-    const isLocked = exData.fet;
-    const perc = isLocked ? Math.round((exData.punts / exData.total) * 100) : 0;
+  // Processar Exemples (Columna D) - Converteix salts de línia en blocs
+  const exemplesCont = document.getElementById("teoria-exemples");
+  if (exemplesCont) {
+    const textExemples = String(t.exemples || "");
+    const llistaExemples = textExemples
+      .split(/\r?\n/)
+      .filter((e) => e.trim() !== "");
+    exemplesCont.innerHTML = llistaExemples
+      .map((ex) => {
+        // Si uses "|" per separar EN de ES, ho dividim, si no, tot a l'esquerra
+        const parts = ex.split("|");
+        return `
+        <div class="exemple-item">
+          <div class="en">${parts[0] || ""}</div>
+          <div class="es">${parts[1] || ""}</div>
+        </div>`;
+      })
+      .join("");
+  }
 
-    let html = `
-      <h3 class="activitat-titol">${ex.titol}</h3>
-      <div class="activity-progress">
-          <div class="mini-bar-bg">
-              <div class="mini-bar" id="bar-${ex.id}" style="width:${perc}%">${perc}%</div>
+  const habitText = document.getElementById("teoria-habit-text");
+  if (habitText) habitText.innerHTML = t.habit || "Practice makes perfect!";
+
+  // 3. RENDERITZAR EXERCICIS (Matching lateral, Inputs elàstics i Notes)
+  container.innerHTML = unitat.exercicis
+    .map((ex) => {
+      const notaExistent = userNotes[ex.id] || "";
+      const dadesH =
+        (historic[unitat.id] && historic[unitat.id].respostes[ex.id]) || null;
+      const ara = new Date().getTime();
+      let bloquejat = false;
+      let textBloqueig = "";
+
+      if (dadesH && dadesH.disponibleEn > ara) {
+        bloquejat = true;
+        const horesRestants = Math.ceil(
+          (dadesH.disponibleEn - ara) / (1000 * 60 * 60),
+        );
+        const dies = Math.floor(horesRestants / 24);
+        textBloqueig =
+          dies > 0 ? `Review in ${dies} days` : `Review in ${horesRestants}h`;
+      }
+
+      // Funció per a l'INPUT ELÀSTIC
+      const generarInput = (i) => {
+        const solucionsCorrectes = ex.solucions[i] || [];
+        const respostaUsuari =
+          dadesH && dadesH.respostesUsuari ? dadesH.respostesUsuari[i] : "";
+        let estilExtra = "";
+        let solucioVisible = "";
+
+        if (bloquejat) {
+          const esCorrecte = solucionsCorrectes.includes(
+            respostaUsuari.toLowerCase(),
+          );
+          if (esCorrecte) {
+            estilExtra =
+              "background-color: #dcfce7; color: #166534; border-color: #22c55e;";
+          } else {
+            estilExtra =
+              "background-color: #fee2e2; color: #991b1b; border-color: #ef4444;";
+            solucioVisible = `<span class="feedback-sol" style="color: #ef4444; font-weight: bold; font-size: 0.8rem; margin-left: 4px;">(Sol: ${solucionsCorrectes[0]})</span>`;
+          }
+        }
+
+        return `
+          <div style="display: inline-block;">
+            <input type="text" class="ex-input" 
+                   data-idx="${i}" 
+                   value="${bloquejat ? respostaUsuari : ""}"
+                   ${bloquejat ? "readonly" : ""} 
+                   oninput="this.style.width = Math.max(10, this.value.length + 1) + 'ch'"
+                   style="width: ${bloquejat ? Math.max(10, (respostaUsuari || "").length + 1) : 10}ch; border: none; border-bottom: 1px solid #94a3b8; text-align: center; font-weight: bold; outline: none; transition: width 0.2s; ${estilExtra}">
+            ${solucioVisible}
+          </div>`;
+      };
+
+      // DISSENY DE MATCHING RESTAURAT
+      let cosExercici = "";
+      if (ex.tipus === "matching") {
+        const dadesDreta = ex.teoriaEspecifica || "";
+        const opcionsDreta = dadesDreta ? dadesDreta.split("|") : [];
+        // Substitueix a partir de la línia 227 aprox.
+        cosExercici = `
+       <div class="matching-book-layout" style="display: flex; gap: 8px; align-items: flex-start; margin-top: 10px;">
+         <div style="flex: 0 1 auto; min-width: 250px; border: 1.5px solid #fbbf24; padding: 8px 12px; border-radius: 4px; background: #fff;">
+              ${ex.preguntes.map((p, i) => `<div style="display: flex; margin-bottom: 2px; font-size: 0.9rem;"><span style="color: #2dd4bf; font-weight: bold; margin-right: 8px;">${i + 1}</span><span>${(p.text || p).replace(/^\d+[\.\s]*/, "")}</span></div>`).join("")}
+         </div>
+         <div style="flex: 0 1 auto; min-width: 220px; border: 1.5px solid #fbbf24; padding: 8px 12px; border-radius: 4px; background: #fff;">
+          ${opcionsDreta
+            .map((o) => {
+              const parts = o.trim().split(")");
+              return `<div style="display: flex; margin-bottom: 2px; font-size: 0.9rem;"><span style="color: #2dd4bf; font-weight: bold; margin-right: 8px;">${parts[0]}</span><span>${parts[1] || ""}</span></div>`;
+            })
+            .join("")}
+           </div>
+          <div style="width: auto; display: flex; flex-direction: column; gap: 2px; margin-left: 5px;">
+               ${ex.preguntes.map((_, i) => `<div style="display: flex; align-items: center; justify-content: flex-end; height: 22px; margin-bottom: 2px;"><span style="color: #2dd4bf; font-weight: bold; margin-right: 5px;">${i + 1}</span>${generarInput(i)}</div>`).join("")}
           </div>
-      </div>`;
+       </div>`;
+      } else {
+        cosExercici = `
+          <div style="margin-top: 10px;">
+              ${ex.imatge ? `<img src="${ex.imatge}" style="max-height: 350px; width: auto; max-width: 100%; border-radius: 8px; margin-bottom: 15px; display: block;">` : ""}
+              <div class="preguntes-list">
+                  ${ex.preguntes
+                    .map((p, i) => {
+                      const textNet = (p.text || p).replace(/^\d+[\.\s]*/, "");
+                      const inputHtml = generarInput(i);
+                      const textAmbInput = textNet.replace(/_{3,}/g, inputHtml);
+                      return `<div style="margin-bottom: 12px; font-size: 0.95rem; color: #334155;"><span style="color: #2dd4bf; font-weight: bold; margin-right: 8px;">${i + 1}</span><span>${textAmbInput}</span></div>`;
+                    })
+                    .join("")}
+              </div>
+          </div>`;
+      }
 
-    if (ex.instruccions) {
-      html += `<p class="exercici-instruccions"><strong>${ex.instruccions}</strong></p>`;
-    }
+      // Substitueix aquest bloc al teu script.js
+      return `
+        <div class="exercici-card" id="card-${ex.id}" style="margin-bottom: 30px; padding: 20px; position: relative; border-left: 5px solid ${bloquejat ? "#22c55e" : "#e2e8f0"}">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;"> <div style="display: flex; align-items: center; gap: 10px;">
+               <span style="background: #2dd4bf; color: white; padding: 2px 8px; border-radius: 4px; font-weight: bold;">${ex.id}</span>
+               <h4 style="margin: 0; font-size: 1.1rem; color: #1e293b;">${ex.titol}</h4>
+               ${bloquejat ? `<span style="color: #059669; font-size: 0.8rem; font-weight: bold;">✓ Score: ${dadesH.encerts}/${dadesH.total}</span>` : ""}
+            </div>
+           <button class="btn-help-mini" onclick="toggleNotes('${ex.id}')" style="background: none; border: none; cursor: pointer; font-size: 1.4rem;">💡</button>
+         </div>
+      
+      <div style="display: flex; gap: 20px; align-items: flex-start;">
+          <div style="flex: 1;">
+              <p style="font-style: italic; color: #64748b; margin-bottom: 8px; margin-top: 0;">${ex.instruccions || ""}</p> ${cosExercici}
+                    <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                        <button class="btn-validar-exercici" ${bloquejat ? "disabled" : ""} onclick="validarExercici('${ex.id}')" 
+                                style="background: ${bloquejat ? "#94a3b8" : "#6366f1"}; color: white; border: none; padding: 8px 24px; border-radius: 20px; cursor: pointer; font-weight: bold;">
+                          ${bloquejat ? "COMPLETED" : "VALIDAR ANSWERS"}
+                        </button>
+                        ${bloquejat ? `<span style="color: #b45309; font-weight: bold; font-size: 0.85rem;">🔒 ${textBloqueig}</span>` : ""}
+                    </div>
+                </div>
 
-    if (ex.imatge) {
-      html += `<div class="exercici-imatge"><img src="${ex.imatge}" style="max-width:100%; border-radius:8px; margin:15px 0;"></div>`;
-    }
+                <div id="extra-info-${ex.id}" class="note-edit-box hidden" style="width: 250px; background: #fffcf0; padding: 15px; border: 1px solid #fbbf24; border-radius: 8px;">
+                    <div style="font-weight: bold; color: #b45309; margin-bottom: 8px; font-size: 0.75rem;">MY NOTES</div>
+                    <textarea id="note-input-${ex.id}" style="width: 100%; min-height: 80px; border: 1px solid #ddd; padding: 5px; border-radius: 4px; font-family: inherit;">${notaExistent}</textarea>
+                    <button onclick="guardarNota('${ex.id}')" style="width: 100%; background: #fbbf24; border: none; padding: 8px; border-radius: 4px; cursor: pointer; font-weight: bold; margin-top: 10px;">Save Online</button>
+                </div>
+            </div>
+        </div>`;
+    })
+    .join("");
 
-    if (ex.tipus === "fill-in") {
-      ex.preguntes.forEach((p, i) => {
-        let resp = exData.respostes[p.id] || "";
-        let inputClass = "input-grammar";
-        let inputReadOnly = isLocked ? "readonly" : "";
-
-        if (i === 0 && !isLocked) {
-          resp = p.solucions[0];
-          inputClass += " pista-exemple";
-          inputReadOnly = "readonly";
-        } else if (isLocked) {
-          inputClass += esCorrecta(ex, p.id, resp) ? " correct" : " incorrect";
-        }
-
-        const initialSize = resp.length > 15 ? resp.length : 15;
-
-        html += `<div class="pregunta-row">
-                ${p.id}. ${p.text.replace(
-                  /_{2,}/g,
-                  `<input type="text" 
-                    size="${initialSize}" 
-                    oninput="this.size = Math.max(15, this.value.length + 1)" 
-                    data-ex="${ex.id}" 
-                    data-p-id="${p.id}" 
-                    ${inputReadOnly} 
-                    class="${inputClass}" 
-                    value="${resp}">`,
-                )}
-                ${isLocked ? `<span class="feedback-text"><small class="sol-hint">(Sol: ${p.solucions[0]})</small></span>` : ""}
-            </div>`;
-      });
-    } else if (ex.tipus === "matching") {
-      html += `<table class="matching-table">`;
-      ex.esquerra.forEach((item, i) => {
-        let resp = exData.respostes[item.n] || "";
-        let inputClass = "input-match";
-        let inputReadOnly = isLocked ? "readonly" : "";
-
-        // PISTA: Primera fila resolta automàticament
-        if (i === 0 && !isLocked) {
-          resp = ex.solucions[item.n];
-          inputClass += " pista-exemple";
-          inputReadOnly = "readonly";
-        } else if (isLocked) {
-          inputClass += esCorrecta(ex, item.n, resp)
-            ? " correct"
-            : " incorrect";
-        }
-
-        html += `<tr>
-                    <td>${item.n}. ${item.t}</td>
-                    <td><input type="text" 
-                        data-ex="${ex.id}" 
-                        data-p-id="${item.n}" 
-                        ${inputReadOnly} 
-                        class="${inputClass}" 
-                        value="${resp}"></td>
-                    <td>${ex.dreta[i].l}. ${ex.dreta[i].t} ${isLocked ? `<br><small class="sol-hint">(Correct: ${ex.solucions[item.n]})</small>` : ""}</td>
-                </tr>`;
-      });
-      html += `</table>`;
-    }
-
-    if (!isLocked) {
-      html += `<button class="btn-check" onclick="validar('${ex.id}')">Validar i Guardar</button>`;
-    } else {
-      const dRepas = new Date(
-        exData.data + (exData.punts < exData.total ? 7 : 20) * 86400000,
-      );
-      html += `<div class="info-bloqueig"><p>🔒 Bloquejada fins al: <strong>${dRepas.toLocaleDateString()}</strong></p></div>`;
-    }
-
-    card.innerHTML = html;
-    container.appendChild(card);
-  });
-
-  setTimeout(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, 100);
+  localStorage.setItem("ultimaUnitat", id);
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
+// 4. VALIDACIÓ I SINCRONITZACIÓ (VERSIÓ COMPLETA AMB MEMÒRIA PERSISTENT)
+function validarExercici(exId) {
+  let exercici = null;
+  let unitatId = null;
+  const idBuscat = String(exId).trim();
 
-function validar(exId) {
-  let ex = trobarExercici(exId);
-  if (!ex) return;
+  // 1. Cercar l'exercici a les dades globals
+  for (const issue of dadesApp.issues) {
+    for (const u of issue.unitats) {
+      const trobat = u.exercicis.find((e) => String(e.id).trim() === idBuscat);
+      if (trobat) {
+        exercici = trobat;
+        unitatId = u.id;
+        break;
+      }
+    }
+    if (exercici) break;
+  }
 
-  const inputs = document.querySelectorAll(`input[data-ex="${exId}"]`);
-  let punts = 0;
-  let respostes = {};
+  if (!exercici) return;
 
-  inputs.forEach((input) => {
-    const pId = input.getAttribute("data-p-id");
-    const val = input.value.trim();
-    respostes[pId] = val;
-    if (esCorrecta(ex, pId, val)) punts++;
+  const card = document.getElementById(`card-${exId}`);
+  if (!card) return;
+  const inputs = card.querySelectorAll(".ex-input");
+
+  let encerts = 0;
+  const respostesUsuari = []; // Array per guardar el que ha escrit l'usuari
+
+  // 2. Validació camp per camp
+  inputs.forEach((input, index) => {
+    const respostesPossibles = exercici.solucions[index] || [];
+    const valorEscrit = input.value.trim();
+    const usuariEnMinuscules = valorEscrit.toLowerCase();
+
+    // Guardem la resposta per a la persistència
+    respostesUsuari.push(valorEscrit);
+
+    // Netejar feedback anterior si existeix
+    const existingFeedback = input.parentElement.querySelector(".feedback-sol");
+    if (existingFeedback) existingFeedback.remove();
+
+    if (
+      respostesPossibles.includes(usuariEnMinuscules) &&
+      usuariEnMinuscules !== ""
+    ) {
+      // CORRECTE: Verd
+      input.style.backgroundColor = "#dcfce7";
+      input.style.borderColor = "#22c55e";
+      input.style.color = "#166534";
+      encerts++;
+    } else {
+      // INCORRECTE: Vermell i mostra solució
+      input.style.backgroundColor = "#fee2e2";
+      input.style.borderColor = "#ef4444";
+      input.style.color = "#991b1b";
+
+      const solNode = document.createElement("span");
+      solNode.className = "feedback-sol";
+      solNode.style.color = "#ef4444";
+      solNode.style.fontWeight = "bold";
+      solNode.style.fontSize = "0.85rem";
+      solNode.style.marginLeft = "8px";
+      solNode.innerHTML = ` (Correct: ${respostesPossibles[0] || ""})`;
+      input.parentNode.insertBefore(solNode, input.nextSibling);
+    }
+
+    // Bloquegem l'input immediatament
+    input.disabled = true;
   });
 
-  // Guardem a l'històric
-  historic[exId] = {
-    punts,
+  // 3. Càlcul de bloqueig (Spaced Repetition)
+  const esCorrecte = encerts === inputs.length;
+  const diesBloqueig = esCorrecte ? 30 : 7;
+  const dataActual = new Date();
+  const properaDisponibilitat = new Date();
+  properaDisponibilitat.setDate(dataActual.getDate() + diesBloqueig);
+
+  // 4. Guardar a l'històric (incloent les respostes de l'usuari)
+  if (!historic[unitatId]) historic[unitatId] = { respostes: {} };
+
+  historic[unitatId].respostes[exId] = {
+    completat: true,
+    encerts: encerts,
     total: inputs.length,
-    fet: true,
-    data: Date.now(),
-    respostes,
+    respostesUsuari: respostesUsuari, // AQUESTA ÉS LA CLAU PER A LA PERSISTÈNCIA
+    dataFi: dataActual.getTime(),
+    disponibleEn: properaDisponibilitat.getTime(),
   };
 
   localStorage.setItem("cambridge_v3", JSON.stringify(historic));
 
-  // Actualitzem dades globals (menú i progrés lateral)
-  actualitzarProgresGlobal();
-  carregarMenu();
-  comprovarRepasDiari();
-
-  // IMPACTE VISUAL: Només actualitzem la targeta específica
-  actualitzarTargetaEx(exId, ex);
-  actualitzarComptadorDiari();
-}
-
-function comprovarRepasDiari() {
-  const ara = Date.now();
-  let pendents = 0;
-  Object.keys(historic).forEach((id) => {
-    const d = historic[id];
-    const dies = (ara - d.data) / 86400000;
-    if ((d.punts < d.total && dies >= 7) || (d.punts === d.total && dies >= 20))
-      pendents++;
-  });
-  document.getElementById("repas-alert").style.display =
-    pendents > 0 ? "block" : "none";
-}
-
-function mostrarActivitatsRepas() {
-  document.getElementById("unit-title").innerText = "Sessió de Repàs";
-  const container = document.getElementById("exercicis-container");
-  container.innerHTML = "";
-  const ara = Date.now();
-
-  dadesApp.issues.forEach((issue) =>
-    issue.unitats.forEach((u) =>
-      u.exercicis.forEach((ex) => {
-        if (historic[ex.id]) {
-          const d = historic[ex.id];
-          const dies = (ara - d.data) / 86400000;
-          if (
-            (d.punts < d.total && dies >= 7) ||
-            (d.punts === d.total && dies >= 20)
-          ) {
-            // Aquí forcem el mode lliure per tornar a fer l'exercici
-            const card = document.createElement("div");
-            card.className = "exercici-card repas-mode";
-            card.innerHTML = `<h3>Repàs: ${ex.titol}</h3><div id="box-${ex.id}"></div>`;
-            container.appendChild(card);
-            renderitzarPreguntesModeRepas(
-              ex,
-              card.querySelector(`#box-${ex.id}`),
-            );
-          }
-        }
-      }),
-    ),
-  );
-}
-
-function renderitzarPreguntesModeRepas(ex, target) {
-  let h = "";
-  if (ex.tipus === "fill-in") {
-    ex.preguntes.forEach(
-      (p) =>
-        (h += `<div class="pregunta-row">${p.id}. ${p.text.replace(
-          "_____",
-          `<input type="text" data-ex="${ex.id}" data-p-id="${p.id}" class="input-grammar">`,
-        )}</div>`),
-    );
-  } else {
-    h += `<table>`;
-    ex.esquerra.forEach(
-      (item, i) =>
-        (h += `<tr><td>${item.n}.</td><td><input type="text" data-ex="${ex.id}" data-p-id="${item.n}" class="input-match" style="width:45px"></td><td>${ex.dreta[i].t}</td></tr>`),
-    );
-    h += `</table>`;
+  // 5. Actualització d'interfície
+  actualitzarMenuLateral();
+  if (typeof actualitzarProgresGlobal === "function") {
+    actualitzarProgresGlobal();
   }
-  h += `<button class="btn-check" onclick="validar('${ex.id}')">Validar Repàs</button>`;
-  target.innerHTML = h;
+
+  // Petit retard per visualitzar els colors abans de l'alerta i la recàrrega
+  setTimeout(() => {
+    alert(
+      `Score: ${encerts}/${inputs.length}. ${esCorrecte ? "Perfect! Review in 30 days." : "Review in 7 days."}`,
+    );
+    // Ara carregarUnitat ja sap llegir "respostesUsuari" i posarà els colors correctament
+    carregarUnitat(unitatId);
+  }, 600);
 }
-function mostrarResumResultats() {
-  actualitzarTeoria(null); // Amaguem la teoria
 
-  document.getElementById("unit-title").innerText = "Resum Detallat de Progrés";
-  const container = document.getElementById("exercicis-container");
-  container.innerHTML =
-    '<div id="resum-stats-header"></div><div class="dashboard-v4"></div>';
+async function guardarNota(exId) {
+  const nota = document.getElementById(`note-input-${exId}`).value;
 
-  const statsHeader = document.getElementById("resum-stats-header");
-  const dashboard = container.querySelector(".dashboard-v4");
-
-  let totalARealitzar = 0;
-  let totalCorrectes = 0;
-  let totalAMillorar = 0;
-
-  // 1. Càlcul de totals globals
+  // Busquem a quina unitat pertany aquest exercici per enviar l'ID de la Unitat
+  let unitatId = "";
   dadesApp.issues.forEach((issue) => {
     issue.unitats.forEach((u) => {
-      u.exercicis.forEach((ex) => {
-        const numPreguntes =
-          ex.tipus === "fill-in"
-            ? ex.preguntes.length
-            : ex.esquerra
-              ? ex.esquerra.length
-              : 0;
-        totalARealitzar += numPreguntes;
-        if (historic[ex.id]) {
-          totalCorrectes += historic[ex.id].punts;
-          // Només comptem com "a millorar" si l'exercici s'ha fet
-          totalAMillorar += numPreguntes - historic[ex.id].punts;
-        }
-      });
-    });
-  });
-
-  const totalPendents = totalARealitzar - (totalCorrectes + totalAMillorar);
-
-  statsHeader.innerHTML = `
-        <div class="resum-top-cards">
-            <div class="top-card"><h3>${totalARealitzar}</h3><p>Total a realitzar</p></div>
-            <div class="top-card card-pendent"><h3>${totalPendents}</h3><p>Pendents</p></div>
-            <div class="top-card card-correcte"><h3>${totalCorrectes}</h3><p>Correctes</p></div>
-            <div class="top-card card-millorar"><h3>${totalAMillorar}</h3><p>A millorar</p></div>
-        </div>`;
-
-  // 2. Generació de blocs per tema (Issue)
-  dadesApp.issues.forEach((issue) => {
-    let totalSolsGrup = 0;
-    let totalOKGrup = 0;
-    let unitsHtml = ""; // Reiniciem per a cada grup d'unitats
-
-    issue.unitats.forEach((u) => {
-      let uSols = 0;
-      let uOK = 0;
-      let darreraData = 0;
-
-      u.exercicis.forEach((ex) => {
-        const n =
-          ex.tipus === "fill-in"
-            ? ex.preguntes.length
-            : ex.esquerra
-              ? ex.esquerra.length
-              : 0;
-        uSols += n;
-        if (historic[ex.id]) {
-          uOK += historic[ex.id].punts;
-          if (historic[ex.id].data > darreraData)
-            darreraData = historic[ex.id].data;
-        }
-      });
-
-      totalSolsGrup += uSols;
-      totalOKGrup += uOK;
-
-      const uAMillorar = uSols - uOK;
-      const uPerc = uSols > 0 ? Math.round((uOK / uSols) * 100) : 0;
-
-      // Lògica de missatges (Pendent vs A Millorar)
-      let alertHtml = "";
-      let statusDataHtml = "";
-
-      if (darreraData > 0) {
-        // UNITAT COMENÇADA
-        if (uAMillorar > 0) {
-          alertHtml = `<br><small class="improve-text">⚠️ ${uAMillorar} a millorar</small>`;
-        }
-
-        const diesRepas = uOK < uSols ? 7 : 20;
-        const dataDesbloqueig = darreraData + diesRepas * 86400000;
-        if (Date.now() >= dataDesbloqueig) {
-          statusDataHtml = `<br><small class="date-text ready">🔔 Llest per repassar!</small>`;
-        } else {
-          const dataFormatada = new Date(dataDesbloqueig).toLocaleDateString(
-            "ca-ES",
-            { day: "numeric", month: "short" },
-          );
-          statusDataHtml = `<br><small class="date-text">📅 Disponible: ${dataFormatada}</small>`;
-        }
-      } else {
-        // UNITAT NO COMENÇADA
-        alertHtml = `<br><small style="color: #95a5a6; font-style: italic;">⚪ Pendent d'iniciar</small>`;
+      if (u.exercicis.find((e) => String(e.id) === String(exId))) {
+        unitatId = u.id;
       }
-
-      // Concatenem la targeta una sola vegada
-      unitsHtml += `
-  <div class="unit-stat-card clickable" onclick="irAUnitat('${issue.id}', '${u.id}')">
-      <div class="unit-info">
-          <div class="unit-header-main">
-              <h4>Unitat ${u.id}</h4>
-              <span class="unit-name-sub">${u.nom}</span> 
-          </div>
-          <div class="unit-stats-detail">
-              <small><strong>${uOK}/${uSols}</strong> OK</small>
-              ${alertHtml}
-          </div>
-      </div>
-      <div class="unit-chart">${generarSVG(uPerc, 35)}</div>
-  </div>`;
     });
-
-    const issuePerc =
-      totalSolsGrup > 0 ? Math.round((totalOKGrup / totalSolsGrup) * 100) : 0;
-
-    const issueBlock = document.createElement("div");
-    issueBlock.className = "issue-block-collapsible";
-    issueBlock.innerHTML = `
-            <div class="issue-header-clickable" onclick="this.parentElement.classList.toggle('is-open')">
-                <div class="header-left"><span class="arrow">▶</span><h2>${issue.titol}</h2></div>
-                <div class="header-right">
-                    <span class="total-text">${totalOKGrup}/${totalSolsGrup} (${issuePerc}%)</span>
-                    ${generarSVG(issuePerc, 50)}
-                </div>
-            </div>
-            <div class="units-grid-container"><div class="units-grid">${unitsHtml}</div></div>`;
-    dashboard.appendChild(issueBlock);
   });
+
+  userNotes[exId] = nota;
+  localStorage.setItem("user_notes", JSON.stringify(userNotes));
+
+  try {
+    // Enviem un objecte clar amb claus que el servidor entendrà
+    await fetch(WEB_APP_URL, {
+      method: "POST",
+      mode: "no-cors",
+      body: JSON.stringify({
+        action: "saveNote",
+        unitat: unitatId,
+        exercici: exId,
+        nota: nota,
+      }),
+    });
+    alert("Note saved and synced to Cloud!");
+  } catch (e) {
+    console.error("Cloud save error:", e);
+  }
 }
 
-function generarSVG(perc, mida) {
-  const r = mida * 0.4,
-    c = 2 * Math.PI * r,
-    o = c - (perc / 100) * c;
-  return `<svg width="${mida}" height="${mida}" viewBox="0 0 ${mida} ${mida}">
-        <circle cx="${mida / 2}" cy="${
-          mida / 2
-        }" r="${r}" fill="none" stroke="#eee" stroke-width="4"/>
-        <circle cx="${mida / 2}" cy="${
-          mida / 2
-        }" r="${r}" fill="none" stroke="${
-          perc > 70 ? "#27ae60" : "#f1c40f"
-        }" stroke-width="4" stroke-dasharray="${c}" stroke-dashoffset="${o}" transform="rotate(-90 ${
-          mida / 2
-        } ${mida / 2})" style="transition:0.5s"/>
-        <text x="50%" y="50%" dy=".3em" text-anchor="middle" style="font-size:${
-          mida * 0.22
-        }px; font-weight:bold;">${perc}%</text>
-    </svg>`;
-}
-function esCorrecta(ex, pId, val) {
-  if (!val) return false;
-  if (ex.tipus === "fill-in") {
-    const p = ex.preguntes.find((q) => q.id == pId);
-    return p
-      ? p.solucions.some((s) => s.toLowerCase() === val.toLowerCase())
-      : false;
-  }
-  return (
-    ex.solucions[pId] && ex.solucions[pId].toLowerCase() === val.toLowerCase()
-  );
+// 5. UTILITATS
+function carregarMenu() {
+  const menu = document.getElementById("menu-unitats");
+
+  menu.innerHTML = dadesApp.issues
+    .map(
+      (issue) => `
+    <div class="nav-group">
+      <div class="nav-group-header" onclick="this.parentElement.classList.toggle('open')">
+        <span>${issue.titol}</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="nav-units">
+        ${issue.unitats
+          .map(
+            (u) => `
+          <div class="nav-unit-item" onclick="carregarUnitat('${u.id}')">
+            Unit ${u.id}: ${u.nom}
+          </div>
+        `,
+          )
+          .join("")}
+      </div>
+    </div>
+  `,
+    )
+    .join("");
 }
 
 function actualitzarProgresGlobal() {
-  let maxAbsolut = 0;
-  let encertsAbsoluts = 0;
+  let p = 0,
+    t = 0;
 
+  // Calculem el total de punts i possibles
+  Object.values(historic).forEach((h) => {
+    p += h.punts;
+    t += h.total;
+  });
+
+  const perc = t > 0 ? Math.round((p / t) * 100) : 0;
+
+  // 1. Actualitza el percentatge a la pantalla de benvinguda
+  const welcomePerc = document.getElementById("welcome-perc");
+  if (welcomePerc) {
+    welcomePerc.innerText = perc + "%";
+  }
+
+  // 2. Actualitza la barra del menú lateral (la nova que hem creat)
+  const sideBar = document.getElementById("sidebar-progress-bar");
+  if (sideBar) {
+    sideBar.style.width = perc + "%";
+  }
+
+  // 3. Actualitza la barra global (si encara mantens l'antiga ID)
+  const bar = document.getElementById("global-progress-bar");
+  if (bar) {
+    bar.style.width = perc + "%";
+    bar.innerText = perc + "%";
+  }
+}
+
+function actualitzarBarraProgresGlobal() {
+  const progressBar = document.getElementById("sidebar-progress-bar");
+  if (!progressBar) return;
+
+  let totalPreguntesGlobal = 0;
+  let respostesCorrectesGlobal = 0;
+
+  // Recorrem tota l'estructura de l'App per saber quantes preguntes hi ha en total
   dadesApp.issues.forEach((issue) => {
     issue.unitats.forEach((u) => {
       u.exercicis.forEach((ex) => {
-        const n =
-          ex.tipus === "fill-in"
-            ? ex.preguntes.length
-            : ex.esquerra
-              ? ex.esquerra.length
-              : 0;
-        maxAbsolut += n;
-        if (historic[ex.id]) {
-          encertsAbsoluts += historic[ex.id].punts;
-        }
+        // ex.solucions és un array d'arrays (una entrada per cada input del tipus fill-in)
+        totalPreguntesGlobal += ex.solucions.length;
       });
     });
   });
 
-  const percentatgeReal =
-    maxAbsolut > 0 ? Math.round((encertsAbsoluts / maxAbsolut) * 100) : 0;
+  // Recorrem l'històric per veure quants encerts reals tenim
+  for (const uId in historic) {
+    for (const exId in historic[uId].respostes) {
+      respostesCorrectesGlobal += historic[uId].respostes[exId].encerts;
+    }
+  }
 
-  const barra = document.getElementById("global-progress-bar");
-  if (barra) {
-    barra.style.width = percentatgeReal + "%";
-    barra.innerText = percentatgeReal + "%";
+  const percentatge =
+    totalPreguntesGlobal > 0
+      ? Math.round((respostesCorrectesGlobal / totalPreguntesGlobal) * 100)
+      : 0;
+
+  progressBar.style.width = `${percentatge}%`;
+
+  // Actualitzem el text si existeix
+  const label = document.querySelector(".progress-label");
+  if (label) {
+    label.innerHTML = `PROGRESS: ${percentatge}% (${respostesCorrectesGlobal}/${totalPreguntesGlobal} Correct Answers)`;
+  }
+  // Afegeix aquest text a la teva funció actualitzarBarraProgresGlobal
+  const criticalTasks = Object.values(historic).reduce((acc, unit) => {
+    return (
+      acc +
+      Object.values(unit.respostes).filter((r) => r.encerts / r.total < 0.6)
+        .length
+    );
+  }, 0);
+
+  const statusLabel = document.getElementById("daily-counter");
+  if (statusLabel) {
+    statusLabel.innerHTML = `🔥 Critical tasks: <strong>${criticalTasks}</strong>`;
   }
 }
 
-function calcularEstatUnitat(u) {
-  const fets = u.exercicis.filter(
-    (ex) => historic[ex.id] && historic[ex.id].fet,
-  );
-  if (fets.length === 0) return "status-none";
-  return fets.length === u.exercicis.length ? "status-done" : "status-pending";
+function toggleSidebar() {
+  document.querySelector(".sidebar").classList.toggle("collapsed");
+  document.querySelector(".main-content").classList.toggle("expanded");
 }
 
-function trobarExercici(id) {
-  let res = null;
-  dadesApp.issues.forEach((i) =>
-    i.unitats.forEach((u) =>
-      u.exercicis.forEach((e) => {
-        if (e.id === id) res = e;
-      }),
-    ),
-  );
-  return res;
+function toggleNotes(id) {
+  document.getElementById(`extra-info-${id}`).classList.toggle("hidden");
 }
 
-function trobarUnitatDeExercici(id) {
-  let res = null;
-  dadesApp.issues.forEach((i) =>
-    i.unitats.forEach((u) =>
-      u.exercicis.forEach((e) => {
-        if (e.id === id) res = u;
-      }),
-    ),
-  );
-  return res;
+function carregarUltimaSessio() {
+  const ultima = localStorage.getItem("ultimaUnitat");
+  if (ultima) carregarUnitat(ultima);
+  else alert("No previous session found.");
+}
+
+function mostrarPantallaCarrega(show) {
+  const cont = document.getElementById("exercicis-container");
+  if (show) cont.innerHTML = '<div class="loader">Loading from Cloud...</div>';
+}
+
+function mostrarMissatgeError() {
+  document.getElementById("exercicis-container").innerHTML =
+    '<div class="welcome-card">⚠️ Error connecting to Google Sheets. Please check your URL or internet.</div>';
+}
+
+function toggleTeoria() {
+  const body = document.getElementById("teoria-body");
+  const arrow = document.getElementById("teoria-arrow");
+
+  if (body.classList.contains("open")) {
+    body.classList.remove("open");
+    arrow.style.transform = "rotate(0deg)";
+  } else {
+    body.classList.add("open");
+    arrow.style.transform = "rotate(180deg)";
+  }
 }
 
 function reiniciarHistoric() {
-  if (confirm("Estàs segur que vols esborrar tot el teu progrés?")) {
-    // IMPORTANT: La clau ha de ser EXACTAMENT "cambridge_v3"
+  // 1. Demanar confirmació a l'usuari (per evitar ensurts)
+  const confirmacio = confirm(
+    "Estàs segur que vols esborrar tot el teu progrés? Aquesta acció no es pot desfer.",
+  );
+
+  if (confirmacio) {
+    // 2. Esborrar les dades del localStorage
+    // 'cambridge_v3' és la clau que fas servir per a l'històric segons el teu codi
     localStorage.removeItem("cambridge_v3");
 
-    // També és bona idea netejar la variable en memòria abans de recarregar
+    // Opcional: Si també vols netejar les notes locals (però les del núvol es mantindran)
+    // localStorage.removeItem("user_notes");
+
+    // 3. Reiniciar la variable en memòria
     historic = {};
 
-    // Recarreguem la pàgina per actualitzar tots els comptadors a zero
+    // 4. Missatge de confirmació i recàrrega
+    alert("Progrés eliminat correctament.");
+
+    // 5. Recarregar la pàgina perquè tota la interfície (barres de progrés, colors) torni a zero
     window.location.reload();
   }
 }
-function continuarAprenent() {
-  const ultima = localStorage.getItem("ultimaUnitat");
-  if (ultima) {
-    const unitatObj = JSON.parse(ultima);
-    carregarUnitat(unitatObj);
-  } else {
-    // Si no hi ha cap historial, obrim la primera unitat per defecte
-    carregarUnitat(dadesApp.issues[0].unitats[0]);
-  }
-}
-function mostrarBenvinguda() {
-  actualitzarTeoria(null); // Això l'amagarà automàticament
-  // Restablim els títols de la capçalera
-  document.getElementById("unit-title").innerText = "Benvingut/da";
-  document.getElementById("unit-subtitle").innerText =
-    "Millora la teva gramàtica anglesa amb el mètode de repetició espaiada.";
 
+function actualitzarMenuLateral() {
+  const menuContainer = document.getElementById("menu-unitats");
+  if (!menuContainer) return;
+
+  menuContainer.innerHTML = dadesApp.issues
+    .map(
+      (issue) => `
+    <div class="nav-group">
+      <div class="nav-group-header" onclick="this.parentElement.classList.toggle('open')">
+        <span>${issue.titol}</span>
+        <span class="arrow">▼</span>
+      </div>
+      <div class="nav-units">
+        ${issue.unitats
+          .map((u) => {
+            const prog = historic[u.id] || { respostes: {} };
+            const numEx = u.exercicis.length;
+            const fets = Object.keys(prog.respostes).length;
+
+            let status = "status-empty";
+            if (fets > 0)
+              status = fets >= numEx ? "status-completed" : "status-started";
+
+            return `
+            <div class="nav-unit-item" onclick="carregarUnitat('${u.id}')">
+              <span class="status-dot ${status}"></span>
+              <span style="flex:1">${u.nom}</span>
+            </div>
+          `;
+          })
+          .join("")}
+      </div>
+    </div>
+  `,
+    )
+    .join("");
+}
+
+function mostrarDashboardProgres(filtreDies = 0) {
+  const ara = new Date().getTime();
+  const limitTemporal = ara + filtreDies * 24 * 60 * 60 * 1000;
   const container = document.getElementById("exercicis-container");
+  const teoriaCont = document.getElementById("teoria-container");
 
-  // Tornem a injectar l'estructura de les targetes de benvinguda
+  if (teoriaCont) teoriaCont.classList.add("hidden");
+
+  // 1. Capçalera amb selectors
   container.innerHTML = `
-        <div class="welcome-grid">
-            <div class="welcome-card main-action" onclick="continuarAprenent()">
-                <div class="card-icon">📚</div>
-                <h3>Continua Aprenent</h3>
-                <p>Torna a l'última unitat que vas visitar per seguir practicant on ho vas deixar.</p>
-                <span class="card-btn">Anar a l'última unitat</span>
-            </div>
-
-            <div class="welcome-card secondary-action" onclick="mostrarResumResultats()">
-                <div class="card-icon">📊</div>
-                <h3>El teu Progrés</h3>
-                <p>Consulta el percentatge d'encerts real i quines unitats tens pendents.</p>
-                <span class="card-btn">Veure Estadístiques</span>
-            </div>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
+        <h2 style="color: #1e293b; margin:0;">Training Lab: Study Planner</h2>
+        <div class="time-selector" style="display:flex; gap:5px; background:#f1f5f9; padding:5px; border-radius:8px;">
+            <button onclick="mostrarDashboardProgres(0)" style="border:none; padding:5px 15px; border-radius:6px; cursor:pointer; background:${filtreDies === 0 ? "#6366f1" : "transparent"}; color:${filtreDies === 0 ? "white" : "#64748b"};">Today</button>
+            <button onclick="mostrarDashboardProgres(7)" style="border:none; padding:5px 15px; border-radius:6px; cursor:pointer; background:${filtreDies === 7 ? "#6366f1" : "transparent"}; color:${filtreDies === 7 ? "white" : "#64748b"};">Next 7 Days</button>
+            <button onclick="mostrarDashboardProgres(30)" style="border:none; padding:5px 15px; border-radius:6px; cursor:pointer; background:${filtreDies === 30 ? "#6366f1" : "transparent"}; color:${filtreDies === 30 ? "white" : "#64748b"};">Month</button>
         </div>
+    </div>
+  `;
 
-        <div class="info-extra-welcome">
-            <h4>💡 Consell de l'estudiant</h4>
-            <p>"Revisar els errors de la setmana passada t'ajudarà a fixar la gramàtica a la memòria a llarg termini."</p>
-        </div>
-    `;
-}
+  let dadesTraining = {};
+  let statsTemes = {}; // Per veure quines àrees fallen més
 
-// Funció auxiliar de navegació aquesta funció busca la unitat dins del teu objecte global dadesApp i la carrega
-function irAUnitat(issueId, unitId) {
-  console.log("Intentant navegar a:", issueId, unitId); // Per depurar a la consola
+  // 2. Processar històric segons el filtre temporal
+  for (const uId in historic) {
+    for (const exId in historic[uId].respostes) {
+      const dada = historic[uId].respostes[exId];
 
-  // Busquem el tema (converteix a String per seguretat)
-  const issue = dadesApp.issues.find((i) => String(i.id) === String(issueId));
+      // Filtrem: si la data de repàs cau dins del rang seleccionat
+      if (dada.disponibleEn <= limitTemporal) {
+        let uInfo, tNom;
+        dadesApp.issues.forEach((is) => {
+          const u = is.unitats.find((un) => String(un.id) === String(uId));
+          if (u) {
+            uInfo = u;
+            tNom = is.titol;
+          }
+        });
 
-  if (issue) {
-    // Busquem la unitat dins del tema
-    const unitat = issue.unitats.find((u) => String(u.id) === String(unitId));
+        if (uInfo) {
+          // Agrupació per Tema/Unitat
+          if (!dadesTraining[tNom]) dadesTraining[tNom] = {};
+          if (!dadesTraining[tNom][uId])
+            dadesTraining[tNom][uId] = { nom: uInfo.nom, exercicis: [] };
 
-    if (unitat) {
-      carregarUnitat(unitat);
-      // Tornem a dalt de tot de la pantalla
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } else {
-      console.error("No s'ha trobat la unitat amb ID:", unitId);
+          const score = Math.round((dada.encerts / dada.total) * 100);
+          dadesTraining[tNom][uId].exercicis.push({
+            id: exId,
+            score: score,
+            data: dada.disponibleEn,
+          });
+
+          // Stats per mapa de calor
+          if (!statsTemes[tNom]) statsTemes[tNom] = { total: 0, suma: 0 };
+          statsTemes[tNom].total++;
+          statsTemes[tNom].suma += score;
+        }
+      }
     }
-  } else {
-    console.error("No s'ha trobat el tema amb ID:", issueId);
   }
-}
 
-// Modifica la teva funció actual perquè SEMPRE carregui tancada
-function actualitzarTeoria(unitatId) {
-  const container = document.getElementById("teoria-container");
-  if (!container) return;
+  // 3. Renderitzar Mapa de Calor d'Àrees (Prioritats)
+  if (Object.keys(statsTemes).length > 0) {
+    let statsHtml = `<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:10px; margin-bottom:30px;">`;
+    for (const t in statsTemes) {
+      const mitjana = Math.round(statsTemes[t].suma / statsTemes[t].total);
+      const color =
+        mitjana < 50 ? "#fee2e2" : mitjana < 80 ? "#fef3c7" : "#dcfce7";
+      const border =
+        mitjana < 50 ? "#ef4444" : mitjana < 80 ? "#f59e0b" : "#22c55e";
+      statsHtml += `
+            <div style="background:${color}; border:1px solid ${border}; padding:10px; border-radius:8px;">
+                <div style="font-size:0.7rem; font-weight:bold; color:#475569; text-transform:uppercase;">${t}</div>
+                <div style="font-size:1.2rem; font-weight:bold; color:#1e293b;">${mitjana}% Accuracy</div>
+            </div>`;
+    }
+    container.innerHTML += statsHtml + `</div>`;
+  }
 
-  // 1. SEMPRE la posem tancada per defecte en canviar d'unitat
-  container.classList.add("collapsed");
-  const arrow = document.getElementById("teoria-arrow");
-  if (arrow) arrow.innerText = "▼";
-
-  // 2. Comprovem si tenim ID i si les dades existeixen (mira el nom de la variable!)
-  if (!unitatId || typeof dadesTeoria === "undefined") {
-    container.classList.add("hidden");
+  // 4. Llista de Temes / Unitats (Desplegables)
+  const temes = Object.keys(dadesTraining);
+  if (temes.length === 0) {
+    container.innerHTML += `<div style="text-align:center; padding:50px; color:#94a3b8;">No tasks found for this period.</div>`;
     return;
   }
 
-  const idBuscat = parseInt(unitatId);
-  const info = dadesTeoria.find((u) => parseInt(u.id) === idBuscat);
-
-  if (info) {
-    // Omplim les dades
-    document.getElementById("teoria-titol").innerText = info.titol;
-    document.getElementById("teoria-explicacio").innerText = info.explicacio;
-
-    const reglesList = document.getElementById("teoria-regles");
-    reglesList.innerHTML = info.regles
-      .map((r) => `<li><strong>${r.regla}:</strong> ${r.detall}</li>`)
-      .join("");
-
-    const exemplesDiv = document.getElementById("teoria-exemples");
-    exemplesDiv.innerHTML = info.exemples
-      .map(
-        (e) =>
-          `<p>• ${e.eng} <br><small style="color: #666">(${e.cat})</small></p>`,
-      )
-      .join("");
-
-    document.getElementById("teoria-habit-text").innerText = info.consell_habit;
-
-    // 3. LA CLAU: Treiem 'hidden' perquè es vegi la barra,
-    // però mantenim 'collapsed' perquè estigui tancada.
-    container.classList.remove("hidden");
-  } else {
-    container.classList.add("hidden");
-  }
-}
-
-// Afegeix també aquesta funció si no la tens exacta
-function toggleTeoria() {
-  const container = document.getElementById("teoria-container");
-  container.classList.toggle("collapsed");
-  const arrow = document.getElementById("teoria-arrow");
-  if (arrow) {
-    arrow.innerText = container.classList.contains("collapsed") ? "▼" : "▲";
-  }
-}
-
-function actualitzarTargetaExercici(exId) {
-  // Trobem la unitat actual (la tenim al localStorage o en una variable global)
-  const unit = JSON.parse(localStorage.getItem("ultimaUnitat"));
-  const ex = unit.exercicis.find((e) => e.id === exId);
-  const exData = historic[exId];
-
-  // Busquem el contenidor de la targeta (podem posar un ID a cada targeta quan les creem)
-  // O més fàcil: busquem l'input i pugem fins al div "exercici-card"
-  const primerInput = document.querySelector(`input[data-ex="${exId}"]`);
-  const card = primerInput.closest(".exercici-card");
-
-  // Actualitzem la barra de progrés de la targeta
-  const perc = Math.round((exData.punts / exData.total) * 100);
-  const bar = card.querySelector(`#bar-${exId}`);
-  if (bar) {
-    bar.style.width = `${perc}%`;
-    bar.innerText = `${perc}%`;
-  }
-
-  // Bloquegem els inputs i afegim el feedback visual
-  const inputs = card.querySelectorAll("input");
-  inputs.forEach((input) => {
-    const pId = input.getAttribute("data-p-id");
-    const resp = exData.respostes[pId] || "";
-
-    input.readOnly = true;
-    if (esCorrecta(ex, pId, resp)) {
-      input.classList.add("correct");
-    } else {
-      input.classList.add("incorrect");
-      // Afegim la solució al costat si no hi era
-      if (
-        !input.nextElementSibling ||
-        !input.nextElementSibling.classList.contains("feedback-text")
-      ) {
-        const solucio =
-          ex.tipus === "fill-in"
-            ? ex.preguntes.find((p) => p.id === pId).solucions[0]
-            : ex.solucions[pId];
-        input.insertAdjacentHTML(
-          "afterend",
-          `<span class="feedback-text"><small class="sol-hint">(Sol: ${solucio})</small></span>`,
-        );
-      }
-    }
-  });
-
-  // Substituïm el botó per la info de bloqueig
-  const boto = card.querySelector(".btn-check");
-  if (boto) {
-    const dRepas = new Date(
-      exData.data + (exData.punts < exData.total ? 7 : 20) * 86400000,
+  temes.forEach((tema) => {
+    const mitjanaTema = Math.round(
+      statsTemes[tema].suma / statsTemes[tema].total,
     );
-    const infoBloqueig = `<div class="info-bloqueig"><p>🔒 Bloquejada fins al: <strong>${dRepas.toLocaleDateString()}</strong></p></div>`;
-    boto.outerHTML = infoBloqueig;
-  }
-}
-
-function actualitzarTargetaEx(exId, ex) {
-  // Busquem la card que conté l'exercici
-  const primerInput = document.querySelector(`input[data-ex="${exId}"]`);
-  if (!primerInput) return;
-  const card = primerInput.closest(".exercici-card");
-  const exData = historic[exId];
-
-  // 1. Actualitzar la mini-barra de progrés de la targeta
-  const perc = Math.round((exData.punts / exData.total) * 100);
-  const bar = card.querySelector(".mini-bar");
-  if (bar) {
-    bar.style.width = `${perc}%`;
-    bar.innerText = `${perc}%`;
-  }
-
-  // 2. Feedback visual als inputs (Correcte/Incorrecte)
-  const inputs = card.querySelectorAll(`input[data-ex="${exId}"]`);
-  inputs.forEach((input) => {
-    const pId = input.getAttribute("data-p-id");
-    const val = exData.respostes[pId];
-
-    input.readOnly = true; // Bloquegem l'input
-
-    if (esCorrecta(ex, pId, val)) {
-      input.classList.add("correct");
-    } else {
-      input.classList.add("incorrect");
-      // Afegim la solució al costat si no hi és
-      if (
-        !input.nextElementSibling ||
-        !input.nextElementSibling.classList.contains("feedback-text")
-      ) {
-        const solucio =
-          ex.tipus === "fill-in"
-            ? ex.preguntes.find((p) => p.id.toString() === pId.toString())
-                .solucions[0]
-            : ex.solucions[pId];
-        input.insertAdjacentHTML(
-          "afterend",
-          `<span class="feedback-text"><small class="sol-hint">(Sol: ${solucio})</small></span>`,
-        );
-      }
-    }
+    container.innerHTML += `
+      <div class="training-tema-group" style="margin-bottom:10px; border:1px solid #e2e8f0; border-radius:10px; overflow:hidden;">
+        <div onclick="this.nextElementSibling.classList.toggle('hidden')" style="background:white; padding:15px; cursor:pointer; display:flex; justify-content:space-between; align-items:center;">
+          <span><strong>${tema}</strong> <small style="color:#64748b; margin-left:10px;">(${Object.keys(dadesTraining[tema]).length} Units)</small></span>
+          <span style="color:${mitjanaTema < 60 ? "#ef4444" : "#64748b"}; font-weight:bold;">${mitjanaTema}%</span>
+        </div>
+        <div class="hidden" style="background:#f8fafc; padding:15px; border-top:1px solid #eee;">
+          ${Object.keys(dadesTraining[tema])
+            .map(
+              (uId) => `
+            <div style="margin-bottom:15px;">
+              <div style="font-size:0.9rem; font-weight:bold; color:#334155; margin-bottom:8px;">Unit ${uId}: ${dadesTraining[tema][uId].nom}</div>
+              <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                ${dadesTraining[tema][uId].exercicis
+                  .map((ex) => {
+                    const isCritical = ex.score < 60;
+                    return `
+                    <button onclick="carregarUnitat('${uId}')" style="background:white; border:2px solid ${isCritical ? "#ef4444" : "#cbd5e1"}; padding:8px 12px; border-radius:8px; cursor:pointer; text-align:left;">
+                        <div style="font-size:0.7rem; font-weight:bold;">EX ${ex.id}</div>
+                        <div style="font-size:0.9rem; font-weight:bold; color:${isCritical ? "#ef4444" : "#1e293b"};">${ex.score}%</div>
+                    </button>`;
+                  })
+                  .join("")}
+              </div>
+            </div>
+          `,
+            )
+            .join("")}
+        </div>
+      </div>`;
   });
-
-  // 3. Substituir el botó "Validar" pel missatge de bloqueig
-  const btn = card.querySelector(".btn-check");
-  if (btn) {
-    const dies = exData.punts < exData.total ? 7 : 20;
-    const dRepas = new Date(exData.data + dies * 86400000);
-    const bloqueigHtml = `<div class="info-bloqueig"><p>🔒 Bloquejada fins al: <strong>${dRepas.toLocaleDateString()}</strong></p></div>`;
-    btn.outerHTML = bloqueigHtml;
-  }
-}
-
-function actualitzarComptadorDiari() {
-  const avui = new Date().toLocaleDateString();
-  let dadesComptador = JSON.parse(localStorage.getItem("userActivity")) || {
-    data: avui,
-    count: 0,
-  };
-
-  // Si ha canviat de dia, reiniciem
-  if (dadesComptador.data !== avui) {
-    dadesComptador = { data: avui, count: 1 };
-  } else {
-    dadesComptador.count++;
-  }
-
-  localStorage.setItem("userActivity", JSON.stringify(dadesComptador));
-  document.getElementById("count-val").innerText = dadesComptador.count;
 }

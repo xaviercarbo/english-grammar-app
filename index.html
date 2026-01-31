@@ -8,72 +8,31 @@
       content="RndLljfVENJq0gCIdtLc1hjaRDel83uHflLUKqPbkA4"
     />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Grammar - Spaced Repetition System</title>
+    <title>B2 Grammar - Spaced Repetition</title>
     <link rel="stylesheet" href="style.css" />
-    <link rel="icon" type="image/png" href="favicon.png" />
   </head>
   <body>
     <div class="app-container">
       <aside class="sidebar">
         <div class="sidebar-header">
-          <div class="header-top">
-            <h2
-              onclick="mostrarBenvinguda()"
-              class="clickable-title"
-              style="cursor: pointer"
-            >
-              English Grammar Intermediate B2
-            </h2>
-            <button class="btn-danger-mini" onclick="reiniciarHistoric()">
-              Netejar Històric
-            </button>
-          </div>
-          <div class="level-badge">Intermediate</div>
+          <h2 onclick="mostrarBenvinguda()" style="cursor: pointer">
+            English B2
+          </h2>
+          <button class="btn-danger-mini" onclick="reiniciarHistoric()">
+            🗑️ Netejar Històric
+          </button>
         </div>
-
-        <div class="evolution-box">
-          <div class="evo-label">Evolució General App</div>
-          <div class="progress-container">
-            <div
-              id="global-progress-bar"
-              class="progress-bar"
-              style="width: 0%"
-            >
-              0%
-            </div>
-          </div>
-
-          <div id="repas-alert" class="repas-box" style="display: none">
-            <div class="repas-content">
-              <p>🔔 <strong>Tens repàs pendent!</strong></p>
-              <small>Errors de fa 7 dies o encerts de fa 20.</small>
-            </div>
-            <button class="btn-repas" onclick="mostrarActivitatsRepas()">
-              Respondre Repàs d'Avui
-            </button>
-          </div>
-
-          <div class="sidebar-buttons">
-            <button class="btn-sidebar" onclick="mostrarResumResultats()">
-              Estadístiques i Resum
-            </button>
+        <div class="sidebar-progress">
+          <span class="progress-label">GLOBAL PROGRESS</span>
+          <div class="progress-bg-mini">
+            <div id="sidebar-progress-bar"></div>
           </div>
         </div>
 
-        <nav id="menu-unitats" class="menu-scroll"></nav>
+        <div id="menu-unitats" class="menu-scroll"></div>
       </aside>
 
       <main class="main-content">
-        <header class="main-header">
-          <h1 id="unit-title">Benvingut/da</h1>
-          <p id="unit-subtitle">
-            Millora la teva gramàtica anglesa amb el mètode de repetició
-            espaiada.
-          </p>
-        </header>
-
-        <!--Teoria -->
-
         <div id="teoria-container" class="teoria-card hidden">
           <div
             class="teoria-header"
@@ -85,68 +44,49 @@
                 <span class="theory-badge">Theory & Habits</span>
                 <h2 id="teoria-titol"></h2>
               </div>
-              <span id="daily-counter" class="daily-badge"
-                >🔥 Avui: <strong id="count-val">0</strong></span
-              >
+              <span id="daily-counter" class="daily-badge">
+                🔥 Avui: <strong id="count-val">0</strong>
+              </span>
             </div>
             <span id="teoria-arrow" class="arrow-icon">▼</span>
           </div>
 
           <div id="teoria-body" class="teoria-body">
-            <p id="teoria-explicacio"></p>
+            <p id="teoria-explicacio" class="explicacio-text"></p>
+
             <div class="teoria-seccio">
               <h3>Grammar Rules</h3>
               <ul id="teoria-regles"></ul>
             </div>
+
             <div class="teoria-seccio">
               <h3>Examples</h3>
-              <div id="teoria-exemples" class="exemples-grid"></div>
-            </div>
-            <div id="teoria-habit" class="teoria-habit">
-              <strong>💡 Habit Tip:</strong>
-              <span id="teoria-habit-text"></span>
-            </div>
-          </div>
-        </div>
-
-        <div id="exercicis-container">
-          <div class="welcome-grid">
-            <div class="welcome-card main-action" onclick="continuarAprenent()">
-              <div class="card-icon">📚</div>
-              <h3>Continua Aprenent</h3>
-              <p>
-                Torna a l'última unitat que vas visitar per seguir practicant on
-                ho vas deixar.
-              </p>
-              <span class="card-btn">Anar a l'última unitat</span>
+              <div id="teoria-exemples" class="exemples-container"></div>
             </div>
 
             <div
-              class="welcome-card secondary-action"
-              onclick="mostrarResumResultats()"
+              id="teoria-habit"
+              class="teoria-habit-card"
+              style="
+                margin-top: 20px;
+                padding: 15px;
+                background: #fffbeb;
+                border-radius: 8px;
+                border: 1px dashed #f59e0b;
+              "
             >
-              <div class="card-icon">📊</div>
-              <h3>El teu Progrés</h3>
-              <p>
-                Consulta el percentatge d'encerts real i quines unitats tens
-                pendents.
-              </p>
-              <span class="card-btn">Veure Estadístiques</span>
+              <div class="habit-content">
+                <strong>💡 Habit Tip:</strong>
+                <span id="teoria-habit-text"></span>
+              </div>
             </div>
           </div>
-
-          <div class="info-extra-welcome">
-            <h4>💡 Consell de l'estudiant</h4>
-            <p>
-              "Revisar els errors de la setmana passada t'ajudarà a fixar la
-              gramàtica a la memòria a llarg termini."
-            </p>
-          </div>
         </div>
+
+        <div id="exercicis-container"></div>
       </main>
     </div>
-    <script src="teoria.js"></script>
-    <script src="dades.js"></script>
+
     <script src="script.js"></script>
   </body>
 </html>
